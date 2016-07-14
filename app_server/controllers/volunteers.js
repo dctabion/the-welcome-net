@@ -1,9 +1,9 @@
 module.exports.register = function(req, res) {
-  res.render('index', { title: 'Register' });
+  res.render('index', { title: 'Register a Volunteer' });
 };
 
-module.exports.list = function(req, res) {
-  res.render('index', { title: 'Volunteer List' });
+module.exports.search = function(req, res) {
+  res.render('index', { title: 'Search Volunteer List' });
 };
 
 module.exports.view = function(req, res) {
@@ -11,5 +11,5 @@ module.exports.view = function(req, res) {
 };
 
 module.exports.edit = function(req, res) {
-  res.render('index', { title: 'Edit One Volunteer' });
+  res.render('index', { title: 'Edit a Volunteer\'s User Data' });
 };

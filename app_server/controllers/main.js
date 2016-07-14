@@ -1,5 +1,4 @@
 /* GET home page */
 module.exports.index = function(req, res, next) {
-  res.render('index', { title: 'The Welcome Net',
-                        subtitle: 'Volunteer Portal' });
+  res.render('index', { title: 'Volunteer Portal Home' });
 };
