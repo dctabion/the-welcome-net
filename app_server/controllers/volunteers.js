@@ -1,5 +1,5 @@
 module.exports.register = function(req, res) {
-  res.render('index', { title: 'Register a Volunteer' });
+  res.render('register_volunteer', { title: 'Register a Volunteer' });
 };
 
 module.exports.search = function(req, res) {
