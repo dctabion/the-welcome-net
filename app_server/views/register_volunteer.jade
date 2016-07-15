@@ -25,31 +25,49 @@ block content
         option(value="b") A bird
         option(value="c") The chinese telephone
         
-      .container.c-reset
-        div.col-xs-4.c-reset
-          p.c-checkbox-header.c-reset Languages Spoken
-        div.col-xs-8.c-reset
-          label(for="language_serbian" class="c-checkbox-input") Serbian
-          input(type="checkbox", name="language_serbian")
+      div
+        div.inline
+          strong Languages Spoken
+        div.inline
+          label.font-weight-normal(for="language_croatian") Croatian
+          input(type="checkbox", id="language_croation" name="language_croatian") 
           
-          label(for="language_croatian" class="c-checkbox-input") Croatian
-          input(type="checkbox", name="language_croatian")
+          label.font-weight-normal(for="language_serbian") Serbian
+          input(type="checkbox", id="language_serbian" name="language_serbian") 
           
-          label(for="language_vulcan" class="c-checkbox-input") Vulcan
-          input(type="checkbox", name="language_vulcan")
+          label.font-weight-normal(for="language_vulan") Vulcan
+          input(type="checkbox", id="language_vulcan" name="language_vulcan") 
 
-      .container.c-reset
-        div.col-xs-4.c-reset
-          p(class="c-checkbox-header") Volunteer Categories
-        div.col-xs-8.c-reset
-          label(for="category_esl" class="c-checkbox-input") English as a second language training (ESL)
-          input(type="checkbox", name="category_esl")
-          label(for="category_driving" class="c-checkbox-input") Driving
-          input(type="checkbox", name="category_driving")
-          label(for="category_sanding" class="c-checkbox-input") Daniel-son, sand the floor!
-          input(type="checkbox", name="category_sanding")
-      
+      label(for="how_often") Approximately how often can you volunteer?
+      select(class="form-control", name="near_about_us")
+        option(value="a") monthly
+        option(value="b") twice per month
+        option(value="c") weekly
 
+      label(for="time_of_day") What time of day is best for you?
+      select(class="form-control", name="near_about_us")
+        option(value="a") Morning
+        option(value="b") Afternoon
+        option(value="c") Evening
+        option(value="d") Flexible
+        option(value="e") 
+      div  
+        div.inline
+          strong Do you have a reliable vehicle and are able to drive?
+        div.inline  
+          label.font-weight-normal(for="reliable_transportation") Yes
+          input(type="radio", name="reliable_transportation", value="yes")
+          label.font-weight-normal(for="reliable_transportation") No      
+          input(type="radio", name="reliable_transportation", value="no")
+      div
+        div.inline
+          strong I am interested in opportunities that my family/children can participate in
+        div.inline 
+          label.font-weight-normal(for="family_participation") Yes
+          input(type="radio", name="family_participation", value="yes")
+          label.font-weight-normal(for="family_paticipation") No      
+          input(type="radio", name="family_participation", value="no")
+        
   .container <br>
   .container <br>
   p Welcome to #{title}
