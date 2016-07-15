@@ -2,56 +2,60 @@ extends layout
 block content
   h1(class='bg-primary')=title
   
+  // REGISTRATION FORM
   .container
     form(action='/volunteer/register' method='post')
+      
+      // FIRST NAME
       label(for="first_name") First Name
       input(type="text", class="form-control", name="first_name")
       
+      // LAST NAME
       label(for="last_name") Last Name
       input(type="text", class="form-control", name="last_name")
       
+      // EMAIL
       label(for="email") Email
       input(type="email", class="form-control", name="email")
       
+      // AFFILATION
       label(for="affiliation") Affiliation
-      select(class="form-control", name="affiliation")
-        option(value="a") McDonald's
-        option(value="b") White Castle's
-        option(value="c") Sam's Salad Bar (ugghhh)
-      
+      select(class="form-control", name="affiliation")  
+        option(value=0 selected) Choose one 
+        each affiliation, key in affiliations
+          option(value="#{key}") #{affiliation}
+
+      // HEAR ABOUT US
       label(for="hear_about_us") How did you hear about us?
       select(class="form-control", name="hear_about_us")
-        option(value="a") The grapevine
-        option(value="b") A bird
-        option(value="c") The chinese telephone
-        
+        option(value=0 selected) Choose one 
+        each hear_about, key in hear_abouts
+          option(value="#{key}") #{hear_about}
+      
+      // LANGUAGES SPOKEN  
       div
         div.inline
           strong Languages Spoken
         div.inline
-          label.font-weight-normal(for="language_croatian") Croatian
-          input(type="checkbox", id="language_croation" name="language_croatian") 
-          
-          label.font-weight-normal(for="language_serbian") Serbian
-          input(type="checkbox", id="language_serbian" name="language_serbian") 
-          
-          label.font-weight-normal(for="language_vulan") Vulcan
-          input(type="checkbox", id="language_vulcan" name="language_vulcan") 
-
+          each language, key in languages
+            label.font-weight-normal(for="language_#{language}") #{language[0].toUpperCase() + language.substring(1)}
+            input(type="checkbox", id="language_#{language}" name="language_#{language}")
+        
+      // HOW OFTEN    
       label(for="how_often") Approximately how often can you volunteer?
       select(class="form-control", name="near_about_us")
-        option(value="a") monthly
-        option(value="b") twice per month
-        option(value="c") weekly
-        option(value="d" selected) Choose one
-
+        option(value=0 selected) Choose one 
+        each how_often, key in how_oftens
+          option(value="#{key}") #{how_often}
+          
+      // TIME OF DAY
       label(for="time_of_day") What time of day is best for you?
       select(class="form-control", name="near_about_us")
-        option(value="a") Morning
-        option(value="b") Afternoon
-        option(value="c") Evening
-        option(value="d") Flexible
-        option(value="e" selected) Choose one 
+        option(value=0 selected) Choose one 
+          each time_of_day, key in times_of_day
+            option(value="#{key}") #{time_of_day}
+        
+      // RELIABLE CAR & CAN DRIVE?
       div  
         div.inline
           strong Do you have a reliable vehicle and are able to drive?
@@ -60,6 +64,8 @@ block content
           input(type="radio", name="reliable_transportation", value="yes")
           label.font-weight-normal(for="reliable_transportation") No      
           input(type="radio", name="reliable_transportation", value="no")
+      
+      // FAMILY PARTICIPATION
       div
         div.inline
           strong I am interested in opportunities that my family/children can participate in
