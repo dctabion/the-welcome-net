@@ -48,9 +48,6 @@ block content
             label.font-weight-normal(for="language_#{index}_#{language}") #{language[0].toUpperCase() + language.substring(1)}
             input(type="checkbox", id="language_#{index}_#{language}" name="language_#{index}_#{language}")
       
-            //- label.font-weight-normal(for="language_#{index}_#{language}") #{language[0].toUpperCase() + language.substring(1)}
-            //- input(type="checkbox" id="language_#{index}_#{language}" name="language_#{index}"_#{language})
-        
       // HOW OFTEN    
       label(for="how_often") Approximately how often can you volunteer?
       select(class="form-control", name="how_often" required)
@@ -85,7 +82,6 @@ block content
           label.font-weight-normal(for="family_paticipation") No      
           input(type="radio", name="family_participation", value="no" requied)
         
-      
       // GENERAL EMAIL LIST
       div
         div.inline

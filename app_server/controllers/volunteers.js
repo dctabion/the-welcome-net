@@ -1,14 +1,14 @@
-var affiliations = {
-  1: "McDonald's",
-  2: "White Castle's",
-  3: "Sam's Salad Bar (uggh)"
-};
+var affiliations = [
+  "McDonald's",
+  "White Castle's",
+  "Sam's Salad Bar (uggh)"
+];
 
-var hear_abouts = {
-  1: "The grapevine",
-  2: "A little bird",
-  3: "The chinese telephone"
-};
+var hear_abouts = [
+  "The grapevine",
+  "A little bird",
+  "The chinese telephone"
+];
 
 var languages = [
   "croatian",
@@ -16,11 +16,11 @@ var languages = [
   "vulcan"
 ];
 
-var how_oftens = {
-  1: "monthly",
-  2: "twice per month",
-  3: "weekly"
-};
+var how_oftens = [
+  "monthly",
+  "twice per month",
+  "weekly"
+];
 
 var times_of_day = {
   0: "Choose One",
