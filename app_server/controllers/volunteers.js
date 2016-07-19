@@ -53,7 +53,7 @@ module.exports.postRegister = function(req, res) {
   console.log('Languages Spoken');
   for (var i=0; i < languages.length; i++) {
     // example variable name from form: language_1_croatian
-    var language_var_name = "req.body.language_" + i.toString() + '_' + languages[i];
+    var language_var_name = "req.body.language_" + i.toString();
     console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
   }
 
