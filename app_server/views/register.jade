@@ -1,6 +1,6 @@
 extends layout
 block content
-  h1(class='bg-primary')=title
+  h1(class='bg-primary title')=title
   
   // REGISTRATION FORM
   .container
@@ -11,8 +11,7 @@ block content
         label(for="first_name") First Name
         //- input(type="text", class="form-control", name="first_name")
         input(type="text", class="form-control", id="first_name" name="first_name" required)
-      
-      
+            
       // LAST NAME
       .form-group
         label(for="last_name") Last Name
@@ -25,21 +24,24 @@ block content
         //- input(type="email", class="form-control", name="email")
         input(type="email", class="form-control", name="email" required)
     
-      // AFFILATION
+      // GENERAL EMAIL LIST
       .form-group
-        label(for="affiliation") Affiliation
-        select(class="form-control", name="affiliation" required)  
-          option(value="") Choose One
-          each affiliation, key in affiliations
-            option(value="#{key}") #{affiliation}
+        div.inline
+          strong Please sign me up to the email list!
+          div.inline.radio_buttons
+            label.font-weight-normal(for="email_list") Yes
+            input(type="radio", name="email_list", value="yes" required)
+            label.font-weight-normal(for="email_list") No      
+            input(type="radio", name="email_list", value="no" required)
       
-      // HEAR ABOUT US
+      // OPPORTINITY CATEGORIES
       .form-group
-        label(for="hear_about_us") How did you hear about us?
-        select(class="form-control", name="hear_about_us" required)
-          option(value="") Choose One
-          each hear_about, key in hear_abouts
-            option(value="#{key}") #{hear_about}
+        div.inline
+          strong Volunteer opportunities that interest you:
+        div.inline.check_boxes
+          each opportunity, index in opportunity_categories
+            label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
+            input(type="checkbox", id="opportunity__category_#{index}}" name="opportunity_category_#{index}")
       
       // LANGUAGES SPOKEN  
       .form-group
@@ -85,16 +87,22 @@ block content
           input(type="radio", name="family_participation", value="yes" required)
           label.font-weight-normal(for="family_paticipation") No      
           input(type="radio", name="family_participation", value="no" requied)
-        
-      // GENERAL EMAIL LIST
+              
+      // AFFILATION
       .form-group
-        div.inline
-          strong Please sign me up to the email list!
-          div.inline.radio_buttons
-            label.font-weight-normal(for="email_list") Yes
-            input(type="radio", name="email_list", value="yes" required)
-            label.font-weight-normal(for="email_list") No      
-            input(type="radio", name="email_list", value="no" required)
+        label(for="affiliation") Affiliation
+        select(class="form-control", name="affiliation" required)  
+          option(value="") Choose One
+          each affiliation, key in affiliations
+            option(value="#{key}") #{affiliation}
+            
+      // HEAR ABOUT US
+      .form-group
+        label(for="hear_about_us") How did you hear about us?
+        select(class="form-control", name="hear_about_us" required)
+          option(value="") Choose One
+          each hear_about, key in hear_abouts
+            option(value="#{key}") #{hear_about}
       
       // SUBMIT      
       button(type="submit" class="btn btn-default") Submit

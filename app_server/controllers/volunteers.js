@@ -23,13 +23,18 @@ var how_oftens = [
   "weekly"
 ];
 
-var times_of_day = {
-  0: "Choose One",
-  1: "morning",
-  2: "afternoon",
-  3: "evening",
-  4: "flexible"
-};
+var times_of_day = [
+  "morning",
+  "afternoon",
+  "evening",
+  "flexible"
+];
+
+var opportunity_categories = [
+  "Teaching english as a second Language (ESL)",
+  "Legal assistance",
+  "Translator"
+];
 
 module.exports.getRegister = function(req, res) {
   res.render('register', {
@@ -38,7 +43,8 @@ module.exports.getRegister = function(req, res) {
     hear_abouts: hear_abouts,
     languages: languages,
     how_oftens: how_oftens,
-    times_of_day: times_of_day
+    times_of_day: times_of_day,
+    opportunity_categories: opportunity_categories
   });
 };
 
@@ -47,6 +53,16 @@ module.exports.postRegister = function(req, res) {
   console.log('First Name: ' + req.body.first_name);
   console.log('Last Name: ' + req.body.last_name);
   console.log('Email: ' + req.body.email);
+  console.log('Email List: ' + req.body.email_list);
+
+  // "undefined" = not checked; "on" - checked
+  console.log('Opportunity Categories of Interest:');
+  for (var i=0; i < opportunity_categories.length; i++) {
+    // example variable name from form: language_1_croatian
+    var opportunity_var_name = "req.body.opportunity_category_" + i.toString();
+    console.log(i + ' ' + opportunity_var_name + ': ' + eval(opportunity_var_name));
+  }
+
   console.log('Affiliation: ' + req.body.affiliation + ' ' + affiliations[req.body.affiliation]);
   console.log('Hear About Us: ' + req.body.hear_about_us + ' ' + hear_abouts[req.body.hear_about_us]);
 
@@ -58,11 +74,11 @@ module.exports.postRegister = function(req, res) {
     console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
   }
 
+
   console.log('How often: ' + req.body.how_often + ' ' + how_oftens[req.body.how_often]);
   console.log('Time of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
   console.log('Reliable vehicle and able to drive: ' + req.body.reliable_transportation);
   console.log('Family participation: ' + req.body.family_participation);
-  console.log('Email List: ' + req.body.email_list);
 
   console.log('======================');
   res.render('register_confirmation', {
