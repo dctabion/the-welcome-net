@@ -42,8 +42,8 @@ block content
       // LANGUAGES SPOKEN  
       div
         div.inline
-          strong Languages Spoken
-        div.inline
+          strong Languages Spoken:
+        div.inline.check_boxes
           each language, index in languages
             label.font-weight-normal(for="language_#{index}_#{language}") #{language[0].toUpperCase() + language.substring(1)}
             input(type="checkbox", id="language_#{index}_#{language}" name="language_#{index}_#{language}")
@@ -66,7 +66,7 @@ block content
       div  
         div.inline
           strong Do you have a reliable vehicle and are able to drive?
-        div.inline  
+        div.inline.radio_buttons
           label.font-weight-normal(for="reliable_transportation") Yes
           input(type="radio", name="reliable_transportation", value="yes" required)
           label.font-weight-normal(for="reliable_transportation") No      
@@ -75,8 +75,8 @@ block content
       // FAMILY PARTICIPATION
       div
         div.inline
-          strong I am interested in opportunities that my family/children can participate in
-        div.inline 
+          strong I am interested in opportunities that my family/children can participate in:
+        div.inline.radio_buttons
           label.font-weight-normal(for="family_participation") Yes
           input(type="radio", name="family_participation", value="yes" required)
           label.font-weight-normal(for="family_paticipation") No      
@@ -86,7 +86,7 @@ block content
       div
         div.inline
           strong Please sign me up to the email list!
-          div.inline 
+          div.inline.radio_buttons
             label.font-weight-normal(for="email_list") Yes
             input(type="radio", name="email_list", value="yes" required)
             label.font-weight-normal(for="email_list") No      
