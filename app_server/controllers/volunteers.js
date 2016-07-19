@@ -11,6 +11,7 @@ var hear_abouts = [
 ];
 
 var languages = [
+  "english",
   "croatian",
   "serbian",
   "vulcan"
