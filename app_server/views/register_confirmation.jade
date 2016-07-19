@@ -1,0 +1,71 @@
+extends layout
+block content
+  h1(class='bg-primary')=title
+  
+  .container      
+    h2 Hello!  Thanks for registering!
+    h3="First Name: " + first_name
+    h3="Last Name: " + last_name
+    h3="Email: " + email
+     
+    //- // AFFILATION
+    //- label(for="affiliation") Affiliation
+    //- select(class="form-control", name="affiliation")  
+    //-   option(value=0 selected) Choose one 
+    //-   each affiliation, key in affiliations
+    //-     option(value="#{key}") #{affiliation}
+    //- 
+    //- // HEAR ABOUT US
+    //- label(for="hear_about_us") How did you hear about us?
+    //- select(class="form-control", name="hear_about_us")
+    //-   option(value=0 selected) Choose one 
+    //-   each hear_about, key in hear_abouts
+    //-     option(value="#{key}") #{hear_about}
+    //- 
+    //- // LANGUAGES SPOKEN  
+    //- div
+    //-   div.inline
+    //-     strong Languages Spoken
+    //-   div.inline
+    //-     each language, key in languages
+    //-       label.font-weight-normal(for="language_#{language}") #{language[0].toUpperCase() + language.substring(1)}
+    //-       input(type="checkbox", id="language_#{language}" name="language_#{language}")
+    //-   
+    //- // HOW OFTEN    
+    //- label(for="how_often") Approximately how often can you volunteer?
+    //- select(class="form-control", name="near_about_us")
+    //-   option(value=0 selected) Choose one 
+    //-   each how_often, key in how_oftens
+    //-     option(value="#{key}") #{how_often}
+    //-     
+    //- // TIME OF DAY
+    //- label(for="time_of_day") What time of day is best for you?
+    //- select(class="form-control", name="near_about_us")
+    //-   option(value=0 selected) Choose one 
+    //-     each time_of_day, key in times_of_day
+    //-       option(value="#{key}") #{time_of_day}
+    //-   
+    //- // RELIABLE CAR & CAN DRIVE?
+    //- div  
+    //-   div.inline
+    //-     strong Do you have a reliable vehicle and are able to drive?
+    //-   div.inline  
+    //-     label.font-weight-normal(for="reliable_transportation") Yes
+    //-     input(type="radio", name="reliable_transportation", value="yes")
+    //-     label.font-weight-normal(for="reliable_transportation") No      
+    //-     input(type="radio", name="reliable_transportation", value="no")
+    //- 
+    //- // FAMILY PARTICIPATION
+    //- div
+    //-   div.inline
+    //-     strong I am interested in opportunities that my family/children can participate in
+    //-   div.inline 
+    //-     label.font-weight-normal(for="family_participation") Yes
+    //-     input(type="radio", name="family_participation", value="yes")
+    //-     label.font-weight-normal(for="family_paticipation") No      
+    //-     input(type="radio", name="family_participation", value="no")
+    //-   
+    //- button(type="submit" class="btn btn-default") Submit
+
+  .container <br>
+  .container <br>
