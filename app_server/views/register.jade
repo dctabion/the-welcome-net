@@ -4,29 +4,38 @@ block content
   
   // REGISTRATION FORM
   .container
-    form(action='/volunteers/register' method='post')
+    form(role="form" data-toggle="validator" action='/volunteers/register' method='post')
       
       // FIRST NAME
       label(for="first_name") First Name
-      input(type="text", class="form-control", name="first_name")
+      //- input(type="text", class="form-control", name="first_name")
+      input(type="text", class="form-control", name="first_name" required)
+      
       
       // LAST NAME
       label(for="last_name") Last Name
-      input(type="text", class="form-control", name="last_name")
+      //- input(type="text", class="form-control", name="last_name")
+      input(type="text", class="form-control", name="last_name" required)
       
       // EMAIL
       label(for="email") Email
-      input(type="email", class="form-control", name="email")
+      //- input(type="email", class="form-control", name="email")
+      input(type="email", class="form-control", name="email" required)
       
+    
+    
       // AFFILATION
       label(for="affiliation") Affiliation
-      select(class="form-control", name="affiliation")  
+      select(class="form-control", name="affiliation" required)  
+        option(value="") Choose One
         each affiliation, key in affiliations
           option(value="#{key}") #{affiliation}
-
+    
+      
       // HEAR ABOUT US
       label(for="hear_about_us") How did you hear about us?
-      select(class="form-control", name="hear_about_us")
+      select(class="form-control", name="hear_about_us" required)
+        option(value="") Choose One
         each hear_about, key in hear_abouts
           option(value="#{key}") #{hear_about}
       
@@ -38,21 +47,23 @@ block content
           each language, index in languages
             label.font-weight-normal(for="language_#{index}_#{language}") #{language[0].toUpperCase() + language.substring(1)}
             input(type="checkbox", id="language_#{index}_#{language}" name="language_#{index}_#{language}")
-
+      
             //- label.font-weight-normal(for="language_#{index}_#{language}") #{language[0].toUpperCase() + language.substring(1)}
             //- input(type="checkbox" id="language_#{index}_#{language}" name="language_#{index}"_#{language})
         
       // HOW OFTEN    
       label(for="how_often") Approximately how often can you volunteer?
-      select(class="form-control", name="how_often")
+      select(class="form-control", name="how_often" required)
+        option(value="") Choose One
         each how_often, key in how_oftens
           option(value="#{key}") #{how_often}
           
       // TIME OF DAY
       label(for="time_of_day") What time of day is best for you?
-      select(class="form-control", name="time_of_day")
-          each time_of_day, key in times_of_day
-            option(value="#{key}") #{time_of_day}
+      select(class="form-control", name="time_of_day" required)
+        option(value="") Choose One
+        each time_of_day, key in times_of_day
+          option(value="#{key}") #{time_of_day}
         
       // RELIABLE CAR & CAN DRIVE?
       div  
@@ -60,9 +71,9 @@ block content
           strong Do you have a reliable vehicle and are able to drive?
         div.inline  
           label.font-weight-normal(for="reliable_transportation") Yes
-          input(type="radio", name="reliable_transportation", value="yes")
+          input(type="radio", name="reliable_transportation", value="yes" required)
           label.font-weight-normal(for="reliable_transportation") No      
-          input(type="radio", name="reliable_transportation", value="no")
+          input(type="radio", name="reliable_transportation", value="no" required)
       
       // FAMILY PARTICIPATION
       div
@@ -70,21 +81,21 @@ block content
           strong I am interested in opportunities that my family/children can participate in
         div.inline 
           label.font-weight-normal(for="family_participation") Yes
-          input(type="radio", name="family_participation", value="yes")
+          input(type="radio", name="family_participation", value="yes" required)
           label.font-weight-normal(for="family_paticipation") No      
-          input(type="radio", name="family_participation", value="no")
+          input(type="radio", name="family_participation", value="no" requied)
         
-
+      
       // GENERAL EMAIL LIST
       div
         div.inline
           strong Please sign me up to the email list!
           div.inline 
             label.font-weight-normal(for="email_list") Yes
-            input(type="radio", name="email_list", value="yes")
+            input(type="radio", name="email_list", value="yes" required)
             label.font-weight-normal(for="email_list") No      
-            input(type="radio", name="email_list", value="no")
-    
+            input(type="radio", name="email_list", value="no" required)
+      
       // SUBMIT      
       button(type="submit" class="btn btn-default") Submit
           

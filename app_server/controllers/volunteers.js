@@ -1,12 +1,10 @@
 var affiliations = {
-  0: "Choose One",
   1: "McDonald's",
   2: "White Castle's",
   3: "Sam's Salad Bar (uggh)"
 };
 
 var hear_abouts = {
-  0: "Choose One",
   1: "The grapevine",
   2: "A little bird",
   3: "The chinese telephone"
@@ -19,7 +17,6 @@ var languages = [
 ];
 
 var how_oftens = {
-  0: "Choose One",
   1: "monthly",
   2: "twice per month",
   3: "weekly"
