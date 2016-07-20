@@ -10,20 +10,20 @@ html
       .container
         .navbar-header
           a.navbar-brand(href='/') The Welcome Net
-          button.navbar-toggle(tybe='button', data-toggle='collapse', data-target='#navbar-main')
+          button.navbar-toggle(type='button', data-toggle='collapse', data-target='#navbar-main')
             span.icon-bar
             span.icon-bar
             span.icon-bar
         #navbar-main.navbar-collapse.collapse
           ul.nav.navbar-nav
             li
-              a(display="inline" href='/volunteers/register') Register
+              a(href='/volunteers/register') Register
             li
-              a(display="inline" href='/volunteers/search') Search
+              a(href='/volunteers/search') Search
             li
-              a(display="inline" href='/volunteers/view') View
+              a(href='/volunteers/view') View
             li
-              a(display="inline" href='/volunteers/edit') Edit
+              a(href='/volunteers/edit') Edit
 
     .container
       block content

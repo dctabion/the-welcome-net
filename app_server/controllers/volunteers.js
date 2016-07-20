@@ -74,7 +74,6 @@ module.exports.postRegister = function(req, res) {
     console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
   }
 
-
   console.log('How often: ' + req.body.how_often + ' ' + how_oftens[req.body.how_often]);
   console.log('Time of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
   console.log('Reliable vehicle and able to drive: ' + req.body.reliable_transportation);
