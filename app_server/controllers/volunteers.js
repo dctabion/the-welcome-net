@@ -38,7 +38,7 @@ var opportunity_categories = [
 
 module.exports.getRegister = function(req, res) {
   res.render('register', {
-    title: 'Register a Volunteer',
+    title: 'VOLUNTEER REGISTRATION',
     affiliations: affiliations,
     hear_abouts: hear_abouts,
     languages: languages,
