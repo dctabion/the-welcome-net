@@ -1,6 +1,6 @@
 extends layout
 block content
-  h1(class='bg-primary title')=title
+  h1.col-xs-12.col-md-6.col-md-offset-3(class='bg-primary title')=title
   
   // REGISTRATION FORM
   .container
@@ -28,9 +28,9 @@ block content
       
         // GENERAL EMAIL LIST
         .form-group
-          div.inline
+          div.radio_buttons
             strong Please sign me up to the email list!
-            div.inline.radio_buttons
+            div
               label.font-weight-normal(for="email_list") Yes
               input(type="radio", name="email_list", value="yes" required)
               label.font-weight-normal(for="email_list") No      
@@ -38,18 +38,18 @@ block content
         
         // OPPORTINITY CATEGORIES
         .form-group
-          div.inline
+          div
             strong Volunteer opportunities that interest you:
-          div.inline.check_boxes
+          div.check_boxes
             each opportunity, index in opportunity_categories
               label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
               input(type="checkbox", id="opportunity__category_#{index}}" name="opportunity_category_#{index}")
         
         // LANGUAGES SPOKEN  
         .form-group
-          div.inline
+          div
             strong Languages Spoken:
-          div.inline.check_boxes
+          div.check_boxes
             each language, index in languages
               label.font-weight-normal(for="language_#{index}") #{language[0].toUpperCase() + language.substring(1)}
               input(type="checkbox", id="language_#{index}}" name="language_#{index}")
@@ -72,9 +72,9 @@ block content
           
         // RELIABLE CAR & CAN DRIVE?
         .form-group  
-          div.inline
+          div
             strong Do you have a reliable vehicle and are able to drive?
-          div.inline.radio_buttons
+          div.radio_buttons
             label.font-weight-normal(for="reliable_transportation") Yes
             input(type="radio", name="reliable_transportation", value="yes" required)
             label.font-weight-normal(for="reliable_transportation") No      
@@ -82,9 +82,9 @@ block content
         
         // FAMILY PARTICIPATION
         .form-group
-          div.inline
+          div
             strong I am interested in opportunities that my family/children can participate in:
-          div.inline.radio_buttons
+          div.radio_buttons
             label.font-weight-normal(for="family_participation") Yes
             input(type="radio", name="family_participation", value="yes" required)
             label.font-weight-normal(for="family_paticipation") No      
