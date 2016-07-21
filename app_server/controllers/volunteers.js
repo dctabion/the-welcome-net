@@ -54,6 +54,8 @@ module.exports.postRegister = function(req, res) {
   console.log('Last Name: ' + req.body.last_name);
   console.log('Email: ' + req.body.email);
   console.log('Email List: ' + req.body.email_list);
+  console.log('Cellphone Number: ' + req.body.cell_number);
+  console.log('Home Phone Number: ' + req.body.home_number);
 
   // "undefined" = not checked; "on" - checked
   console.log('Opportunity Categories of Interest:');

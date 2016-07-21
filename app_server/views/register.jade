@@ -22,6 +22,16 @@ block content
               //- input(type="text", class="form-control", name="last_name")
               input(type="text", class="form-control", name="last_name" required)
             
+            // CELL NUMBER
+            .form-group
+              label(for="cell_number") Cellphone Number
+              input(type="tel" class="form-control" id="cell_number" name="cell_number" required pattern='dood' title='Phone Number (Format: 999.999.9999)')
+              
+            // HOME PHONE NUMBER
+            .form-group
+              label(for="home_number") Home Phone Number
+              input(type="tel" class="form-control" id="home_number" name="home_number" required pattern='sweet' title='Phone Number (Format: 999.999.9999)')
+                          
             // EMAIL
             .form-group
               label(for="email") Email
@@ -38,7 +48,7 @@ block content
                   label.font-weight-normal(for="email_list") No      
                   input(type="radio", name="email_list", value="no" required)
             
-            // OPPORTINITY CATEGORIES
+            // OPPORTUNITY CATEGORIES
             .form-group
               div
                 strong Volunteer opportunities that interest you:
@@ -109,6 +119,6 @@ block content
                   option(value="#{key}") #{hear_about}
             
             // SUBMIT      
-            button.submit(type="submit" class="btn btn-default") Submit    
+            button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
   .container <br>
   .container <br>
