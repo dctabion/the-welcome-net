@@ -6,17 +6,26 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
-// module.exports.volunteerList = function(req, res) {
-//   sendJsonResponse(res, 200, {"status" : "success"});
-// };
-
 module.exports.volunteerList = function(req, res) {
   Volunteer.find().exec(function(err, volunteers){
-    console.log("volunteers: ", volunteers);
-    sendJsonResponse(res, 200, volunteers);
+    // Volunteers not found.  NULL
+    if (!volunteers) {
+      sendJsonResponse(res, 404, { messages: "locationid not found"});
+      return;
+    }
+
+    // DB error
+    else if (err) {
+      sendJsonResponse(res, 404, err);
+      return;
+    }
+
+    // Send the volunteer list
+    else {
+      sendJsonResponse(res, 200, volunteers);
+    }
   });
 }
-
 
 // var mongoose = require('mongoose');
 // var Loc = mongoose.model('Location')
