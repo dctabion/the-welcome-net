@@ -53,4 +53,4 @@ process.on('SIGTERM', function() {
   });
 });
 
-// require('./volunteers');
+require('./volunteers');
