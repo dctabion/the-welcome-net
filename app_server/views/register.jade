@@ -8,7 +8,7 @@ block content
             h3.panel-title.title
               strong=title
         .panel-body
-          form(class="" role="form" data-toggle="validator" action='/volunteers/register' method='post')
+          form(class="" role="form" data-toggle="validator" action='/api/volunteers' method='post')
             
             // FIRST NAME
             .form-group
@@ -25,12 +25,12 @@ block content
             // CELL NUMBER
             .form-group
               label(for="cell_number") Cellphone Number
-              input(type="tel" class="form-control" id="cell_number" name="cell_number" required pattern='dood' title='Phone Number (Format: 999.999.9999)')
+              input(type="text" class="form-control" id="cell_number" name="cell_number" required pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
               
             // HOME PHONE NUMBER
             .form-group
               label(for="home_number") Home Phone Number
-              input(type="tel" class="form-control" id="home_number" name="home_number" required pattern='sweet' title='Phone Number (Format: 999.999.9999)')
+              input(type="text" class="form-control" id="home_number" name="home_number" required pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
                           
             // EMAIL
             .form-group
@@ -41,7 +41,7 @@ block content
             // GENERAL EMAIL LIST
             .form-group
               div.radio_buttons
-                strong Please sign me up to the email list!
+                strong Register for our monthly email update!
                 div
                   label.font-weight-normal(for="email_list") Yes
                   input(type="radio", name="email_list", value="yes" required)
@@ -54,17 +54,23 @@ block content
                 strong Volunteer opportunities that interest you:
               div.check_boxes
                 each opportunity, index in opportunity_categories
-                  label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
-                  input(type="checkbox", id="opportunity__category_#{index}}" name="opportunity_category_#{index}")
+                  div
+                    input(type="checkbox", id="opportunity__category_#{index}}" name="opportunity_category_#{index}")
+                    label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
             
             // LANGUAGES SPOKEN  
             .form-group
               div
-                strong Languages Spoken:
+                strong Languages Spoken (Check all that apply):
               div.check_boxes
                 each language, index in languages
+                  div
+                  input(type="checkbox" id="language_#{index}}" name="language_#{index}")
                   label.font-weight-normal(for="language_#{index}") #{language[0].toUpperCase() + language.substring(1)}
-                  input(type="checkbox", id="language_#{index}}" name="language_#{index}")
+                  
+              // OTHER
+              label(for="language_other" class="font-weight-normal") Other
+              input(type="text", class="", id="language_other" name="language_other")
             
             // HOW OFTEN
             .form-group      
@@ -74,13 +80,15 @@ block content
                 each how_often, key in how_oftens
                   option(value="#{key}") #{how_often}
                 
-            // TIME OF DAY
+            // TIMES OF DAY
             .form-group
-              label(for="time_of_day") What time of day is best for you?
-              select(class="form-control", name="time_of_day" required)
-                option(value="") Choose One
-                each time_of_day, key in times_of_day
-                  option(value="#{key}") #{time_of_day}
+              div
+                strong What time of day is best for you? (Check all that apply)
+              div.check_boxes
+                each opportunity, index in opportunity_categories
+                  div
+                    input(type="checkbox", id="times_of_day_#{index}}" name="times_of_day#{index}")
+                    label.font-weight-normal(for="times_of_day_#{index}") #{times_of_day[index]}
               
             // RELIABLE CAR & CAN DRIVE?
             .form-group  

@@ -5,16 +5,19 @@ var affiliations = [
 ];
 
 var hear_abouts = [
-  "The grapevine",
-  "A little bird",
-  "The chinese telephone"
+  "From a Friend",
+  "Facebook",
+  "Twitter",
+  "Other"
 ];
 
 var languages = [
-  "english",
-  "croatian",
-  "serbian",
-  "vulcan"
+  "English",
+  "Spanish",
+  "Arabic",
+  "Burmese",
+  "Somali",
+  "Farsie Nepali"
 ];
 
 var how_oftens = [
@@ -24,16 +27,21 @@ var how_oftens = [
 ];
 
 var times_of_day = [
-  "morning",
-  "afternoon",
-  "evening",
-  "flexible"
+  "Weekday mornings",
+  "Weekday afternoons",
+  "Weekday evenings",
+  "Weekend mornings",
+  "Weekend afternoons",
+  "Weekend evenings"
 ];
 
 var opportunity_categories = [
-  "Teaching english as a second Language (ESL)",
-  "Legal assistance",
-  "Translator"
+  "English Tutoring",
+  "Good Neighbor Team",
+  "Administrative",
+  "Special Events",
+  "Legal Clinic",
+  "Social Media"
 ];
 
 module.exports.getRegister = function(req, res) {
@@ -76,8 +84,16 @@ module.exports.postRegister = function(req, res) {
     console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
   }
 
+  console.log('Language Other: ' + req.body.language_other);
+
   console.log('How often: ' + req.body.how_often + ' ' + how_oftens[req.body.how_often]);
-  console.log('Time of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
+
+  // console.log('Times of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
+  for (var i=0; i < times_of_day.length; i++) {
+    var times_of_day_var_name = "req.body.times_of_day_" + i.toString();
+    console.log(i + ' ' + times_of_day_var_name + ":" + eval(times_of_day_var_name));
+  }
+
   console.log('Reliable vehicle and able to drive: ' + req.body.reliable_transportation);
   console.log('Family participation: ' + req.body.family_participation);
 

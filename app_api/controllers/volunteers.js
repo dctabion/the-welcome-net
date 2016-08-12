@@ -6,7 +6,45 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
-module.exports.volunteerList = function(req, res) {
+
+module.exports.volunteersCreate = function(req, res) {
+  var dummy1 = [1, 2];
+  var dummy2 = [2, 3];
+  var dummy3 = [1, 1, 3];
+  var volunteer = {};
+
+  Volunteer.create({
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    cell_number: req.body.cell_number,
+    home_number: req.body.home_number,
+    email: req.body.email,
+    subscribe: req.body.subscribe,
+    opportunity_categories: dummy1,
+    languages: dummy2,
+    language_other: req.body.language_other,
+    how_often: req.body.how_often,
+    times_of_day: dummy3,
+    reliable_transportation: req.body.reliable_transportation,
+    family_participation: req.body.family_participation,
+    affiliation: req.body.affiliation,
+    hear_about_us: req.body.hear_about_us
+  },
+  function(err, location) {
+    if (err) {
+      sendJsonResponse(res, 400, err);
+    }
+    else {
+      sendJsonResponse(res, 201, location);
+    }
+  });
+}
+
+module.exports.volunteersReadOne = function(req, res) {
+  // sendJsonResponse(res, 200, "Sweet");
+}
+
+module.exports.volunteersListAll = function(req, res) {
   Volunteer.find().exec(function(err, volunteers){
     // Volunteers not found.  NULL
     if (!volunteers) {
