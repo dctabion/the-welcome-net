@@ -44,7 +44,7 @@ module.exports.volunteersCreate = function(req, res) {
   // Languages
   volunteer.languages = [];
   for (var i = 0; i < global.my_app_config.languages.length; i++) {
-    variable_name = "req.body.languages" + parseInt(i);
+    variable_name = "req.body.language_" + parseInt(i);
     if ( eval(variable_name) == "on") {
       volunteer.languages.push(i);
     }
