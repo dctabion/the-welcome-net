@@ -1,58 +1,12 @@
-var affiliations = [
-  "McDonald's",
-  "White Castle's",
-  "Sam's Salad Bar (uggh)"
-];
-
-var hear_abouts = [
-  "From a Friend",
-  "Facebook",
-  "Twitter",
-  "Other"
-];
-
-var languages = [
-  "English",
-  "Spanish",
-  "Arabic",
-  "Burmese",
-  "Somali",
-  "Farsie Nepali"
-];
-
-var how_oftens = [
-  "monthly",
-  "twice per month",
-  "weekly"
-];
-
-var times_of_day = [
-  "Weekday mornings",
-  "Weekday afternoons",
-  "Weekday evenings",
-  "Weekend mornings",
-  "Weekend afternoons",
-  "Weekend evenings"
-];
-
-var opportunity_categories = [
-  "English Tutoring",
-  "Good Neighbor Team",
-  "Administrative",
-  "Special Events",
-  "Legal Clinic",
-  "Social Media"
-];
-
 module.exports.getRegister = function(req, res) {
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
-    affiliations: affiliations,
-    hear_abouts: hear_abouts,
-    languages: languages,
-    how_oftens: how_oftens,
-    times_of_day: times_of_day,
-    opportunity_categories: opportunity_categories
+    affiliations: global.my_app_config.affiliations,
+    hear_abouts: global.my_app_config.hear_abouts,
+    languages: global.my_app_config.languages,
+    how_oftens: global.my_app_config.how_oftens,
+    times_of_day: global.my_app_config.times_of_day,
+    opportunity_categories: global.my_app_config.opportunity_categories
   });
 };
 
@@ -67,18 +21,18 @@ module.exports.postRegister = function(req, res) {
 
   // "undefined" = not checked; "on" - checked
   console.log('Opportunity Categories of Interest:');
-  for (var i=0; i < opportunity_categories.length; i++) {
+  for (var i=0; i < global.my_app_config.opportunity_categories.length; i++) {
     // example variable name from form: language_1_croatian
     var opportunity_var_name = "req.body.opportunity_category_" + i.toString();
     console.log(i + ' ' + opportunity_var_name + ': ' + eval(opportunity_var_name));
   }
 
-  console.log('Affiliation: ' + req.body.affiliation + ' ' + affiliations[req.body.affiliation]);
-  console.log('Hear About Us: ' + req.body.hear_about_us + ' ' + hear_abouts[req.body.hear_about_us]);
+  console.log('Affiliation: ' + req.body.affiliation + ' ' + global.my_app_config.affiliations[req.body.affiliation]);
+  console.log('Hear About Us: ' + req.body.hear_about_us + ' ' + global.my_app_config.hear_abouts[req.body.hear_about_us]);
 
   // "undefined" = not checked; "on" - checked
   console.log('Languages Spoken');
-  for (var i=0; i < languages.length; i++) {
+  for (var i=0; i < global.my_app_config.languages.length; i++) {
     // example variable name from form: language_1_croatian
     var language_var_name = "req.body.language_" + i.toString();
     console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
@@ -86,10 +40,10 @@ module.exports.postRegister = function(req, res) {
 
   console.log('Language Other: ' + req.body.language_other);
 
-  console.log('How often: ' + req.body.how_often + ' ' + how_oftens[req.body.how_often]);
+  console.log('How often: ' + req.body.how_often + ' ' + global.my_app_config.how_oftens[req.body.how_often]);
 
   // console.log('Times of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
-  for (var i=0; i < times_of_day.length; i++) {
+  for (var i=0; i < global.my_app_config.times_of_day.length; i++) {
     var times_of_day_var_name = "req.body.times_of_day_" + i.toString();
     console.log(i + ' ' + times_of_day_var_name + ":" + eval(times_of_day_var_name));
   }

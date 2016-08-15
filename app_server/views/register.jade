@@ -25,28 +25,28 @@ block content
             // CELL NUMBER
             .form-group
               label(for="cell_number") Cellphone Number
-              input(type="text" class="form-control" id="cell_number" name="cell_number" required pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
+              input(type="text" class="form-control" id="cell_number" name="cell_number"  pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
               
             // HOME PHONE NUMBER
             .form-group
               label(for="home_number") Home Phone Number
-              input(type="text" class="form-control" id="home_number" name="home_number" required pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
+              input(type="text" class="form-control" id="home_number" name="home_number"  pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
                           
             // EMAIL
             .form-group
               label(for="email") Email
               //- input(type="email", class="form-control", name="email")
-              input(type="email", class="form-control", name="email" required)
+              input(type="email", class="form-control", name="email")
           
             // GENERAL EMAIL LIST
             .form-group
               div.radio_buttons
-                strong Register for our monthly email update!
+                strong Subscribe for our monthly email update!
                 div
-                  label.font-weight-normal(for="email_list") Yes
-                  input(type="radio", name="email_list", value="yes" required)
-                  label.font-weight-normal(for="email_list") No      
-                  input(type="radio", name="email_list", value="no" required)
+                  label.font-weight-normal(for="subscribe") Yes
+                  input(type="radio", name="subscribe", value="Yes" required)
+                  label.font-weight-normal(for="subscribe") No      
+                  input(type="radio", name="subscribe", value="No" required)
             
             // OPPORTUNITY CATEGORIES
             .form-group
@@ -55,7 +55,7 @@ block content
               div.check_boxes
                 each opportunity, index in opportunity_categories
                   div
-                    input(type="checkbox", id="opportunity__category_#{index}}" name="opportunity_category_#{index}")
+                    input(type="checkbox", id="opportunity_category_#{index}}" name="opportunity_category_#{index}")
                     label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
             
             // LANGUAGES SPOKEN  
@@ -87,7 +87,7 @@ block content
               div.check_boxes
                 each opportunity, index in opportunity_categories
                   div
-                    input(type="checkbox", id="times_of_day_#{index}}" name="times_of_day#{index}")
+                    input(type="checkbox", id="times_of_day_#{index}}" name="times_of_day_#{index}")
                     label.font-weight-normal(for="times_of_day_#{index}") #{times_of_day[index]}
               
             // RELIABLE CAR & CAN DRIVE?
@@ -96,9 +96,9 @@ block content
                 strong Do you have a reliable vehicle and are able to drive?
               div.radio_buttons
                 label.font-weight-normal(for="reliable_transportation") Yes
-                input(type="radio", name="reliable_transportation", value="yes" required)
+                input(type="radio", name="reliable_transportation", value="Yes" required)
                 label.font-weight-normal(for="reliable_transportation") No      
-                input(type="radio", name="reliable_transportation", value="no" required)
+                input(type="radio", name="reliable_transportation", value="No" required)
             
             // FAMILY PARTICIPATION
             .form-group
@@ -106,14 +106,14 @@ block content
                 strong I am interested in opportunities that my family/children can participate in:
               div.radio_buttons
                 label.font-weight-normal(for="family_participation") Yes
-                input(type="radio", name="family_participation", value="yes" required)
+                input(type="radio", name="family_participation", value="Yes" required)
                 label.font-weight-normal(for="family_paticipation") No      
-                input(type="radio", name="family_participation", value="no" requied)
+                input(type="radio", name="family_participation", value="No" required)
                     
             // AFFILATION
             .form-group
               label(for="affiliation") Affiliation
-              select(class="form-control", name="affiliation" required)  
+              select(class="form-control", name="affiliation" )  
                 option(value="") Choose One
                 each affiliation, key in affiliations
                   option(value="#{key}") #{affiliation}
@@ -121,7 +121,7 @@ block content
             // HEAR ABOUT US
             .form-group
               label(for="hear_about_us") How did you hear about us?
-              select(class="form-control", name="hear_about_us" required)
+              select(class="form-control", name="hear_about_us" )
                 option(value="") Choose One
                 each hear_about, key in hear_abouts
                   option(value="#{key}") #{hear_about}

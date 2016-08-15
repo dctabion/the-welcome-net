@@ -54,3 +54,4 @@ process.on('SIGTERM', function() {
 });
 
 require('./volunteers');
+require('./my_app_config');
