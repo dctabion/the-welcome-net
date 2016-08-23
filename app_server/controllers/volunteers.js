@@ -7,7 +7,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-module.exports.getRegister = function(req, res) {
+module.exports.addVolunteer = function(req, res) {
+  console.log('app_server: addVolunteer()');
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
     affiliations: global.my_app_config.affiliations,
@@ -19,7 +20,8 @@ module.exports.getRegister = function(req, res) {
   });
 };
 
-module.exports.postRegister = function(req, res) {
+module.exports.doAddVolunteer = function(req, res) {
+  console.log('app_server: doAddVolunteer()');
   console.log('======================');
   console.log('First Name: ' + req.body.first_name);
   console.log('Last Name: ' + req.body.last_name);
@@ -67,23 +69,6 @@ module.exports.postRegister = function(req, res) {
     last_name: req.body.last_name
   });
 };
-
-module.exports.search = function(req, res) {
-  res.render('index', { title: 'Search Volunteer List' });
-};
-
-module.exports.view = function(req, res) {
-  res.render('view', {
-    title: 'View One Volunteer',
-    ids: [1,2,3,4,5],
-    names: ["Jo", "Pete", "Vicini", "Ingrid", "Abbie"],
-  });
-};
-
-module.exports.edit = function(req, res) {
-  res.render('index', { title: 'Edit a Volunteer\'s User Data' });
-};
-
 
 module.exports.getVolunteerList = function(req, res) {
   console.log("---app_server: getVolunteerList()");

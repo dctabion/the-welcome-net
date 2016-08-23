@@ -8,10 +8,8 @@ router.get('/', ctrlMain.index );
 
 /* Volunteers pages */
 router.get('/volunteers/', ctrlVolunteers.getVolunteerList);
-router.get('/volunteers/register', ctrlVolunteers.getRegister);
-router.post('/volunteers/register', ctrlVolunteers.postRegister);
-router.get('/volunteers/search', ctrlVolunteers.search);
-router.get('/volunteers/view', ctrlVolunteers.view);
-router.get('/volunteers/edit', ctrlVolunteers.edit);
+router.get('/volunteers/new', ctrlVolunteers.addVolunteer);
+router.post('/volunteers/new', ctrlVolunteers.doAddVolunteer);
+
 
 module.exports = router;
