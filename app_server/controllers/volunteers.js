@@ -22,6 +22,7 @@ module.exports.addVolunteer = function(req, res) {
 
 module.exports.doAddVolunteer = function(req, res) {
   console.log('app_server: doAddVolunteer()');
+
   console.log('======================');
   console.log('First Name: ' + req.body.first_name);
   console.log('Last Name: ' + req.body.last_name);
@@ -63,11 +64,37 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('Family participation: ' + req.body.family_participation);
 
   console.log('======================');
-  res.render('register_confirmation', {
-    title: "Registration Confirmation",
-    first_name: req.body.first_name,
-    last_name: req.body.last_name
-  });
+
+  // Validate
+
+  // Make request to API to store data
+  var requestOptions, path;
+  path = '/api/volunteers';
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "POST",
+    json: req.body,
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, body) {
+      console.log('---callback: Receive response from API call');
+
+      res.render('register_confirmation', {
+        title: "Registration Confirmation",
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
+      });
+
+    });
+
+
+
+
 };
 
 module.exports.getVolunteerList = function(req, res) {
