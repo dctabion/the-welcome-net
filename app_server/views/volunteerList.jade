@@ -1,0 +1,18 @@
+extends layout
+
+block content
+  h1(class='bg-primary title')=title
+  //- h2=subtitle
+  //- .container <br>
+  //- .container <br>
+  //- p Welcome to #{title}
+  table(class='table table-bordered')
+    
+    
+    each volunteer in volunteers
+      tr
+        td(class='col-md-1') #{volunteer.first_name}
+        td(class='col-md-1') #{volunteer.last_name}
+        td(class='col-md-1') #{volunteer.cell_number}
+        td(class='col-md-1') #{volunteer.home_number}
+        td(class='col-md-1') #{volunteer.email}

@@ -3,6 +3,6 @@ var router = express.Router();
 var ctrVolunteers = require('../controllers/volunteers');
 
 router.post('/volunteers', ctrVolunteers.volunteersCreate);
-router.get('/volunteers', ctrVolunteers.volunteersListAll);
-router.get('/volunteers/:volunteerid', ctrVolunteers.volunteersReadOne)
+router.get('/volunteers', ctrVolunteers.volunteersList);
+router.get('/volunteers/:volunteerid', ctrVolunteers.volunteersReadOne);
 module.exports = router;

@@ -6,6 +6,19 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
+// probably don't need this
+// var renderVolunteerList = function(req, res, responseBody) {
+//   console.log('---renderVolunteerList(), helper function');
+//   res.render('volunteerList', {
+//       // title: 'Loc8r - find a place to work with WIFI',
+//       // pageHeader: {
+//       //   title: 'Loc8r',
+//       //   strapline: 'Find places to work with wifi near you!'
+//       // },
+//       volunteers: responseBody;
+//    });
+// }
+
 
 module.exports.volunteersCreate = function(req, res) {
   console.log('req.body:');
@@ -95,10 +108,13 @@ module.exports.volunteersCreate = function(req, res) {
 }
 
 module.exports.volunteersReadOne = function(req, res) {
-  // sendJsonResponse(res, 200, "Sweet");
+  sendJsonResponse(res, 200, "Sweet");
 }
 
-module.exports.volunteersListAll = function(req, res) {
+
+module.exports.volunteersList = function(req, res) {
+  console.log('---app_api: volunteersList()');
+
   Volunteer.find().exec(function(err, volunteers){
     // Volunteers not found.  NULL
     if (!volunteers) {
@@ -117,4 +133,5 @@ module.exports.volunteersListAll = function(req, res) {
       sendJsonResponse(res, 200, volunteers);
     }
   });
+
 }

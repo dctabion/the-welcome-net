@@ -1,3 +1,12 @@
+var request = require('request');
+var apiOptions = {
+  server: "http://localhost:3000"
+};
+if (process.env.NODE_ENV === 'production') {
+  apiOptions.server = "https://morning-scrubland-42645.herokuapp.com/";
+}
+
+
 module.exports.getRegister = function(req, res) {
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
@@ -73,4 +82,36 @@ module.exports.view = function(req, res) {
 
 module.exports.edit = function(req, res) {
   res.render('index', { title: 'Edit a Volunteer\'s User Data' });
+};
+
+
+module.exports.getVolunteerList = function(req, res) {
+  console.log("---app_server: getVolunteerList()");
+
+  var requestOptions, path;
+  path = '/api/volunteers';
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {},
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, body) {
+      console.log('---callback: Receive response from API call');
+      console.log('body: ', body);
+      // renderVolunteerList(body); -- maybe don't need this helper
+      res.render('volunteerList', {
+        title: 'Volunteer List',
+        // pageHeader: {
+        //   title: 'Loc8r',
+        //   strapline: 'Find places to work with wifi near you!'
+        // },
+        volunteers: body
+      });
+    });
 };

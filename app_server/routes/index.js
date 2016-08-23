@@ -7,6 +7,7 @@ var ctrlVolunteers = require('../controllers/volunteers');
 router.get('/', ctrlMain.index );
 
 /* Volunteers pages */
+router.get('/volunteers/', ctrlVolunteers.getVolunteerList);
 router.get('/volunteers/register', ctrlVolunteers.getRegister);
 router.post('/volunteers/register', ctrlVolunteers.postRegister);
 router.get('/volunteers/search', ctrlVolunteers.search);
