@@ -61,31 +61,6 @@ app.use(function(err, req, res, next) {
   });
 });
 
-// Read in config file
-var mongoose = require('mongoose');
-var My_app_config = mongoose.model('My_app_config');
-
-My_app_config.find().exec(function(err, config_array){
-  // Volunteers not found.  NULL
-  if (!config_array) {
-    console.log("options not found in DB");
-  }
-
-  // DB error
-  else if (err) {
-    console.log(err);
-  }
-
-  // Store config params
-  else {
-    global.my_app_config = config_array[0];
-
-    console.log('Options config read successfully.  global.my_app_config: ');
-    console.log(global.my_app_config);
-  }
-});
-
-
 
 
 module.exports = app;

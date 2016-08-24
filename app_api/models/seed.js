@@ -18,7 +18,8 @@
     "Arabic",
     "Burmese",
     "Somali",
-    "Farsie Nepali"
+    "Farsie Nepali",
+    "dooood"
   ],
 
   how_oftens: [

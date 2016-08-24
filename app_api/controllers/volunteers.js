@@ -1,6 +1,14 @@
 var mongoose = require('mongoose');
 var Volunteer = mongoose.model('Volunteer')
 
+var request = require('request');
+var apiOptions = {
+  server: "http://localhost:3000"
+};
+if (process.env.NODE_ENV === 'production') {
+  apiOptions.server = "https://morning-scrubland-42645.herokuapp.com";
+}
+
 var sendJsonResponse = function(res, status, content) {
   res.status(status);
   res.json(content);
@@ -21,6 +29,8 @@ var sendJsonResponse = function(res, status, content) {
 
 
 module.exports.volunteersCreate = function(req, res) {
+  console.log('---app_api: volunteersCreate()');
+
   console.log('req.body:');
   console.log(req.body);
 
@@ -60,6 +70,33 @@ module.exports.volunteersCreate = function(req, res) {
     variable_name = "req.body.language_" + parseInt(i);
     if ( eval(variable_name) == "on") {
       volunteer.languages.push(i);
+    }
+  }
+
+  if (req.body.language_other) {
+    if(req.body.language_other.length > 0) {
+      // Add new language to config file
+      var requestOptions, path;
+      path = '/api/config/language/' + req.body.language_other;
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: {},
+        qs: {
+          // query string
+        }
+      };
+
+      request(
+        requestOptions,
+        function(err, response, body) {
+          console.log('---callback: Receive response from API call');
+          console.log('body: ', body);
+          // Add error handling based on response???
+        });
+      // Add language index to volunteer's list of languages spoken
+      console.log('global.my_app_config.languages.length: ', global.my_app_config.languages.length);
+      volunteer.languages.push(global.my_app_config.languages.length);
     }
   }
 

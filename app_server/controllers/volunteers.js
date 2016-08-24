@@ -1,3 +1,7 @@
+// Read in config file
+var mongoose = require('mongoose');
+var My_app_config = mongoose.model('My_app_config');
+
 var request = require('request');
 var apiOptions = {
   server: "http://localhost:3000"
@@ -8,7 +12,28 @@ if (process.env.NODE_ENV === 'production') {
 
 
 module.exports.addVolunteer = function(req, res) {
-  console.log('app_server: addVolunteer()');
+  console.log('---app_server: addVolunteer()');
+
+  My_app_config.find().exec(function(err, config_array){
+    // Volunteers not found.  NULL
+    if (!config_array) {
+      console.log("options not found in DB");
+    }
+
+    // DB error
+    else if (err) {
+      console.log(err);
+    }
+
+    // Store config params
+    else {
+      global.my_app_config = config_array[0];
+
+      console.log('Options config read successfully.  global.my_app_config: ');
+      console.log(global.my_app_config);
+    }
+  });
+
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
     affiliations: global.my_app_config.affiliations,
@@ -21,7 +46,7 @@ module.exports.addVolunteer = function(req, res) {
 };
 
 module.exports.doAddVolunteer = function(req, res) {
-  console.log('app_server: doAddVolunteer()');
+  console.log('---app_server: doAddVolunteer()');
 
   console.log('======================');
   console.log('First Name: ' + req.body.first_name);
@@ -66,6 +91,7 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('======================');
 
   // Validate
+  // ??????
 
   // Make request to API to store data
   var requestOptions, path;
@@ -91,10 +117,6 @@ module.exports.doAddVolunteer = function(req, res) {
       });
 
     });
-
-
-
-
 };
 
 module.exports.getVolunteerList = function(req, res) {
