@@ -1,7 +1,3 @@
-// Read in config file
-var mongoose = require('mongoose');
-var My_app_config = mongoose.model('My_app_config');
-
 var request = require('request');
 var apiOptions = {
   server: "http://localhost:3000"
@@ -14,38 +10,47 @@ if (process.env.NODE_ENV === 'production') {
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
 
-  My_app_config.find().exec(function(err, config_array){
-    // Volunteers not found.  NULL
-    if (!config_array) {
-      console.log("Application could not be configured!!!");
-      console.log("options not found in DB");
+  // Configure App: read configuration from DB and store in globals
+  // Make request to API to get configuration
+  var requestOptions, path;
+  path = '/api/config';
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {},
+    qs: {
+      // query string
     }
+  };
 
-    // DB error
-    else if (err) {
-      console.log("Application could not be configured!!!");
-      console.log(err);
-    }
+  request(
+    requestOptions,
+    function(err, response, config) {
+      console.log('---callback: app_server received response from API call');
+      console.log('config: ', config);
 
-    // Store config params
-    else {
-      console.log('Options config read successfully.  global.my_app_config: ');
-      console.log(global.my_app_config);
+      // console.log('Before storing: global.my_app_config: ', global.my_app_config);
+      // Configure the app (store in globals)
+      global.my_app_config.opportunity_categories = config.opportunity_categories;
+      global.my_app_config.times_of_day = config.times_of_day;
+      global.my_app_config.how_oftens = config.how_oftens;
+      global.my_app_config.languages = config.languages;
+      global.my_app_config.hear_abouts = config.hear_abouts;
+      global.my_app_config.affiliations = config.affiliations;
+      // console.log('After storing: global.my_app_config: ', global.my_app_config);
+      console.log('global.my_app_config.opportunity_categories: ', global.my_app_config.opportunity_categories);
+    });
 
-      global.my_app_config = config_array[0];
 
-      res.render('register', {
-        title: 'VOLUNTEER REGISTRATION',
-        affiliations: global.my_app_config.affiliations,
-        hear_abouts: global.my_app_config.hear_abouts,
-        languages: global.my_app_config.languages,
-        how_oftens: global.my_app_config.how_oftens,
-        times_of_day: global.my_app_config.times_of_day,
-        opportunity_categories: global.my_app_config.opportunity_categories
-      });
-    }
+  res.render('register', {
+    title: 'VOLUNTEER REGISTRATION',
+    affiliations: global.my_app_config.affiliations,
+    hear_abouts: global.my_app_config.hear_abouts,
+    languages: global.my_app_config.languages,
+    how_oftens: global.my_app_config.how_oftens,
+    times_of_day: global.my_app_config.times_of_day,
+    opportunity_categories: global.my_app_config.opportunity_categories
   });
-
 
 };
 
@@ -144,12 +149,14 @@ module.exports.getVolunteerList = function(req, res) {
       console.log('body: ', body);
       // renderVolunteerList(body); -- maybe don't need this helper
       res.render('volunteerList', {
-        title: 'Volunteer List',
-        // pageHeader: {
-        //   title: 'Loc8r',
-        //   strapline: 'Find places to work with wifi near you!'
-        // },
-        volunteers: body
+        title: 'VOLUNTEER LIST',
+        volunteers: body,
+        affiliations: global.my_app_config.affiliations,
+        hear_abouts: global.my_app_config.hear_abouts,
+        languages: global.my_app_config.languages,
+        how_oftens: global.my_app_config.how_oftens,
+        times_of_day: global.my_app_config.times_of_day,
+        opportunity_categories: global.my_app_config.opportunity_categories
       });
     });
 };

@@ -6,9 +6,44 @@ block content
   //- .container <br>
   //- .container <br>
   //- p Welcome to #{title}
+  
+  div(class='col-md-6')
+    h3 Quick Search
+    ul(class='list-inline')
+      li
+        button
+          a Subscribers
+      li
+        button
+          a Drivers
+      li
+        button
+          a Family Participation
+          
+          
+          
+          
+          
+          
+          
+  div(class='col-md-6')
+    h3 Custom Search
+    // AFFILATION
+    .form-group
+      label(for="affiliation") Affiliation
+      select(class="form-control", name="affiliation" )  
+        option(value="") Choose One
+        each affiliation, key in affiliations
+          option(value="#{key}") #{affiliation}
+          
+
+
+
+
+
+
+
   table(class='table table-bordered')
-    
-    
     each volunteer in volunteers
       tr
         td(class='col-md-1') #{volunteer.first_name}
@@ -16,11 +51,10 @@ block content
         td(class='col-md-1') #{volunteer.cell_number}
         td(class='col-md-1') #{volunteer.home_number}
         td(class='col-md-1') #{volunteer.email}
-        td(class='col-md-2') 
-          ul(class='list-inline volunteer-btn-margin')
-            li
-              a dood
-            li
-              a dood
-            li
-              a dood      
+        //- td(class='col-md-1')
+        //-   ul(class='list-inline volunteer-btn-margin')
+        //-     li
+        //-       button 
+        //-         a view
+        //-     li
+        //-       button edit 

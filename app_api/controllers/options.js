@@ -6,10 +6,36 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
+module.exports.readAppConfig = function(req, res) {
+  console.log('---app_api: readAppConfig()');
+
+  // Read Configuration from DB in case categories have changed
+  ConfigOptions.find().exec(function(err, config_array){
+    // Volunteers not found.  NULL
+    if (!config_array) {
+      console.log("Application could not be configured!!!");
+      console.log("options not found in DB");
+    }
+
+    // DB error
+    else if (err) {
+      console.log("Application could not be configured!!!");
+      console.log(err);
+    }
+
+    // Store config params
+    else {
+      console.log('Options config read successfully.');
+      var config = config_array[0];
+      console.log('config: ', config);
+      sendJsonResponse(res, 200, config);
+    }
+  });
+}
+
 
 module.exports.addNewLanguage = function(req, res) {
   console.log('---app_api: createNewLanguage()');
-
   console.log('req.params: ', req.params);
 
   // No language in request body

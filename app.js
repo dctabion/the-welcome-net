@@ -61,6 +61,52 @@ app.use(function(err, req, res, next) {
   });
 });
 
+// Custom app config variable
+global.my_app_config = {};
+
+// Initial app configuration
+var request = require('request');
+var apiOptions = {
+  server: "http://localhost:3000"
+};
+if (process.env.NODE_ENV === 'production') {
+  apiOptions.server = "https://morning-scrubland-42645.herokuapp.com";
+}
+
+var requestOptions, path;
+path = '/api/config';
+requestOptions = {
+  url: apiOptions.server + path,
+  method: "GET",
+  json: {},
+  qs: {
+    // query string
+  }
+};
+
+request(
+  requestOptions,
+  function(err, response, config) {
+    console.log('---callback: app_server received response from API call');
+    console.log('config: ', config);
+
+    // console.log('Before storing: global.my_app_config: ', global.my_app_config);
+    // Configure the app (store in globals)
+    global.my_app_config.opportunity_categories = config.opportunity_categories;
+    global.my_app_config.times_of_day = config.times_of_day;
+    global.my_app_config.how_oftens = config.how_oftens;
+    global.my_app_config.languages = config.languages;
+    global.my_app_config.hear_abouts = config.hear_abouts;
+    global.my_app_config.affiliations = config.affiliations;
+    // console.log('After storing: global.my_app_config: ', global.my_app_config);
+    console.log('global.my_app_config.opportunity_categories: ', global.my_app_config.opportunity_categories);
+    console.log('Intial app configuration complete!');
+  }
+
+);
+
+
+
 
 
 module.exports = app;
