@@ -2,59 +2,71 @@ extends layout
 
 block content
   h1(class='bg-primary title')=title
-  //- h2=subtitle
-  //- .container <br>
-  //- .container <br>
-  //- p Welcome to #{title}
-  
-  div(class='col-md-6')
-    h3 Quick Search
-    ul(class='list-inline')
-      li
-        button
-          a Subscribers
-      li
-        button
-          a Drivers
-      li
-        button
-          a Family Participation
-          
-          
-          
-          
-          
-          
-          
-  div(class='col-md-6')
-    h3 Custom Search
-    // AFFILATION
-    .form-group
-      label(for="affiliation") Affiliation
-      select(class="form-control", name="affiliation" )  
-        option(value="") Choose One
-        each affiliation, key in affiliations
-          option(value="#{key}") #{affiliation}
-          
+  .row
+    .col-md-10
+      table(class='table table-bordered')
+        each volunteer in volunteers
+          tr
+            //- td(class='col-md-1') #{volunteer.first_name}
+            //- td(class='col-md-1') #{volunteer.last_name}
+            //- td(class='col-md-1') #{volunteer.cell_number}
+            //- td(class='col-md-1') #{volunteer.home_number}
+            //- td(class='col-md-1') #{volunteer.email}
+            
+            td #{volunteer.first_name}
+            td #{volunteer.last_name}
+            td #{volunteer.cell_number}
+            td #{volunteer.home_number}
+            td #{volunteer.email}
+            
+            //- td(class='col-md-1')
+            //-   ul(class='list-inline volunteer-btn-margin')
+            //-     li
+            //-       button 
+            //-         a view
+            //-     li
+            //-       button edit 
 
+    .col-md-2
+      h3 Quick Search
+      button
+        a Subscribers
+      button
+        a Drivers
+      button
+        a Family Participation
+            
+      h3 Custom Search
+      form(class="form-inline" role="form" data-toggle="validator" action='' method='post')
 
-
-
-
-
-
-  table(class='table table-bordered')
-    each volunteer in volunteers
-      tr
-        td(class='col-md-1') #{volunteer.first_name}
-        td(class='col-md-1') #{volunteer.last_name}
-        td(class='col-md-1') #{volunteer.cell_number}
-        td(class='col-md-1') #{volunteer.home_number}
-        td(class='col-md-1') #{volunteer.email}
-        //- td(class='col-md-1')
-        //-   ul(class='list-inline volunteer-btn-margin')
-        //-     li
-        //-       button 
-        //-         a view
-        //-     li
-        //-       button edit 
+      // AFFILATION
+      .form-group
+        label(for="opportunity") Opportunity
+        select(class="form-control", name="opportunity" )  
+          option(value="") 
+          each opportunity, key in opportunity_categories
+            option(value="#{key}") #{opportunity}
+      .form-group
+        label(for="time_of_day") Time Of Day
+        select(class="form-control", name="time_of_day" )  
+          option(value="") 
+          each time_of_day, key in times_of_day
+            option(value="#{key}") #{time_of_day}
+      .form-group
+        label(for="language") Language
+        select(class="form-control", name="language" )  
+          option(value="") 
+          each language, key in languages
+            option(value="#{key}") #{language}   
+      .form-group
+        label(for="hear_about") Hear About
+        select(class="form-control", name="hear_about" )  
+          option(value="") 
+          each hear_about, key in hear_abouts
+            option(value="#{key}") #{hear_about}
+      .form-group
+        label(for="affiliation") Affiliation
+        select(class="form-control", name="affiliation" )  
+          option(value="") Choose One
+          each affiliation, key in affiliations
+            option(value="#{key}") #{affiliation}

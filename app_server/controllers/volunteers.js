@@ -38,7 +38,6 @@ module.exports.addVolunteer = function(req, res) {
       global.my_app_config.hear_abouts = config.hear_abouts;
       global.my_app_config.affiliations = config.affiliations;
       // console.log('After storing: global.my_app_config: ', global.my_app_config);
-      console.log('global.my_app_config.opportunity_categories: ', global.my_app_config.opportunity_categories);
     });
 
 
