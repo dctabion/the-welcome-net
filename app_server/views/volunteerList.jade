@@ -37,7 +37,7 @@ block content
         a Family Participation
             
       h3 Custom Search
-      form(class="form-inline" role="form" data-toggle="validator" action='' method='post')
+      form(class="" role="form" data-toggle="validator" action='' method='post')
 
       // AFFILATION
       .form-group
@@ -46,12 +46,6 @@ block content
           option(value="") 
           each opportunity, key in opportunity_categories
             option(value="#{key}") #{opportunity}
-      .form-group
-        label(for="time_of_day") Time Of Day
-        select(class="form-control", name="time_of_day" )  
-          option(value="") 
-          each time_of_day, key in times_of_day
-            option(value="#{key}") #{time_of_day}
       .form-group
         label(for="language") Language
         select(class="form-control", name="language" )  
@@ -70,3 +64,28 @@ block content
           option(value="") Choose One
           each affiliation, key in affiliations
             option(value="#{key}") #{affiliation}
+      //- .form-group
+      //-   label(for="how_often") How Often
+      //-   select(class="form-control", name="how_often" )  
+      //-     option(value="") 
+      //-     each how_often, key in how_oftens
+      //-       option(value="#{key}") #{how_often}            
+      //- .form-group
+      //-   label(for="time_of_day") Time Of Day
+      //-   select(class="form-control", name="time_of_day" )  
+      //-     option(value="") 
+      //-     each time_of_day, key in times_of_day
+      //-       option(value="#{key}") #{time_of_day}
+      .form-group
+        div.check_boxes
+          input(type="checkbox" id="driver" name="driver")
+          label.font-weight-normal(for="driver") Driver
+          br
+          input(type="checkbox" id="subscriber" name="subscriber")
+          label.font-weight-normal(for="subscriber") Subscriber
+          br
+          input(type="checkbox" id="family_opportunity" name="family_opportunity")
+          label.font-weight-normal(for="family_opportunity") Family Opportunity
+          
+          
+        
