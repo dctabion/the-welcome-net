@@ -17,32 +17,36 @@ module.exports.addVolunteer = function(req, res) {
   My_app_config.find().exec(function(err, config_array){
     // Volunteers not found.  NULL
     if (!config_array) {
+      console.log("Application could not be configured!!!");
       console.log("options not found in DB");
     }
 
     // DB error
     else if (err) {
+      console.log("Application could not be configured!!!");
       console.log(err);
     }
 
     // Store config params
     else {
-      global.my_app_config = config_array[0];
-
       console.log('Options config read successfully.  global.my_app_config: ');
       console.log(global.my_app_config);
+
+      global.my_app_config = config_array[0];
+
+      res.render('register', {
+        title: 'VOLUNTEER REGISTRATION',
+        affiliations: global.my_app_config.affiliations,
+        hear_abouts: global.my_app_config.hear_abouts,
+        languages: global.my_app_config.languages,
+        how_oftens: global.my_app_config.how_oftens,
+        times_of_day: global.my_app_config.times_of_day,
+        opportunity_categories: global.my_app_config.opportunity_categories
+      });
     }
   });
 
-  res.render('register', {
-    title: 'VOLUNTEER REGISTRATION',
-    affiliations: global.my_app_config.affiliations,
-    hear_abouts: global.my_app_config.hear_abouts,
-    languages: global.my_app_config.languages,
-    how_oftens: global.my_app_config.how_oftens,
-    times_of_day: global.my_app_config.times_of_day,
-    opportunity_categories: global.my_app_config.opportunity_categories
-  });
+
 };
 
 module.exports.doAddVolunteer = function(req, res) {
