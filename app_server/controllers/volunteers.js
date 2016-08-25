@@ -38,18 +38,22 @@ module.exports.addVolunteer = function(req, res) {
       global.my_app_config.hear_abouts = config.hear_abouts;
       global.my_app_config.affiliations = config.affiliations;
       // console.log('After storing: global.my_app_config: ', global.my_app_config);
+      console.log('global.my_app_config.times_of_day: ', global.my_app_config.times_of_day);
+      console.log('global.my_app_config.times_of_day.length', global.my_app_config.times_of_day.length);
+      
+      res.render('register', {
+        title: 'VOLUNTEER REGISTRATION',
+        affiliations: global.my_app_config.affiliations,
+        hear_abouts: global.my_app_config.hear_abouts,
+        languages: global.my_app_config.languages,
+        how_oftens: global.my_app_config.how_oftens,
+        times_of_day: global.my_app_config.times_of_day,
+        opportunity_categories: global.my_app_config.opportunity_categories
+      });
     });
 
 
-  res.render('register', {
-    title: 'VOLUNTEER REGISTRATION',
-    affiliations: global.my_app_config.affiliations,
-    hear_abouts: global.my_app_config.hear_abouts,
-    languages: global.my_app_config.languages,
-    how_oftens: global.my_app_config.how_oftens,
-    times_of_day: global.my_app_config.times_of_day,
-    opportunity_categories: global.my_app_config.opportunity_categories
-  });
+
 
 };
 

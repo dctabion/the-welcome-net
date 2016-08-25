@@ -1,4 +1,74 @@
 {
+  "affiliations": [
+    "McDonald's",
+    "White Castle's",
+    "Sam's Salad Bar (uggh)"
+  ],
+  "hear_abouts": [
+      "From a Friend",
+      "Facebook",
+      "Twitter",
+      "Other"
+  ],
+  "languages": [
+      "English",
+      "Spanish",
+      "Arabic",
+      "Burmese",
+      "Somali",
+      "Farsie Nepali"
+  ],
+  "how_oftens": [
+      "Monthly",
+      "Twice per month",
+      "Weekly",
+      "Contact me for availability"
+  ],
+  "times_of_day": [
+      "Weekday mornings",
+      "Weekday afternoons",
+      "Weekday evenings",
+      "Weekend mornings",
+      "Weekend afternoons",
+      "Weekend evenings"
+  ],
+  "opportunity_categories": [
+      "English Tutoring",
+      "Good Neighbor Team",
+      "Administrative",
+      "Special Events",
+      "Legal Clinic Administrative Volunteer",
+      "Social Media",
+      "5K Race Volunteer or Participant",
+      "Church Furniture/Household Goods Donation Coordinator",
+      "Refugee Family Home Visits",
+      "Refugee Family Ride Giver to Medical Screenings"
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{
   affiliations: [
     "McDonald's",
     "White Castle's",
