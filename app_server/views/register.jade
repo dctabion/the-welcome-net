@@ -1,6 +1,139 @@
 extends layout
 block content  
 
+  //- .container
+  //-   .col-sm-12.col-md-8.col-md-offset-2
+  //-     .panel.panel-default.panel-primary.registration-panel
+  //-       .panel-heading
+  //-           h3.panel-title.title
+  //-             strong=title
+  //-       .panel-body
+  //-         form(class="" role="form" data-toggle="validator" action='/volunteers/new' method='post')
+  //-           
+  //-           // FIRST NAME
+  //-           .form-group
+  //-             label(for="first_name") First Name
+  //-             //- input(type="text", class="form-control", name="first_name")
+  //-             input(type="text", class="form-control", id="first_name" name="first_name" )
+  //-                 
+  //-           // LAST NAME
+  //-           .form-group
+  //-             label(for="last_name") Last Name
+  //-             //- input(type="text", class="form-control", name="last_name")
+  //-             input(type="text", class="form-control", name="last_name" )
+  //-           
+  //-           // CELL NUMBER
+  //-           .form-group
+  //-             label(for="cell_number") Cellphone Number
+  //-             input(type="text" class="form-control" id="cell_number" name="cell_number"  pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
+  //-             
+  //-           // HOME PHONE NUMBER
+  //-           .form-group
+  //-             label(for="home_number") Home Phone Number
+  //-             input(type="text" class="form-control" id="home_number" name="home_number"  pattern='/(?:(?:\+?1\s*(?:[.-]\s*)?)?(?:(\s*([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]‌​)\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\s*(?:[.-]\s*)?)([2-9]1[02-9]‌​|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/' title='Phone Number (Format: 999.999.9999)')
+  //-                         
+  //-           // EMAIL
+  //-           .form-group
+  //-             label(for="email") Email
+  //-             //- input(type="email", class="form-control", name="email")
+  //-             input(type="email", class="form-control", name="email")
+  //-         
+  //-           // GENERAL EMAIL LIST
+  //-           .form-group
+  //-             div.radio_buttons
+  //-               strong Subscribe for our monthly email update!
+  //-               div
+  //-                 label.font-weight-normal(for="subscribe") Yes
+  //-                 input(type="radio", name="subscribe", value="Yes" )
+  //-                 label.font-weight-normal(for="subscribe") No      
+  //-                 input(type="radio", name="subscribe", value="No" )
+  //-           
+  //-           // OPPORTUNITY CATEGORIES
+  //-           .form-group
+  //-             div
+  //-               strong Volunteer opportunities that interest you:
+  //-             div.check_boxes
+  //-               each opportunity, index in opportunity_categories
+  //-                 div
+  //-                   input(type="checkbox", id="opportunity_category_#{index}}" name="opportunity_category_#{index}")
+  //-                   label.font-weight-normal(for="opportity_category_#{index}") #{opportunity[0].toUpperCase() + opportunity.substring(1)}
+  //-           
+  //-           // LANGUAGES SPOKEN  
+  //-           .form-group
+  //-             div
+  //-               strong Languages Spoken (Check all that apply):
+  //-             div.check_boxes
+  //-               each language, index in languages
+  //-                 div
+  //-                 input(type="checkbox" id="language_#{index}}" name="language_#{index}")
+  //-                 label.font-weight-normal(for="language_#{index}") #{language[0].toUpperCase() + language.substring(1)}
+  //-                 
+  //-             // OTHER
+  //-             label(for="language_other" class="font-weight-normal") Other
+  //-             input(type="text", class="", id="language_other" name="language_other")
+  //-           
+  //-           // HOW OFTEN
+  //-           .form-group      
+  //-             label(for="how_often") Approximately how often can you volunteer?
+  //-             select(class="form-control", name="how_often" )
+  //-               option(value="") Choose One
+  //-               each how_often, key in how_oftens
+  //-                 option(value="#{key}") #{how_often}
+  //-               
+  //-           // TIMES OF DAY
+  //-           .form-group
+  //-             div
+  //-               strong What time of day is best for you? (Check all that apply)
+  //-             div.check_boxes
+  //-               each time_of_day, index in times_of_day
+  //-                 div
+  //-                   input(type="checkbox", id="times_of_day_#{index}}" name="times_of_day_#{index}")
+  //-                   label.font-weight-normal(for="times_of_day_#{index}") #{times_of_day[index]}
+  //-             
+  //-           // RELIABLE CAR & CAN DRIVE?
+  //-           .form-group  
+  //-             div
+  //-               strong Do you have a reliable vehicle and are able to drive?
+  //-             div.radio_buttons
+  //-               label.font-weight-normal(for="reliable_transportation") Yes
+  //-               input(type="radio", name="reliable_transportation", value="Yes" )
+  //-               label.font-weight-normal(for="reliable_transportation") No      
+  //-               input(type="radio", name="reliable_transportation", value="No" )
+  //-           
+  //-           // FAMILY PARTICIPATION
+  //-           .form-group
+  //-             div
+  //-               strong I am interested in opportunities that my family/children can participate in:
+  //-             div.radio_buttons
+  //-               label.font-weight-normal(for="family_participation") Yes
+  //-               input(type="radio", name="family_participation", value="Yes" )
+  //-               label.font-weight-normal(for="family_paticipation") No      
+  //-               input(type="radio", name="family_participation", value="No" )
+  //-                   
+  //-           // AFFILATION
+  //-           .form-group
+  //-             label(for="affiliation") Affiliation
+  //-             select(class="form-control", name="affiliation" )  
+  //-               option(value="") Choose One
+  //-               each affiliation, key in affiliations
+  //-                 option(value="#{key}") #{affiliation}
+  //-                 
+  //-           // HEAR ABOUT US
+  //-           .form-group
+  //-             label(for="hear_about_us") How did you hear about us?
+  //-             select(class="form-control", name="hear_about_us" )
+  //-               option(value="") Choose One
+  //-               each hear_about, key in hear_abouts
+  //-                 option(value="#{key}") #{hear_about}
+  //-           
+  //-           // SUBMIT      
+  //-           button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
+  //- .container <br>
+  //- .container <br>
+  
+  
+  
+  
   .container
     .col-sm-12.col-md-8.col-md-offset-2
       .panel.panel-default.panel-primary.registration-panel
@@ -14,13 +147,13 @@ block content
             .form-group
               label(for="first_name") First Name
               //- input(type="text", class="form-control", name="first_name")
-              input(type="text", class="form-control", id="first_name" name="first_name" required)
+              input(type="text", class="form-control", id="first_name" name="first_name" )
                   
             // LAST NAME
             .form-group
               label(for="last_name") Last Name
               //- input(type="text", class="form-control", name="last_name")
-              input(type="text", class="form-control", name="last_name" required)
+              input(type="text", class="form-control", name="last_name" )
             
             // CELL NUMBER
             .form-group
@@ -44,9 +177,9 @@ block content
                 strong Subscribe for our monthly email update!
                 div
                   label.font-weight-normal(for="subscribe") Yes
-                  input(type="radio", name="subscribe", value="Yes" required)
+                  input(type="radio", name="subscribe", value="Yes" )
                   label.font-weight-normal(for="subscribe") No      
-                  input(type="radio", name="subscribe", value="No" required)
+                  input(type="radio", name="subscribe", value="No" )
             
             // OPPORTUNITY CATEGORIES
             .form-group
@@ -75,7 +208,7 @@ block content
             // HOW OFTEN
             .form-group      
               label(for="how_often") Approximately how often can you volunteer?
-              select(class="form-control", name="how_often" required)
+              select(class="form-control", name="how_often" )
                 option(value="") Choose One
                 each how_often, key in how_oftens
                   option(value="#{key}") #{how_often}
@@ -96,9 +229,9 @@ block content
                 strong Do you have a reliable vehicle and are able to drive?
               div.radio_buttons
                 label.font-weight-normal(for="reliable_transportation") Yes
-                input(type="radio", name="reliable_transportation", value="Yes" required)
+                input(type="radio", name="reliable_transportation", value="Yes" )
                 label.font-weight-normal(for="reliable_transportation") No      
-                input(type="radio", name="reliable_transportation", value="No" required)
+                input(type="radio", name="reliable_transportation", value="No" )
             
             // FAMILY PARTICIPATION
             .form-group
@@ -106,9 +239,9 @@ block content
                 strong I am interested in opportunities that my family/children can participate in:
               div.radio_buttons
                 label.font-weight-normal(for="family_participation") Yes
-                input(type="radio", name="family_participation", value="Yes" required)
+                input(type="radio", name="family_participation", value="Yes" )
                 label.font-weight-normal(for="family_paticipation") No      
-                input(type="radio", name="family_participation", value="No" required)
+                input(type="radio", name="family_participation", value="No" )
                     
             // AFFILATION
             .form-group

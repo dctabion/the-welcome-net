@@ -14,19 +14,28 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
-// probably don't need this
-// var renderVolunteerList = function(req, res, responseBody) {
-//   console.log('---renderVolunteerList(), helper function');
-//   res.render('volunteerList', {
-//       // title: 'Loc8r - find a place to work with WIFI',
-//       // pageHeader: {
-//       //   title: 'Loc8r',
-//       //   strapline: 'Find places to work with wifi near you!'
-//       // },
-//       volunteers: responseBody;
-//    });
-// }
 
+var packageAndSendResponseForAdd = function(res, volunteer, config) {
+  // Package response object
+  var responseObject = {
+    volunteer: volunteer,
+    newConfig: null
+  };
+  if (config) {
+    responseObject.newConfig = config;
+  }
+
+  Volunteer.create(volunteer,
+    function(err, volunteer) {
+      if (err) {
+        sendJsonResponse(res, 400, err);
+      }
+      else {
+        sendJsonResponse(res, 201, responseObject);
+      }
+    }
+  );
+};
 
 module.exports.volunteersCreate = function(req, res) {
   console.log('---app_api: volunteersCreate()');
@@ -36,7 +45,7 @@ module.exports.volunteersCreate = function(req, res) {
 
   var variable_name = "";
 
-  // Create and fill volunteer object
+  //------- Create and fill volunteer object ------//
   var volunteer = {};
 
   volunteer.first_name = req.body.first_name;
@@ -62,44 +71,6 @@ module.exports.volunteersCreate = function(req, res) {
       volunteer.opportunity_categories.push(i);
     }
   }
-  // console.log('opportunity_categories: ', volunteer.opportunity_categories);
-
-  // Languages
-  volunteer.languages = [];
-  for (var i = 0; i < global.my_app_config.languages.length; i++) {
-    variable_name = "req.body.language_" + parseInt(i);
-    if ( eval(variable_name) == "on") {
-      volunteer.languages.push(i);
-    }
-  }
-
-  if (req.body.language_other) {
-    if(req.body.language_other.length > 0) {
-      // Add new language to config file
-      var requestOptions, path;
-      path = '/api/config/language/' + req.body.language_other;
-      requestOptions = {
-        url: apiOptions.server + path,
-        method: "POST",
-        json: {},
-        qs: {
-          // query string
-        }
-      };
-
-      request(
-        requestOptions,
-        function(err, response, body) {
-          console.log('---callback: Receive response from API call');
-          console.log('body: ', body);
-          // Add error handling based on response???
-        });
-      // Add language index to volunteer's list of languages spoken
-      console.log('global.my_app_config.languages.length: ', global.my_app_config.languages.length);
-      volunteer.languages.push(global.my_app_config.languages.length);
-    }
-  }
-
   console.log('typeof(req.body.how_often): ', typeof(req.body.how_often));
   volunteer.how_often = req.body.how_often;
 
@@ -130,18 +101,94 @@ module.exports.volunteersCreate = function(req, res) {
     volunteer.family_participation = false;
   }
 
+  // Affiliation
   volunteer.affiliation = req.body.affiliation;
+
+  // Hear Abouts
   volunteer.hear_about_us = req.body.hear_about_us;
 
-  Volunteer.create(volunteer,
-    function(err, location) {
-      if (err) {
-        sendJsonResponse(res, 400, err);
-      }
-      else {
-        sendJsonResponse(res, 201, location);
-      }
-    });
+  // Languages
+  volunteer.languages = [];
+  for (var i = 0; i < global.my_app_config.languages.length; i++) {
+    variable_name = "req.body.language_" + parseInt(i);
+    if ( eval(variable_name) == "on") {
+      volunteer.languages.push(i);
+    }
+  }
+
+  // Add new language to configuration if necessary
+  if (req.body.language_other) {
+    if(req.body.language_other.length > 0) {
+      // Add new language to config file
+      var requestOptions, path;
+      path = '/api/config/language/' + req.body.language_other;
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: {},
+        qs: {
+          // query string
+        }
+      };
+
+      request(
+        requestOptions,
+        function(err, response, body) {
+          console.log('---callback: Receive response from API call to update config with new language');
+          // console.log('body: ', body);
+
+          // add err handling TODO
+
+          // Add language index to volunteer's list of languages spoken
+          // Change to not use global and use body TODO
+          console.log('global.my_app_config.languages.length: ', global.my_app_config.languages.length);
+          volunteer.languages.push(global.my_app_config.languages.length);
+
+          // ----- Create response object, store volunteer in DB, and send responseObject ---- //
+          packageAndSendResponseForAdd(res, volunteer, body);
+          // // Package response object
+          // var responseObject = {
+          //   volunteer: volunteer,
+          //   newConfig: body
+          // };
+          //
+          // Volunteer.create(volunteer,
+          //   function(err, volunteer) {
+          //     if (err) {
+          //       sendJsonResponse(res, 400, err);
+          //     }
+          //     else {
+          //       sendJsonResponse(res, 201, responseObject);
+          //     }
+          //   }
+          // );
+        }
+      );
+
+
+    }
+  }
+
+  // No new language added
+  else {
+    // ----- Create response object, store volunteer in DB, and send responseObject ---- //
+    packageAndSendResponseForAdd(res, volunteer, body);
+  }
+  // newConfig = global.tmpConfig;
+  // console.log("global.tmpConfig: ", global.tmpConfig);
+  // console.log("newConfig: ", newConfig);
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 module.exports.volunteersReadOne = function(req, res) {

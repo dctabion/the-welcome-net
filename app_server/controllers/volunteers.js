@@ -10,47 +10,60 @@ if (process.env.NODE_ENV === 'production') {
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
 
-  // Configure App: read configuration from DB and store in globals
-  // Make request to API to get configuration
-  var requestOptions, path;
-  path = '/api/config';
-  requestOptions = {
-    url: apiOptions.server + path,
-    method: "GET",
-    json: {},
-    qs: {
-      // query string
-    }
-  };
+  res.render('register', {
+    title: 'VOLUNTEER REGISTRATION',
+    affiliations: global.my_app_config.affiliations,
+    hear_abouts: global.my_app_config.hear_abouts,
+    languages: global.my_app_config.languages,
+    how_oftens: global.my_app_config.how_oftens,
+    times_of_day: global.my_app_config.times_of_day,
+    opportunity_categories: global.my_app_config.opportunity_categories
+  });
 
-  request(
-    requestOptions,
-    function(err, response, config) {
-      console.log('---callback: app_server received response from API call');
-      console.log('config: ', config);
 
-      // console.log('Before storing: global.my_app_config: ', global.my_app_config);
-      // Configure the app (store in globals)
-      global.my_app_config.opportunity_categories = config.opportunity_categories;
-      global.my_app_config.times_of_day = config.times_of_day;
-      global.my_app_config.how_oftens = config.how_oftens;
-      global.my_app_config.languages = config.languages;
-      global.my_app_config.hear_abouts = config.hear_abouts;
-      global.my_app_config.affiliations = config.affiliations;
-      // console.log('After storing: global.my_app_config: ', global.my_app_config);
-      console.log('global.my_app_config.times_of_day: ', global.my_app_config.times_of_day);
-      console.log('global.my_app_config.times_of_day.length', global.my_app_config.times_of_day.length);
-      
-      res.render('register', {
-        title: 'VOLUNTEER REGISTRATION',
-        affiliations: global.my_app_config.affiliations,
-        hear_abouts: global.my_app_config.hear_abouts,
-        languages: global.my_app_config.languages,
-        how_oftens: global.my_app_config.how_oftens,
-        times_of_day: global.my_app_config.times_of_day,
-        opportunity_categories: global.my_app_config.opportunity_categories
-      });
-    });
+
+
+  // // Configure App: read configuration from DB and store in globals
+  // // Make request to API to get configuration
+  // var requestOptions, path;
+  // path = '/api/config';
+  // requestOptions = {
+  //   url: apiOptions.server + path,
+  //   method: "GET",
+  //   json: {},
+  //   qs: {
+  //     // query string
+  //   }
+  // };
+  //
+  // request(
+  //   requestOptions,
+  //   function(err, response, config) {
+  //     console.log('---callback: app_server received response from API call');
+  //     console.log('config: ', config);
+  //
+  //     // console.log('Before storing: global.my_app_config: ', global.my_app_config);
+  //     // Configure the app (store in globals)
+  //     global.my_app_config.opportunity_categories = config.opportunity_categories;
+  //     global.my_app_config.times_of_day = config.times_of_day;
+  //     global.my_app_config.how_oftens = config.how_oftens;
+  //     global.my_app_config.languages = config.languages;
+  //     global.my_app_config.hear_abouts = config.hear_abouts;
+  //     global.my_app_config.affiliations = config.affiliations;
+  //     // console.log('After storing: global.my_app_config: ', global.my_app_config);
+  //     console.log('global.my_app_config.times_of_day: ', global.my_app_config.times_of_day);
+  //     console.log('global.my_app_config.times_of_day.length', global.my_app_config.times_of_day.length);
+  //
+  //     res.render('register', {
+  //       title: 'VOLUNTEER REGISTRATION',
+  //       affiliations: global.my_app_config.affiliations,
+  //       hear_abouts: global.my_app_config.hear_abouts,
+  //       languages: global.my_app_config.languages,
+  //       how_oftens: global.my_app_config.how_oftens,
+  //       times_of_day: global.my_app_config.times_of_day,
+  //       opportunity_categories: global.my_app_config.opportunity_categories
+  //     });
+  //   });
 
 
 
@@ -120,12 +133,24 @@ module.exports.doAddVolunteer = function(req, res) {
   request(
     requestOptions,
     function(err, response, body) {
-      console.log('---callback: Receive response from API call');
+      console.log('---callback: Receive response from API call to POST new volunteer');
+      console.log('body: ', body);
+
+      // Reconfigure app if new config available
+      if (body.newConfig) {
+        global.my_app_config.opportunity_categories = body.newConfig.opportunity_categories;
+        global.my_app_config.times_of_day = body.newConfig.times_of_day;
+        global.my_app_config.how_oftens = body.newConfig.how_oftens;
+        global.my_app_config.languages = body.newConfig.languages;
+        global.my_app_config.hear_abouts = body.newConfig.hear_abouts;
+        global.my_app_config.affiliations = body.newConfig.affiliations;
+        console.log("global.my_app_config.languages: ", global.my_app_config.languages);
+      }
 
       res.render('register_confirmation', {
         title: "Registration Confirmation",
-        first_name: req.body.first_name,
-        last_name: req.body.last_name
+        first_name: body.volunteer.first_name,
+        last_name: body.volunteer.last_name
       });
 
     });
