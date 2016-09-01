@@ -15,22 +15,29 @@ var sendJsonResponse = function(res, status, content) {
 }
 
 
-var packageAndSendResponseForAdd = function(res, volunteer, config) {
+// This function saves volunteer to database, packages & and sends response object for adding volunteer
+var savePackageAndSendResponseForAdd = function(res, volunteer, config) {
+  console.log('--packageAndSendResponseForAdd() helper');
   // Package response object
   var responseObject = {
     volunteer: volunteer,
     newConfig: null
   };
+
   if (config) {
     responseObject.newConfig = config;
   }
 
+  console.log('responseObject: ', responseObject);
+
   Volunteer.create(volunteer,
     function(err, volunteer) {
       if (err) {
+        console.log('error creating volunteer! err: ', err);
         sendJsonResponse(res, 400, err);
       }
       else {
+        console.log('sending responseObject: ', responseObject);
         sendJsonResponse(res, 201, responseObject);
       }
     }
@@ -133,9 +140,11 @@ module.exports.volunteersCreate = function(req, res) {
 
       request(
         requestOptions,
-        function(err, response, body) {
+        function(err, response, config) {
           console.log('---callback: Receive response from API call to update config with new language');
           // console.log('body: ', body);
+
+
 
           // add err handling TODO
 
@@ -144,8 +153,11 @@ module.exports.volunteersCreate = function(req, res) {
           console.log('global.my_app_config.languages.length: ', global.my_app_config.languages.length);
           volunteer.languages.push(global.my_app_config.languages.length);
 
+          console.log('--inside request to add language().  volunteer: ', volunteer);
+
+
           // ----- Create response object, store volunteer in DB, and send responseObject ---- //
-          packageAndSendResponseForAdd(res, volunteer, body);
+          savePackageAndSendResponseForAdd(res, volunteer, config);
           // // Package response object
           // var responseObject = {
           //   volunteer: volunteer,
@@ -172,21 +184,15 @@ module.exports.volunteersCreate = function(req, res) {
   // No new language added
   else {
     // ----- Create response object, store volunteer in DB, and send responseObject ---- //
-    packageAndSendResponseForAdd(res, volunteer, body);
+    console.log('no new language added.  package and send response for add');
+    console.log('yoyo volunteer: ', volunteer);
+    // create a config object so it is not undefined when calling packageAndSendResponseForAdd()
+    var config = null;
+    savePackageAndSendResponseForAdd(res, volunteer, config);
   }
   // newConfig = global.tmpConfig;
   // console.log("global.tmpConfig: ", global.tmpConfig);
   // console.log("newConfig: ", newConfig);
-
-
-
-
-
-
-
-
-
-
 
 
 }

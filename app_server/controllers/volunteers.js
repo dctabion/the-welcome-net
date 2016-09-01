@@ -71,7 +71,11 @@ module.exports.addVolunteer = function(req, res) {
 };
 
 module.exports.doAddVolunteer = function(req, res) {
+
+  // ------ LOG THE POST RESQUEST DATA FROM BODY ------ //
+
   console.log('---app_server: doAddVolunteer()');
+  console.log('req.body: ', req.body);
 
   console.log('======================');
   console.log('First Name: ' + req.body.first_name);
@@ -118,7 +122,7 @@ module.exports.doAddVolunteer = function(req, res) {
   // Validate
   // ??????
 
-  // Make request to API to store data
+  // Make request to volunteer API to store data
   var requestOptions, path;
   path = '/api/volunteers';
   requestOptions = {
