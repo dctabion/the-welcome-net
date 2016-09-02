@@ -12,115 +12,129 @@ module.exports.addVolunteer = function(req, res) {
 
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
-    affiliations: global.my_app_config.affiliations,
-    hear_abouts: global.my_app_config.hear_abouts,
-    languages: global.my_app_config.languages,
-    how_oftens: global.my_app_config.how_oftens,
-    times_of_day: global.my_app_config.times_of_day,
-    opportunity_categories: global.my_app_config.opportunity_categories
+    affiliations: global.myAppConfig.affiliations,
+    hearAbouts: global.myAppConfig.hearAbouts,
+    languages: global.myAppConfig.languages,
+    howOftens: global.myAppConfig.howOftens,
+    timesOfDay: global.myAppConfig.timesOfDay,
+    opportunityCategories: global.myAppConfig.opportunityCategories
   });
-
-
-
-
-  // // Configure App: read configuration from DB and store in globals
-  // // Make request to API to get configuration
-  // var requestOptions, path;
-  // path = '/api/config';
-  // requestOptions = {
-  //   url: apiOptions.server + path,
-  //   method: "GET",
-  //   json: {},
-  //   qs: {
-  //     // query string
-  //   }
-  // };
-  //
-  // request(
-  //   requestOptions,
-  //   function(err, response, config) {
-  //     console.log('---callback: app_server received response from API call');
-  //     console.log('config: ', config);
-  //
-  //     // console.log('Before storing: global.my_app_config: ', global.my_app_config);
-  //     // Configure the app (store in globals)
-  //     global.my_app_config.opportunity_categories = config.opportunity_categories;
-  //     global.my_app_config.times_of_day = config.times_of_day;
-  //     global.my_app_config.how_oftens = config.how_oftens;
-  //     global.my_app_config.languages = config.languages;
-  //     global.my_app_config.hear_abouts = config.hear_abouts;
-  //     global.my_app_config.affiliations = config.affiliations;
-  //     // console.log('After storing: global.my_app_config: ', global.my_app_config);
-  //     console.log('global.my_app_config.times_of_day: ', global.my_app_config.times_of_day);
-  //     console.log('global.my_app_config.times_of_day.length', global.my_app_config.times_of_day.length);
-  //
-  //     res.render('register', {
-  //       title: 'VOLUNTEER REGISTRATION',
-  //       affiliations: global.my_app_config.affiliations,
-  //       hear_abouts: global.my_app_config.hear_abouts,
-  //       languages: global.my_app_config.languages,
-  //       how_oftens: global.my_app_config.how_oftens,
-  //       times_of_day: global.my_app_config.times_of_day,
-  //       opportunity_categories: global.my_app_config.opportunity_categories
-  //     });
-  //   });
-
-
-
 
 };
 
 module.exports.doAddVolunteer = function(req, res) {
-
-  // ------ LOG THE POST RESQUEST DATA FROM BODY ------ //
-
   console.log('---app_server: doAddVolunteer()');
   console.log('req.body: ', req.body);
-
   console.log('======================');
-  console.log('First Name: ' + req.body.first_name);
-  console.log('Last Name: ' + req.body.last_name);
-  console.log('Email: ' + req.body.email);
-  console.log('Email List: ' + req.body.email_list);
-  console.log('Cellphone Number: ' + req.body.cell_number);
-  console.log('Home Phone Number: ' + req.body.home_number);
 
-  // "undefined" = not checked; "on" - checked
-  console.log('Opportunity Categories of Interest:');
-  for (var i=0; i < global.my_app_config.opportunity_categories.length; i++) {
-    // example variable name from form: language_1_croatian
-    var opportunity_var_name = "req.body.opportunity_category_" + i.toString();
-    console.log(i + ' ' + opportunity_var_name + ': ' + eval(opportunity_var_name));
+  // ------- Validate data TODO --------- //
+
+  // ------- Normalize data TODO --------- //
+
+
+
+  // ------ Extract data from POST request and repackage to send to API ------ //
+  var volunteer = {};
+  var var_name = "";
+  console.log('First Name: ' + req.body.first_name);
+  volunteer.firstName = req.body.first_name;
+
+  console.log('Last Name: ' + req.body.last_name);
+  volunteer.lastName = req.body.last_name;
+
+  console.log('Cellphone Number: ' + req.body.cell_number);
+  volunteer.cellNumber = req.body.cell_number;
+
+  console.log('Home Phone Number: ' + req.body.home_number);
+  volunteer.homeNumber = req.body.home_number;
+
+  console.log('Email: ' + req.body.email);
+  volunteer.email = req.body.email;
+
+  console.log('Subscribe to Email List: ' + req.body.subscribe);
+  if (req.body.email_list == "Yes") {
+    volunteer.emailList = true;
+  }
+  else if (req.body.email_list == "No") {
+    volunteer.emailList = false;
+  }
+  else {
+    console.log("************** ERROR with req.body.email_list...not Yes or No!! ********");
+    volunteer.emailList = false;
   }
 
-  console.log('Affiliation: ' + req.body.affiliation + ' ' + global.my_app_config.affiliations[req.body.affiliation]);
-  console.log('Hear About Us: ' + req.body.hear_about_us + ' ' + global.my_app_config.hear_abouts[req.body.hear_about_us]);
+  // "undefined" = not checked; "on" - checked
+  volunteer.opportunityCategories = [];
+  console.log('Opportunity Categories of Interest:');
+  for (var i=0; i < global.myAppConfig.opportunityCategories.length; i++) {
+    var_name = "req.body.opportunity_" + global.myAppConfig.opportunityCategories[i]._id;
+    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.opportunityCategories[i].displayText + "  " + eval(var_name));
+    if (eval(var_name) == "on") {
+      volunteer.opportunityCategories.push(global.myAppConfig.opportunityCategories[i]._id);
+    }
+  }
 
   // "undefined" = not checked; "on" - checked
-  console.log('Languages Spoken');
-  for (var i=0; i < global.my_app_config.languages.length; i++) {
-    // example variable name from form: language_1_croatian
-    var language_var_name = "req.body.language_" + i.toString();
-    console.log(i + ' ' + language_var_name + ': ' + eval(language_var_name));
+  volunteer.languages = [];
+  console.log('Languages Spoken:');
+  for (var i=0; i < global.myAppConfig.languages.length; i++) {
+    var_name = "req.body.language_" + global.myAppConfig.languages[i]._id;
+    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.languages[i].displayText + "  " + eval(var_name));
+    if (eval(var_name) == "on") {
+      volunteer.languages.push(global.myAppConfig.languages[i]._id);
+    }
   }
 
   console.log('Language Other: ' + req.body.language_other);
+  volunteer.languageOther = req.body.language_other;
 
-  console.log('How often: ' + req.body.how_often + ' ' + global.my_app_config.how_oftens[req.body.how_often]);
+  console.log('How often: ' + req.body.how_often);
+  volunteer.howOften = req.body.how_often;
 
-  // console.log('Times of day: ' + req.body.time_of_day + ' ' + times_of_day[req.body.time_of_day]);
-  for (var i=0; i < global.my_app_config.times_of_day.length; i++) {
-    var times_of_day_var_name = "req.body.times_of_day_" + i.toString();
-    console.log(i + ' ' + times_of_day_var_name + ":" + eval(times_of_day_var_name));
+  volunteer.timesOfDay = [];
+  console.log('Times of day: ');
+  for (var i=0; i < global.myAppConfig.timesOfDay.length; i++) {
+    var_name = "req.body.time_of_day_" + global.myAppConfig.timesOfDay[i]._id;
+    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.timesOfDay[i].displayText + "  " + eval(var_name));
+    if (eval(var_name) == "on") {
+      volunteer.timesOfDay.push(global.myAppConfig.timesOfDay[i]._id);
+    }
   }
 
   console.log('Reliable vehicle and able to drive: ' + req.body.reliable_transportation);
-  console.log('Family participation: ' + req.body.family_participation);
+  if (req.body.reliable_transportation == "Yes") {
+    volunteer.reliableTransportation = true;
+  }
+  else if (req.body.reliable_transportation == "No") {
+    volunteer.reliableTransportation = false;
+  }
+  else {
+    console.log("************** ERROR with req.body.reliable_transportation...not Yes or No!! ********");
+    volunteer.reliableTransportation = false;
+  }
 
+  console.log('Family participation: ' + req.body.family_participation);
+  if (req.body.family_participation == "Yes") {
+    volunteer.familyParticipation = true;
+  }
+  else if (req.body.family_participation == "No"){
+    volunteer.familyParticipation = false;
+  }
+  else {
+    console.log("************** ERROR with req.body.family_participation...not Yes or No!! ********");
+    volunteer.familyParticipation = false;
+  }
+
+  console.log('Affiliation: ' + req.body.affiliation);
+  volunteer.affiliation = req.body.affiliation;
+
+  console.log('Hear About: ' + req.body.hear_about);
+  volunteer.hearAbout = req.body.hear_about;
+
+  console.log('Normalized & packaged volunteer before calling add volunteer API:');
+  console.log(volunteer);
   console.log('======================');
 
-  // Validate
-  // ??????
 
   // Make request to volunteer API to store data
   var requestOptions, path;
@@ -128,7 +142,7 @@ module.exports.doAddVolunteer = function(req, res) {
   requestOptions = {
     url: apiOptions.server + path,
     method: "POST",
-    json: req.body,
+    json: volunteer,
     qs: {
       // query string
     }
@@ -142,19 +156,20 @@ module.exports.doAddVolunteer = function(req, res) {
 
       // Reconfigure app if new config available
       if (body.newConfig) {
-        global.my_app_config.opportunity_categories = body.newConfig.opportunity_categories;
-        global.my_app_config.times_of_day = body.newConfig.times_of_day;
-        global.my_app_config.how_oftens = body.newConfig.how_oftens;
-        global.my_app_config.languages = body.newConfig.languages;
-        global.my_app_config.hear_abouts = body.newConfig.hear_abouts;
-        global.my_app_config.affiliations = body.newConfig.affiliations;
-        console.log("global.my_app_config.languages: ", global.my_app_config.languages);
+        console.log('got a new config.  Reconfiguring app');
+        global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
+        global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
+        global.myAppConfig.howOftens = body.newConfig.howOftens;
+        global.myAppConfig.languages = body.newConfig.languages;
+        global.myAppConfig.hearAbouts = body.newConfig.hear_abouts;
+        global.myAppConfig.affiliations = body.newConfig.affiliations;
+        console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
       }
 
       res.render('register_confirmation', {
         title: "Registration Confirmation",
-        first_name: body.volunteer.first_name,
-        last_name: body.volunteer.last_name
+        first_name: body.volunteer.firstName,
+        last_name: body.volunteer.lastName
       });
 
     });
@@ -183,12 +198,12 @@ module.exports.getVolunteerList = function(req, res) {
       res.render('volunteerList', {
         title: 'VOLUNTEER LIST',
         volunteers: body,
-        affiliations: global.my_app_config.affiliations,
-        hear_abouts: global.my_app_config.hear_abouts,
-        languages: global.my_app_config.languages,
-        how_oftens: global.my_app_config.how_oftens,
-        times_of_day: global.my_app_config.times_of_day,
-        opportunity_categories: global.my_app_config.opportunity_categories
+        affiliations: global.myAppCofnig.affiliations,
+        hear_abouts: global.myAppCofnig.hear_abouts,
+        languages: global.myAppCofnig.languages,
+        how_oftens: global.myAppCofnig.howOftens,
+        times_of_day: global.myAppCofnig.timesOfDay,
+        opportunity_categories: global.myAppCofnig.opportunityCategories
       });
     });
 };

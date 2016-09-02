@@ -1,21 +1,22 @@
 var mongoose = require('mongoose');
 
+
+// ---- Parent/Volunteer Schema ----- //
 var volunteerSchema = new mongoose.Schema({
-  first_name: String,
-  last_name: String,
-  cell_number: String,
-  home_number: String,
+  firstName: String,
+  lastName: String,
+  cellNumber: String,
+  homeNumber: String,
   email: String,
   subscribe: Boolean,
-  opportunity_categories: [Number],
-  languages: [Number],
-  language_other: String,
-  how_often: Number,
-  times_of_day: [Number],
-  reliable_transportation: Boolean,
-  family_participation: Boolean,
-  affiliation: Number,
-  hear_about_us: Number
+  opportunityCategories: [String],
+  languages: [String],
+  howOften: String,
+  timesOfDay: [String],
+  reliableTransportation: Boolean,
+  familyParticipation: Boolean,
+  affiliation: String,
+  hearAboutUs: String
 });
 
 mongoose.model("Volunteer", volunteerSchema);

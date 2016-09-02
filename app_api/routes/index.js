@@ -8,5 +8,5 @@ router.get('/volunteers', ctrVolunteers.volunteersList);
 router.get('/volunteers/:volunteerid', ctrVolunteers.volunteersReadOne);
 
 router.get('/config', ctrOptions.readAppConfig);
-router.post('/config/language/:language', ctrOptions.addNewLanguage);
+router.post('/config/language/new/:language', ctrOptions.addNewLanguage);
 module.exports = router;

@@ -27,7 +27,7 @@ module.exports.readAppConfig = function(req, res) {
     else {
       console.log('Options config read successfully.');
       var config = config_array[0];
-      console.log('config: ', config);
+      // console.log('config: ', config);
       sendJsonResponse(res, 200, config);
     }
   });
@@ -38,6 +38,8 @@ module.exports.addNewLanguage = function(req, res) {
   console.log('---app_api: createNewLanguage()');
   console.log('req.params: ', req.params);
 
+  configResponseObject = {};
+
   // No language in request body
   if (!req.params.language) {
     sendJsonResponse(res, 404, {
@@ -45,6 +47,9 @@ module.exports.addNewLanguage = function(req, res) {
     });
   }
   else {
+    // package new language in response object
+    configResponseObject.newLanguage = req.params.language;
+
     ConfigOptions.find(function(err, config_array){
       // DB error
       if (err) {
@@ -55,16 +60,16 @@ module.exports.addNewLanguage = function(req, res) {
       }
       // No DB err
       else {
-        var config = config_array[0];
-
-        console.log("config: ", config);
-        config.languages.push(req.params.language);
-        config.save(function(err, config){
+        configResponseObject.newConfig = config_array[0];
+        // console.log('req.params.language:', req.params.language );
+        // console.log("config: ", config);
+        configResponseObject.newConfig.languages.push({ displayText: req.params.language });
+        configResponseObject.newConfig.save(function(err, config){
           if (err) {
             sendJsonResponse(res, 404, err);
           }
           else {
-            sendJsonResponse(res, 200, config);
+            sendJsonResponse(res, 200, configResponseObject);
           }
         });
       }
