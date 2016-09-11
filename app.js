@@ -101,6 +101,7 @@ request(
 
     // console.log('After storing: global.myAppConfig: ', global.myAppConfig);
     console.log('Intial app configuration complete!');
+    console.log('global.myAppConfig: ', global.myAppConfig);
   }
 );
 
