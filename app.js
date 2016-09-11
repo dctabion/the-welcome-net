@@ -99,7 +99,7 @@ request(
     global.myAppConfig.hearAbouts = config.hearAbouts;
     global.myAppConfig.affiliations = config.affiliations;
 
-    // console.log('After storing: global.myAppConfig: ', global.myAppConfig);
+    console.log('After storing: global.myAppConfig: ', global.myAppConfig);
     console.log('Intial app configuration complete!');
     // console.log('global.myAppConfig: ', global.myAppConfig);
   }

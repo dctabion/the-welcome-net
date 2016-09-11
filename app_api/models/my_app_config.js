@@ -30,11 +30,11 @@ var languageSchema = new mongoose.Schema({
 // ------ Parent Document Schema: Config ------- //
 var myAppConfigSchema = new mongoose.Schema({
   affiliations: [ affiliationSchema ],
-  hear_abouts: [ hearAboutSchema ],
+  hearAboutSchemabouts: [ hearAboutSchema ],
   languages: [ languageSchema ],
-  how_oftens: [ howOftenSchema ],
-  times_of_day: [ timeOfDaySchema ],
-  opportunity_categories: [ opportunityCategorySchema ]
+  howOftens: [ howOftenSchema ],
+  timesOfDay: [ timeOfDaySchema ],
+  opportunityCategories: [ opportunityCategorySchema ]
 });
 
 mongoose.model("My_app_config", myAppConfigSchema);
