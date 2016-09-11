@@ -13,10 +13,10 @@ block content
             //- td(class='col-md-1') #{volunteer.home_number}
             //- td(class='col-md-1') #{volunteer.email}
             
-            td #{volunteer.first_name}
-            td #{volunteer.last_name}
-            td #{volunteer.cell_number}
-            td #{volunteer.home_number}
+            td #{volunteer.firstName}
+            td #{volunteer.lastName}
+            td #{volunteer.cellNumber}
+            td #{volunteer.homeNumber}
             td #{volunteer.email}
             
             //- td(class='col-md-1')
@@ -44,26 +44,26 @@ block content
         label(for="opportunity") Opportunity
         select(class="form-control", name="opportunity" )  
           option(value="") 
-          each opportunity, key in opportunity_categories
-            option(value="#{key}") #{opportunity}
+          each opportunity in opportunityCategories
+            option(value="opportunity_#{opportunity._id}") #{opportunity.displayText}
       .form-group
         label(for="language") Language
         select(class="form-control", name="language" )  
           option(value="") 
-          each language, key in languages
-            option(value="#{key}") #{language}   
+          each language in languages
+            option(value="language_#{language._id}") #{language.displayText}   
       .form-group
         label(for="hear_about") Hear About
         select(class="form-control", name="hear_about" )  
           option(value="") 
-          each hear_about, key in hear_abouts
-            option(value="#{key}") #{hear_about}
+          each hearAbout in hearAbouts
+            option(value="hear_about_#{hearAbout._id}") #{hearAbout.displayText}
       .form-group
         label(for="affiliation") Affiliation
         select(class="form-control", name="affiliation" )  
           option(value="") Choose One
-          each affiliation, key in affiliations
-            option(value="#{key}") #{affiliation}
+          each affiliation in affiliations
+            option(value="affiliation_#{affiliation._id}") #{affiliation.displayText}
       //- .form-group
       //-   label(for="how_often") How Often
       //-   select(class="form-control", name="how_often" )  

@@ -194,16 +194,19 @@ module.exports.getVolunteerList = function(req, res) {
     function(err, response, body) {
       console.log('---callback: Receive response from API call');
       console.log('body: ', body);
-      // renderVolunteerList(body); -- maybe don't need this helper
       res.render('volunteerList', {
         title: 'VOLUNTEER LIST',
         volunteers: body,
-        affiliations: global.myAppCofnig.affiliations,
-        hear_abouts: global.myAppCofnig.hear_abouts,
-        languages: global.myAppCofnig.languages,
-        how_oftens: global.myAppCofnig.howOftens,
-        times_of_day: global.myAppCofnig.timesOfDay,
-        opportunity_categories: global.myAppCofnig.opportunityCategories
+        affiliations: global.myAppConfig.affiliations,
+        hearAbouts: global.myAppConfig.hearAbouts,
+        languages: global.myAppConfig.languages,
+        howOftens: global.myAppConfig.howOftens,
+        timesOfDay: global.myAppConfig.timesOfDay,
+        opportunityCategories: global.myAppConfig.opportunityCategories
       });
     });
+};
+
+module.exports.getPrincess = function(req, res) {
+  res.render('z-princess');
 };
