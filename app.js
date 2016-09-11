@@ -88,7 +88,7 @@ request(
   requestOptions,
   function(err, response, config) {
     console.log('---callback: app_server received response from API call');
-    // console.log('config: ', config);
+    console.log('config: ', config);
     // console.log('Before storing: global.my_app_config: ', global.my_app_config);
 
     // Configure the app (store in globals)

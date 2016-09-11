@@ -27,7 +27,7 @@ module.exports.readAppConfig = function(req, res) {
     else {
       console.log('Options config read successfully.');
       var config = config_array[0];
-      // console.log('config: ', config);
+      console.log('config: ', config);
       sendJsonResponse(res, 200, config);
     }
   });
