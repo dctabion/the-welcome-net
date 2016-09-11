@@ -9,7 +9,8 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
-
+  console.log('global.myAppConfig: ', global.myAppConfig);
+  
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
     affiliations: global.myAppConfig.affiliations,
