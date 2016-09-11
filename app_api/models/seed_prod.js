@@ -1,5 +1,5 @@
 "volunteer": { "age": 3, "name": "fred"}
-"volunteer": { "_id": ObjectId(), "age": 3, "name": "fred"}
+"volunteer": { _id: ObjectId(), "age": 3, "name": "fred"}
 
 
 

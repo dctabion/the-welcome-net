@@ -42,7 +42,7 @@ module.exports.doReconfig = function(req, res, next) {
     }
   );
 
-  res.render('developerReconfigure', { title: 'Reconfiguring App' });
+  res.render('developer_reconfig', { title: 'Reconfiguring App' });
 
 
 };

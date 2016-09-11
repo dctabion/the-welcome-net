@@ -88,7 +88,7 @@ request(
   requestOptions,
   function(err, response, config) {
     console.log('---callback: app_server received response from API call');
-    console.log('config: ', config);
+    // console.log('config: ', config);
     // console.log('Before storing: global.my_app_config: ', global.my_app_config);
 
     // Configure the app (store in globals)
@@ -101,7 +101,7 @@ request(
 
     // console.log('After storing: global.myAppConfig: ', global.myAppConfig);
     console.log('Intial app configuration complete!');
-    console.log('global.myAppConfig: ', global.myAppConfig);
+    // console.log('global.myAppConfig: ', global.myAppConfig);
   }
 );
 
