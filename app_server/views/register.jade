@@ -14,13 +14,13 @@ block content
             .form-group
               label(for="first_name") First Name
               //- input(type="text", class="form-control", name="first_name")
-              input(type="text", class="form-control", id="first_name" name="first_name" )
+              input(type="text", class="form-control", id="first_name" name="first_name" required)
                   
             // LAST NAME
             .form-group
               label(for="last_name") Last Name
               //- input(type="text", class="form-control", name="last_name")
-              input(type="text", class="form-control", name="last_name" )
+              input(type="text", class="form-control", name="last_name" required)
             
             // CELL NUMBER
             .form-group
@@ -36,7 +36,7 @@ block content
             .form-group
               label(for="email") Email
               //- input(type="email", class="form-control", name="email")
-              input(type="email", class="form-control", name="email")
+              input(type="email", class="form-control", name="email", required)
           
             // GENERAL EMAIL LIST
             .form-group
@@ -44,9 +44,9 @@ block content
                 strong Subscribe for our monthly email update!
                 div
                   label.font-weight-normal(for="subscribe") Yes
-                  input(type="radio", name="subscribe", value="Yes" )
+                  input(type="radio", name="subscribe", value="Yes", required)
                   label.font-weight-normal(for="subscribe") No      
-                  input(type="radio", name="subscribe", value="No" )
+                  input(type="radio", name="subscribe", value="No", required )
             
             // OPPORTUNITY CATEGORIES
             .form-group

@@ -16,7 +16,9 @@ var volunteerSchema = new mongoose.Schema({
   reliableTransportation: Boolean,
   familyParticipation: Boolean,
   affiliation: String,
-  hearAboutUs: String
+  hearAboutUs: String,
+  admin: Boolean,
+  donorStatus: Number
 });
 
 mongoose.model("Volunteer", volunteerSchema);

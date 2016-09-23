@@ -30,7 +30,7 @@ var languageSchema = new mongoose.Schema({
 // ------ Parent Document Schema: Config ------- //
 var myAppConfigSchema = new mongoose.Schema({
   affiliations: [ affiliationSchema ],
-  hearAboutSchemabouts: [ hearAboutSchema ],
+  hearAbouts: [ hearAboutSchema ],
   languages: [ languageSchema ],
   howOftens: [ howOftenSchema ],
   timesOfDay: [ timeOfDaySchema ],

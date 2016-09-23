@@ -162,7 +162,7 @@ module.exports.doAddVolunteer = function(req, res) {
         global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
         global.myAppConfig.howOftens = body.newConfig.howOftens;
         global.myAppConfig.languages = body.newConfig.languages;
-        global.myAppConfig.hearAbouts = body.newConfig.hear_abouts;
+        global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
         global.myAppConfig.affiliations = body.newConfig.affiliations;
         console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
       }

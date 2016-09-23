@@ -8,7 +8,8 @@
     { _id: ObjectId(), displayText: "Lake Hills Baptist Church (Schererville, IN)" },
     { _id: ObjectId(), displayText: "Portage Resale Shop (Portage, IN)" },
     { _id: ObjectId(), displayText: "Central Church of Christ (Streator, IL)" },
-    { _id: ObjectId(), displayText: "Bethel Church (Crown Point, IN)" }
+    { _id: ObjectId(), displayText: "Bethel Church (Crown Point, IN)" },
+    { _id: ObjectId(), displayText: "Other" }
   ],
   "hearAbouts": [
       { _id: ObjectId(), displayText: "From a Friend" },
@@ -45,7 +46,8 @@
       { _id: ObjectId(), displayText: "Special Events" },
       { _id: ObjectId(), displayText: "Legal Clinic Administrative Volunteer" },
       { _id: ObjectId(), displayText: "Social Media" },
-      { _id: ObjectId(), displayText: "5K Race Volunteer or Participant" },
+      { _id: ObjectId(), displayText: "5K Race Volunteer" },
+      { _id: ObjectId(), displayText: "5K Race Volunteer Participant" },
       { _id: ObjectId(), displayText: "Church Furniture/Household Goods Donation Coordinator" },
       { _id: ObjectId(), displayText: "Refugee Family Home Visits" },
       { _id: ObjectId(), displayText: "Refugee Family Ride Giver to Medical Screenings" }
