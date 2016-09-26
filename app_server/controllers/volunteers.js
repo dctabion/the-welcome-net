@@ -153,7 +153,7 @@ module.exports.doAddVolunteer = function(req, res) {
     requestOptions,
     function(err, response, body) {
       console.log('---callback: Receive response from API call to POST new volunteer');
-      console.log('body: ', body);
+      // console.log('body: ', body);
 
       // Reconfigure app if new config available
       if (body.newConfig) {
@@ -164,7 +164,7 @@ module.exports.doAddVolunteer = function(req, res) {
         global.myAppConfig.languages = body.newConfig.languages;
         global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
         global.myAppConfig.affiliations = body.newConfig.affiliations;
-        console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+        // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
       }
 
       res.render('register_confirmation', {

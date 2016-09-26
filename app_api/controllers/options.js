@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var ConfigOptions = mongoose.model('My_app_config');
+var Language = mongoose.model('Language')
 
 var sendJsonResponse = function(res, status, content) {
   res.status(status);
@@ -46,10 +47,8 @@ module.exports.addNewLanguage = function(req, res) {
       "message": "request does not have a language to add in params"
     });
   }
+  // request has new language
   else {
-    // package new language in response object
-    configResponseObject.newLanguage = req.params.language;
-
     ConfigOptions.find(function(err, config_array){
       // DB error
       if (err) {
@@ -59,16 +58,30 @@ module.exports.addNewLanguage = function(req, res) {
         sendJsonResponse(res, 400, { "message" : "No config found!"});
       }
       // No DB err
+      // add subdocument and save
       else {
-        configResponseObject.newConfig = config_array[0];
-        // console.log('req.params.language:', req.params.language );
-        // console.log("config: ", config);
-        configResponseObject.newConfig.languages.push({ displayText: req.params.language });
-        configResponseObject.newConfig.save(function(err, config){
+        var config = config_array[0];
+        var newLanguage = { displayText: req.params.language };
+        // console.log('language object to store.  newLanguage: ', newLanguage);
+
+        // add config to parent doc & save to DB
+        config.languages.push(newLanguage);
+
+        // save config and send response object
+        config.save(function(err, newConfig){
           if (err) {
-            sendJsonResponse(res, 404, err);
+            sendJsonResponse(res, 500, err);
           }
           else {
+            // console.log("newConfig: ", newConfig);
+            // console.log("newConfig.languages: ", newConfig.languages);
+            // console.log("new Language: ", newConfig.languages[newConfig.languages.length - 1]);
+
+            // package response object
+            var configResponseObject = {};
+            configResponseObject.newConfig = newConfig;
+            configResponseObject.newLanguage = newConfig.languages[newConfig.languages.length - 1]._id;
+            console.log("in options-API: configResponseObject.newLanguage: ", configResponseObject.newLanguage);
             sendJsonResponse(res, 200, configResponseObject);
           }
         });

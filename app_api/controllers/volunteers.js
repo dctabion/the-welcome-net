@@ -31,7 +31,7 @@ var savePackageAndSendResponseForAdd = function(res, volunteer, config) {
   // Strip out "other" text fields that are not stored in DB
   delete responseObject.languageOther;
 
-  console.log('--before Volunteer.create(): packaged responseObject: ', responseObject);
+  // console.log('--before Volunteer.create(): packaged responseObject: ', responseObject);
 
   Volunteer.create(volunteer,
     function(err, volunteer) {
@@ -40,7 +40,8 @@ var savePackageAndSendResponseForAdd = function(res, volunteer, config) {
         sendJsonResponse(res, 400, err);
       }
       else {
-        console.log('sending responseObject: ', responseObject);
+        console.log('sending responseObject');
+        // console.log('sending responseObject: ', responseObject);
         sendJsonResponse(res, 201, responseObject);
       }
     }
@@ -81,11 +82,12 @@ module.exports.volunteersCreate = function(req, res) {
         requestOptions,
         function(err, response, configResponseObject) {
           console.log('---callback: Receive response from API call to update config with new language');
-          console.log('configResponseObject: ', configResponseObject);
+          // console.log('configResponseObject: ', configResponseObject);
 
           // add err handling TODO
 
           // Add language index to volunteer's list of languages spoken
+          console.log("In volunteer-API: configResponseObject.newLanguage", configResponseObject.newLanguage);
           volunteer.languages.push(configResponseObject.newLanguage);
 
           // ----- Create response object, store volunteer in DB, and send responseObject ---- //
@@ -99,7 +101,7 @@ module.exports.volunteersCreate = function(req, res) {
   else {
     // ----- Create response object, store volunteer in DB, and send responseObject ---- //
     console.log('no new language added.  package and send response for add');
-    console.log('yoyo volunteer: ', volunteer);
+    // console.log('yoyo volunteer: ', volunteer);
     // create a config object so it is not undefined when calling packageAndSendResponseForAdd()
     var config = null;
     savePackageAndSendResponseForAdd(res, volunteer, config);

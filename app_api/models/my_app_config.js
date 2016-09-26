@@ -38,3 +38,4 @@ var myAppConfigSchema = new mongoose.Schema({
 });
 
 mongoose.model("My_app_config", myAppConfigSchema);
+mongoose.model("Language", languageSchema);
