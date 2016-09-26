@@ -21,4 +21,6 @@ var volunteerSchema = new mongoose.Schema({
   donorStatus: Number
 });
 
+// donorStatus: 0 - no. 1 - yes. 2 - contacted
+
 mongoose.model("Volunteer", volunteerSchema);

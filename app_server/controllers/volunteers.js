@@ -32,8 +32,6 @@ module.exports.doAddVolunteer = function(req, res) {
 
   // ------- Normalize data TODO --------- //
 
-
-
   // ------ Extract data from POST request and repackage to send to API ------ //
   var volunteer = {};
   var var_name = "";
@@ -54,14 +52,14 @@ module.exports.doAddVolunteer = function(req, res) {
 
   console.log('Subscribe to Email List: ' + req.body.subscribe);
   if (req.body.email_list == "Yes") {
-    volunteer.emailList = true;
+    volunteer.subscribe = true;
   }
   else if (req.body.email_list == "No") {
-    volunteer.emailList = false;
+    volunteer.subscribe = false;
   }
   else {
     console.log("************** ERROR with req.body.email_list...not Yes or No!! ********");
-    volunteer.emailList = false;
+    volunteer.subscribe = false;
   }
 
   // "undefined" = not checked; "on" - checked
@@ -130,7 +128,10 @@ module.exports.doAddVolunteer = function(req, res) {
   volunteer.affiliation = req.body.affiliation;
 
   console.log('Hear About: ' + req.body.hear_about);
-  volunteer.hearAbout = req.body.hear_about;
+  volunteer.hearAboutUs = req.body.hear_about;
+
+  volunteer.admin = false;
+  volunteer.donorStatus = 0;
 
   console.log('Normalized & packaged volunteer before calling add volunteer API:');
   console.log(volunteer);
