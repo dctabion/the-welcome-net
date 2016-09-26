@@ -30,7 +30,7 @@ block content
     .col-md-2
       h3 Quick Search
       button
-        a Subscribers
+        a(href="/volunteers?subscribers=true") Subscribers
       button
         a Drivers
       button
@@ -45,25 +45,25 @@ block content
         select(class="form-control", name="opportunity" )  
           option(value="") 
           each opportunity in opportunityCategories
-            option(value="opportunity_#{opportunity._id}") #{opportunity.displayText}
+            option(value="#{opportunity._id}") #{opportunity.displayText}
       .form-group
         label(for="language") Language
         select(class="form-control", name="language" )  
           option(value="") 
           each language in languages
-            option(value="language_#{language._id}") #{language.displayText}   
+            option(value="#{language._id}") #{language.displayText}   
       .form-group
         label(for="hear_about") Hear About
         select(class="form-control", name="hear_about" )  
           option(value="") 
           each hearAbout in hearAbouts
-            option(value="hear_about_#{hearAbout._id}") #{hearAbout.displayText}
+            option(value="#{hearAbout._id}") #{hearAbout.displayText}
       .form-group
         label(for="affiliation") Affiliation
         select(class="form-control", name="affiliation" )  
           option(value="") Choose One
           each affiliation in affiliations
-            option(value="affiliation_#{affiliation._id}") #{affiliation.displayText}
+            option(value="#{affiliation._id}") #{affiliation.displayText}
       //- .form-group
       //-   label(for="how_often") How Often
       //-   select(class="form-control", name="how_often" )  

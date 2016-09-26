@@ -29,9 +29,7 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('======================');
 
   // ------- Validate data TODO --------- //
-
   // ------- Normalize data TODO --------- //
-
   // ------ Extract data from POST request and repackage to send to API ------ //
   var volunteer = {};
   var var_name = "";
@@ -51,10 +49,10 @@ module.exports.doAddVolunteer = function(req, res) {
   volunteer.email = req.body.email;
 
   console.log('Subscribe to Email List: ' + req.body.subscribe);
-  if (req.body.email_list == "Yes") {
+  if (req.body.subscribe == "Yes") {
     volunteer.subscribe = true;
   }
-  else if (req.body.email_list == "No") {
+  else if (req.body.subscribe == "No") {
     volunteer.subscribe = false;
   }
   else {
@@ -193,12 +191,33 @@ module.exports.getVolunteerList = function(req, res) {
 
   request(
     requestOptions,
-    function(err, response, body) {
+    function(err, response, volunteers) {
       console.log('---callback: Receive response from API call');
-      console.log('body: ', body);
+      // console.log('body: ', body);
+
+      // Filter the array
+      function filterVolunteers(volunteer) {
+        // Filter out non subscribers
+        if (req.query.subscribers == "true") {
+          if (volunteer.subscribe == true) {
+            return true;
+          }
+          else {
+            return false;
+          }
+        }
+        else {
+          return true;
+        }
+      }
+
+      console.log("filtering subscribers");
+      var filteredVolunteers = volunteers.filter(filterVolunteers);
+      volunteers = filteredVolunteers;
+
       res.render('volunteerList', {
         title: 'VOLUNTEER LIST',
-        volunteers: body,
+        volunteers: volunteers,
         affiliations: global.myAppConfig.affiliations,
         hearAbouts: global.myAppConfig.hearAbouts,
         languages: global.myAppConfig.languages,
