@@ -197,20 +197,24 @@ module.exports.getVolunteerList = function(req, res) {
 
       // Filter the array
       function filterVolunteers(volunteer) {
-        // Filter out non subscribers
-        if (req.query.subscribers == "true") {
-          if (volunteer.subscribe == true) {
-            return true;
-          }
-          else {
-            return false;
-          }
+
+        if ( (req.query.subscribers == "true") && (volunteer.subscribe == false) ) {
+          return false;
         }
+
+        if ( (req.query.drivers == "true") && (volunteer.reliableTransportation == false) ) {
+          return false;
+        }
+
+        if ( (req.query.family_participation == "true") && (volunteer.familyParticipation == false) ) {
+          return false;
+        }
+
         else {
           return true;
         }
+        
       }
-
       console.log("filtering subscribers");
       var filteredVolunteers = volunteers.filter(filterVolunteers);
       volunteers = filteredVolunteers;

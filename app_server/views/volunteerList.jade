@@ -32,9 +32,9 @@ block content
       button
         a(href="/volunteers?subscribers=true") Subscribers
       button
-        a Drivers
+        a(href="/volunteers?drivers=true") Drivers
       button
-        a Family Participation
+        a(href="/volunteers?family_participation=true") Family Participation
             
       h3 Custom Search
       form(class="" role="form" data-toggle="validator" action='' method='post')
@@ -88,6 +88,10 @@ block content
           label.font-weight-normal(for="family_opportunity") Family Opportunity
       // SUBMIT      
       button.btn.btn-default.submit(type="submit" class="btn btn-default") Search  
+      input(type="button", class="btn btn-default", value="Clear", onclick="window.location.href='/volunteers/'") 
+      
+      
+        
       
           
         
