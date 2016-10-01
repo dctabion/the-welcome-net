@@ -3,7 +3,7 @@ extends layout
 block content
   h1(class='bg-primary title')=title
   .row
-    .col-md-10
+    div(class="col-md-10" id="my-table")
       table(class='table table-bordered')
         each volunteer in volunteers
           tr
@@ -27,71 +27,78 @@ block content
             //-     li
             //-       button edit 
 
+    // ----------- SEARCH PANEL ------- //
     .col-md-2
+    
+      // -------------- QUICK SEARCH ------------- //
       h3 Quick Search
       button
-        a(href="/volunteers?subscribers=true") Subscribers
+        a(href="/volunteers?subscribers=on") Subscribers
       button
-        a(href="/volunteers?drivers=true") Drivers
+        a(href="/volunteers?drivers=on") Drivers
       button
-        a(href="/volunteers?family_participation=true") Family Participation
+        a(href="/volunteers?family_participation=on") Family Participation
             
+      // ------------ CUSTOM SEARCH FORM -------------- //
       h3 Custom Search
-      form(class="" role="form" data-toggle="validator" action='' method='post')
+      form(class="", role="form", data-toggle="validator", action='/volunteers', method='get')
 
-      // AFFILATION
-      .form-group
-        label(for="opportunity") Opportunity
-        select(class="form-control", name="opportunity" )  
-          option(value="") 
-          each opportunity in opportunityCategories
-            option(value="#{opportunity._id}") #{opportunity.displayText}
-      .form-group
-        label(for="language") Language
-        select(class="form-control", name="language" )  
-          option(value="") 
-          each language in languages
-            option(value="#{language._id}") #{language.displayText}   
-      .form-group
-        label(for="hear_about") Hear About
-        select(class="form-control", name="hear_about" )  
-          option(value="") 
-          each hearAbout in hearAbouts
-            option(value="#{hearAbout._id}") #{hearAbout.displayText}
-      .form-group
-        label(for="affiliation") Affiliation
-        select(class="form-control", name="affiliation" )  
-          option(value="") Choose One
-          each affiliation in affiliations
-            option(value="#{affiliation._id}") #{affiliation.displayText}
-      //- .form-group
-      //-   label(for="how_often") How Often
-      //-   select(class="form-control", name="how_often" )  
-      //-     option(value="") 
-      //-     each how_often, key in how_oftens
-      //-       option(value="#{key}") #{how_often}            
-      //- .form-group
-      //-   label(for="time_of_day") Time Of Day
-      //-   select(class="form-control", name="time_of_day" )  
-      //-     option(value="") 
-      //-     each time_of_day, key in times_of_day
-      //-       option(value="#{key}") #{time_of_day}
-      .form-group
-        div.check_boxes
-          input(type="checkbox" id="driver" name="driver")
-          label.font-weight-normal(for="driver") Driver
-          br
-          input(type="checkbox" id="subscriber" name="subscriber")
-          label.font-weight-normal(for="subscriber") Subscriber
-          br
-          input(type="checkbox" id="family_opportunity" name="family_opportunity")
-          label.font-weight-normal(for="family_opportunity") Family Opportunity
-      // SUBMIT      
-      button.btn.btn-default.submit(type="submit" class="btn btn-default") Search  
-      input(type="button", class="btn btn-default", value="Clear", onclick="window.location.href='/volunteers/'") 
-      
-      
+        // AFFILATION
+        .form-group
+          label(for="opportunity") Opportunity
+          select(class="form-control", name="opportunity" )  
+            option(value="") 
+            each opportunity in opportunityCategories
+              option(value="#{opportunity._id}") #{opportunity.displayText}
+        .form-group
+          label(for="language") Language
+          select(class="form-control", name="language" )  
+            option(value="") 
+            each language in languages
+              option(value="#{language._id}") #{language.displayText}   
+        .form-group
+          label(for="hear_about") Hear About
+          select(class="form-control", name="hear_about" )  
+            option(value="") 
+            each hearAbout in hearAbouts
+              option(value="#{hearAbout._id}") #{hearAbout.displayText}
+        .form-group
+          label(for="affiliation") Affiliation
+          select(class="form-control", name="affiliation" )  
+            option(value="") Choose One
+            each affiliation in affiliations
+              option(value="#{affiliation._id}") #{affiliation.displayText}
+        //- .form-group
+        //-   label(for="how_often") How Often
+        //-   select(class="form-control", name="how_often" )  
+        //-     option(value="") 
+        //-     each how_often, key in how_oftens
+        //-       option(value="#{key}") #{how_often}            
+        //- .form-group
+        //-   label(for="time_of_day") Time Of Day
+        //-   select(class="form-control", name="time_of_day" )  
+        //-     option(value="") 
+        //-     each time_of_day, key in times_of_day
+        //-       option(value="#{key}") #{time_of_day}
+        .form-group
+          div.check_boxes
+            input(type="checkbox" id="drivers" name="drivers")
+            label.font-weight-normal(for="drivers") Driver
+        .form-group
+          div.check_boxes          
+            input(type="checkbox" id="subscribers" name="subscribers")
+            label.font-weight-normal(for="subscribers") Subscriber
+        .form-group
+          div.check_boxes    
+            input(type="checkbox" id="family_participation" name="family_participation")
+            label.font-weight-normal(for="family_participation") Family Participation
+        // SUBMIT      
+        button.btn.btn-default.submit(type="submit" class="btn btn-default") Search  
         
-      
-          
+        // Clear
+        input(type="button", class="btn btn-default my-buttons", value="Clear", onclick="window.location.href='/volunteers/'") 
         
+        
+                
+        button(class="btn btn-default button my-buttons" id="copy-button" data-clipboard-target="#my-table") Copy!!!
+        script(type='text/javascript') (function(){new Clipboard('#copy-button');})();

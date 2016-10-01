@@ -195,26 +195,31 @@ module.exports.getVolunteerList = function(req, res) {
       console.log('---callback: Receive response from API call');
       // console.log('body: ', body);
 
-      // Filter the array
+      // -- Filter the list -- //
+
+      // Filter function.  Returns: true=keep item in array.  false=remove item from array
       function filterVolunteers(volunteer) {
-
-        if ( (req.query.subscribers == "true") && (volunteer.subscribe == false) ) {
+        // if user chooses to filter by subscriber & user is not a suscriber
+        if ( (req.query.subscribers == "on") && (volunteer.subscribe == false) ) {
           return false;
         }
 
-        if ( (req.query.drivers == "true") && (volunteer.reliableTransportation == false) ) {
+        // if user chooses to filter by driver & user is not a driver
+        if ( (req.query.drivers == "on") && (volunteer.reliableTransportation == false) ) {
           return false;
         }
 
-        if ( (req.query.family_participation == "true") && (volunteer.familyParticipation == false) ) {
+        // if user chooses to filter by family participation & user is not looking for family participaion
+        if ( (req.query.family_participation == "on") && (volunteer.familyParticipation == false) ) {
           return false;
         }
 
         else {
           return true;
         }
-        
       }
+
+      // Perform filtering of volunteer list
       console.log("filtering subscribers");
       var filteredVolunteers = volunteers.filter(filterVolunteers);
       volunteers = filteredVolunteers;
