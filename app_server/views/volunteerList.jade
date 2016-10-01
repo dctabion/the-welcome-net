@@ -102,6 +102,19 @@ block content
         input(type="button", class="btn btn-default search-buttons", value="Clear", onclick="window.location.href='/volunteers/'") 
         
         
-                
-        button(class="btn btn-default button search-buttons" id="copy-button" data-clipboard-target="#my-table" data-toggle="tooltip" data-placement="right" title="Copy table to clipboard") Copy
-        script(type='text/javascript') (function(){new Clipboard('#copy-button');})();
+        // Copy Table
+        button(class="btn btn-default button search-buttons" id="copy-button-entire-table" data-clipboard-target="#my-table" data-toggle="tooltip" data-placement="right" title="Copy table to clipboard") Copy Table
+        script(type='text/javascript') (function(){new Clipboard('#copy-button-entire-table');})();
+        
+        // Copy Emails
+        button(class="btn btn-default button search-buttons" id="copy-button-emails-only" data-clipboard-target="#my-table-emails-only" data-toggle="tooltip" data-placement="right" title="Copy emails to clipboard") Copy Emails
+        script(type='text/javascript') (function(){new Clipboard('#copy-button-emails-only');})();
+      
+      
+  // Hidden email table      
+  .row
+    div(class="col-md-9 hidden" id="my-table-emails-only" )
+      table(class='table table-bordered')
+        each volunteer in volunteers
+          tr
+            td #{volunteer.email}
