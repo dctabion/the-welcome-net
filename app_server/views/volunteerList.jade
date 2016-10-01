@@ -3,7 +3,7 @@ extends layout
 block content
   h1(class='bg-primary title')=title
   .row
-    div(class="col-md-10" id="my-table")
+    div(class="col-md-9" id="my-table")
       table(class='table table-bordered')
         each volunteer in volunteers
           tr
@@ -28,16 +28,19 @@ block content
             //-       button edit 
 
     // ----------- SEARCH PANEL ------- //
-    .col-md-2
+    .col-md-3
     
       // -------------- QUICK SEARCH ------------- //
       h3 Quick Search
-      button
-        a(href="/volunteers?subscribers=on") Subscribers
-      button
-        a(href="/volunteers?drivers=on") Drivers
-      button
-        a(href="/volunteers?family_participation=on") Family Participation
+      div
+        button
+          a(href="/volunteers?subscribers=on") Subscribers
+      div
+        button
+          a(href="/volunteers?drivers=on") Drivers
+      div
+        button
+          a(href="/volunteers?family_participation=on") Family Participation
             
       // ------------ CUSTOM SEARCH FORM -------------- //
       h3 Custom Search
@@ -93,12 +96,12 @@ block content
             input(type="checkbox" id="family_participation" name="family_participation")
             label.font-weight-normal(for="family_participation") Family Participation
         // SUBMIT      
-        button.btn.btn-default.submit(type="submit" class="btn btn-default") Search  
+        button.btn.btn-default.submit.search-buttons(type="submit" class="btn btn-default") Search  
         
         // Clear
-        input(type="button", class="btn btn-default my-buttons", value="Clear", onclick="window.location.href='/volunteers/'") 
+        input(type="button", class="btn btn-default search-buttons", value="Clear", onclick="window.location.href='/volunteers/'") 
         
         
                 
-        button(class="btn btn-default button my-buttons" id="copy-button" data-clipboard-target="#my-table") Copy!!!
+        button(class="btn btn-default button search-buttons" id="copy-button" data-clipboard-target="#my-table" data-toggle="tooltip" data-placement="right" title="Copy table to clipboard") Copy
         script(type='text/javascript') (function(){new Clipboard('#copy-button');})();
