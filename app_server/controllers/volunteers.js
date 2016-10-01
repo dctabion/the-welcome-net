@@ -195,28 +195,94 @@ module.exports.getVolunteerList = function(req, res) {
       console.log('---callback: Receive response from API call');
       // console.log('body: ', body);
 
-      // -- Filter the list -- //
-
-      // Filter function.  Returns: true=keep item in array.  false=remove item from array
+      // Filter volunteers function.  Returns: TRUE=keep item in array.  FALSE=remove item from array
+      // Must pass all queries/filters to return TRUE
+      // Once it fails a filter/query, stop filtering and return FALSE
+      // If it matches a filter/query, set keep_volunteer to TRUE and continue filtering
       function filterVolunteers(volunteer) {
-        // if user chooses to filter by subscriber & user is not a suscriber
+        // By default, remove subscriber from list.  Tests will change to true
+        var keep_volunteer = false;
+
+        // Subscriber Filter
         if ( (req.query.subscribers == "on") && (volunteer.subscribe == false) ) {
           return false;
         }
 
-        // if user chooses to filter by driver & user is not a driver
+        // Driver Filter
         if ( (req.query.drivers == "on") && (volunteer.reliableTransportation == false) ) {
           return false;
         }
 
-        // if user chooses to filter by family participation & user is not looking for family participaion
+        // Family Participation
         if ( (req.query.family_participation == "on") && (volunteer.familyParticipation == false) ) {
           return false;
         }
 
+        // Opportunity
+        if ( (req.query.opportunity != undefined) && (req.query.opportunity != "") ){
+          console.log('this includes an opp query: ', req.query.opportunity);
+          // console.log('volunteer.opportunityCategories:', volunteer.opportunityCategories);
+          for (var i=0; i < volunteer.opportunityCategories.length; i++) {
+            // if it matches, keep this volunteer in the list
+            if (volunteer.opportunityCategories[i] == req.query.opportunity) {
+              console.log('keeping!');
+              keep_volunteer = true;
+            }
+          }
+
+          // no match! Remove volunteer from list
+          if (keep_volunteer == false) {
+            return false;
+          }
+        }
+
+        // Language
+        if ( (req.query.language != undefined) && (req.query.language != "") ){
+          console.log('this includes a language query: ', req.query.language);
+          for (var i=0; i < volunteer.languages.length; i++) {
+            // if it matches, keep this volunteer in the list
+            if (volunteer.languages[i] == req.query.language) {
+              console.log('keeping!');
+              keep_volunteer = true;
+            }
+          }
+
+          // no match! Remove volunteer from list
+          if (keep_volunteer == false) {
+            return false;
+          }
+        }
+
+        // Hear Abouts
+        if ( (req.query.hear_about != undefined) && (req.query.hear_about != "") ) {
+          if (volunteer.hearAboutUs == req.query.hear_about) {
+            keep_volunteer = true;
+          }
+          // no match! Remove volunteer from list
+          if (keep_volunteer == false) {
+           return false;
+          }
+        }
+
+        // Affiliation
+        if ( (req.query.affiliation != undefined) && (req.query.affiliation != "") ) {
+          if (volunteer.affiliation == req.query.affiliation) {
+            keep_volunteer = true;
+          }
+          // no match! Remove volunteer from list
+          if (keep_volunteer == false) {
+           return false;
+          }
+        }
+
+
+        // no query
         else {
           return true;
         }
+
+        // queries but didn't return yet
+        return keep_volunteer;
       }
 
       // Perform filtering of volunteer list

@@ -65,7 +65,7 @@ block content
         .form-group
           label(for="affiliation") Affiliation
           select(class="form-control", name="affiliation" )  
-            option(value="") Choose One
+            option(value="")
             each affiliation in affiliations
               option(value="#{affiliation._id}") #{affiliation.displayText}
         //- .form-group
