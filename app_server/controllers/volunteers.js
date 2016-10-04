@@ -10,6 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
   // console.log('global.myAppConfig: ', global.myAppConfig);
+  global.myAppVars.admin = false;
 
   res.render('register', {
     title: 'VOLUNTEER REGISTRATION',
@@ -18,7 +19,8 @@ module.exports.addVolunteer = function(req, res) {
     languages: global.myAppConfig.languages,
     howOftens: global.myAppConfig.howOftens,
     timesOfDay: global.myAppConfig.timesOfDay,
-    opportunityCategories: global.myAppConfig.opportunityCategories
+    opportunityCategories: global.myAppConfig.opportunityCategories,
+    admin: global.myAppVars.admin
   });
 
 };
@@ -298,7 +300,8 @@ module.exports.getVolunteerList = function(req, res) {
         languages: global.myAppConfig.languages,
         howOftens: global.myAppConfig.howOftens,
         timesOfDay: global.myAppConfig.timesOfDay,
-        opportunityCategories: global.myAppConfig.opportunityCategories
+        opportunityCategories: global.myAppConfig.opportunityCategories,
+        admin: global.myAppVars.admin
       });
     });
 };

@@ -18,8 +18,9 @@ html
           ul.nav.navbar-nav
             li
               a(href='/volunteers/new') Register
-            li
-              a(href='/volunteers') Volunteer List
+            if (admin == true)
+              li
+                a(href='/volunteers') Volunteer List
             //- li
             //-   a(href='/volunteers/view') View
             //- li

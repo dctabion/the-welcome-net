@@ -61,6 +61,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+
+
+// ----------- CONFIGURE APPLICATION ------------- //
+
 // Custom app config variable
 global.myAppConfig = {};
 
@@ -107,6 +112,8 @@ request(
 
 
 
-
+// --------- INTIALIZE OTHER GLOBALS ------------- //
+global.myAppVars = {};
+global.myAppVars.admin == false;
 
 module.exports = app;

@@ -1,9 +1,8 @@
-/* GET home page */
+/* GET Admin Home Page */
 module.exports.index = function(req, res, next) {
-  global.myAppVars.admin = false;
-  
+  global.myAppVars.admin = true;
   res.render('index', {
-    title: 'Volunteer Portal Home',
+    title: 'Admin Home',
     admin: global.myAppVars.admin
   });
 };
