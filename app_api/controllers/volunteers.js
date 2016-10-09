@@ -109,7 +109,26 @@ module.exports.volunteersCreate = function(req, res) {
 }
 
 module.exports.volunteersReadOne = function(req, res) {
-  sendJsonResponse(res, 200, "Sweet");
+  console.log('---app_api: volunteersReadOne()');
+
+  Volunteer.findById(req.params.volunteerId).exec(function(err, volunteer){
+    // Volunteers not found.  NULL
+    if (!volunteer) {
+      sendJsonResponse(res, 404, { messages: "volunteerID not found"});
+      return;
+    }
+
+    // DB error
+    else if (err) {
+      sendJsonResponse(res, 404, err);
+      return;
+    }
+
+    // Send the volunteer list
+    else {
+      sendJsonResponse(res, 200, volunteer);
+    }
+  });
 }
 
 
@@ -119,7 +138,7 @@ module.exports.volunteersList = function(req, res) {
   Volunteer.find().exec(function(err, volunteers){
     // Volunteers not found.  NULL
     if (!volunteers) {
-      sendJsonResponse(res, 404, { messages: "locationid not found"});
+      sendJsonResponse(res, 404, { messages: "volunteers not found"});
       return;
     }
 

@@ -5,7 +5,7 @@ var ctrOptions = require('../controllers/options');
 
 router.post('/volunteers', ctrVolunteers.volunteersCreate);
 router.get('/volunteers', ctrVolunteers.volunteersList);
-router.get('/volunteers/:volunteerid', ctrVolunteers.volunteersReadOne);
+router.get('/volunteers/:volunteerId', ctrVolunteers.volunteersReadOne);
 
 router.get('/config', ctrOptions.readAppConfig);
 router.post('/config/language/new/:language', ctrOptions.addNewLanguage);

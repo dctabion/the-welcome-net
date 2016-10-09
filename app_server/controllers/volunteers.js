@@ -10,9 +10,9 @@ if (process.env.NODE_ENV === 'production') {
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
   // console.log('global.myAppConfig: ', global.myAppConfig);
-  global.myAppVars.admin = false;
+  // global.myAppVars.admin = false;
 
-  res.render('register', {
+  res.render('volunteerRegister', {
     title: 'VOLUNTEER REGISTRATION',
     affiliations: global.myAppConfig.affiliations,
     hearAbouts: global.myAppConfig.hearAbouts,
@@ -22,7 +22,6 @@ module.exports.addVolunteer = function(req, res) {
     opportunityCategories: global.myAppConfig.opportunityCategories,
     admin: global.myAppVars.admin
   });
-
 };
 
 module.exports.doAddVolunteer = function(req, res) {
@@ -175,6 +174,93 @@ module.exports.doAddVolunteer = function(req, res) {
       });
 
     });
+};
+
+module.exports.editVolunteer = function(req, res) {
+  console.log('---app_server: editVolunteer()');
+  // console.log('global.myAppConfig: ', global.myAppConfig);
+  // console.log('req.query.opportunity_categories: ', req.query.opportunity_categories);
+  // console.log('typeof: ', typeof(req.query.opportunity_categories));
+  console.log('req.params.id: ', req.params.id);
+
+  // Get volunteer info from database
+  var requestOptions, path;
+  path = '/api/volunteers/' + req.params.id;
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {},
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, volunteer) {
+      console.log('---callback: Receive response from API call');
+      console.log('volunteer:', volunteer);
+
+      // create arrays for user settings for checklists
+      var opportunitySelections = [];
+      var checked;
+      for (var i=0; i < global.myAppConfig.opportunityCategories.length; i++) {
+        checked = "";
+        for (var j=0; j< volunteer.opportunityCategories.length; j++) {
+          // found a match.  set checked to true and break.
+          if (volunteer.opportunityCategories[j] == global.myAppConfig.opportunityCategories[i]._id) {
+            checked = "checked";
+            // console.log("matched an opportunity");
+            break;
+          }
+        }
+        // console.log("checked: ", checked);
+        opportunitySelections.push(checked);
+      }
+      console.log("opportunitySelections: ",opportunitySelections);
+
+
+
+
+      // create arrays for user settings for checklists
+      var languageSelections = [];
+      var checked;
+      for (var i=0; i < global.myAppConfig.languages.length; i++) {
+        checked = "";
+        for (var j=0; j< volunteer.languages.length; j++) {
+          // found a match.  set checked to true and break.
+          if (volunteer.languages[j] == global.myAppConfig.languages[i]._id) {
+            checked = "checked";
+            // console.log("matched an language");
+            break;
+          }
+        }
+        // console.log("checked: ", checked);
+        languageSelections.push(checked);
+      }
+      console.log("languageSelections: ",languageSelections);
+
+
+
+
+
+
+      res.render('volunteerEdit', {
+        title: 'VOLUNTEER EDIT',
+        affiliations: global.myAppConfig.affiliations,
+        hearAbouts: global.myAppConfig.hearAbouts,
+        languages: global.myAppConfig.languages,
+        howOftens: global.myAppConfig.howOftens,
+        timesOfDay: global.myAppConfig.timesOfDay,
+        opportunityCategories: global.myAppConfig.opportunityCategories,
+        admin: global.myAppVars.admin,
+        volunteer: volunteer,
+        opportunitySelections: opportunitySelections,
+        languageSelections: languageSelections
+      }); // end res.render()
+    }); // end request()
+
+
 };
 
 module.exports.getVolunteerList = function(req, res) {
