@@ -116,9 +116,11 @@ request(
 global.myAppVars = {};
 if (process.env.FORCE_ADMIN == "true") {
   global.myAppVars.admin == true;
+  console.log('Forcing Adming Mode!');
 }
 else {
   global.myAppVars.admin == false;
+  console.log('Starting in Volunteer Mode');
 }
 
 module.exports = app;

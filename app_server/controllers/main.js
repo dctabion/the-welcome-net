@@ -2,7 +2,13 @@
 module.exports.index = function(req, res, next) {
   // TODO - fix when authentication is implemented
   // Set to user to volunteer
-  global.myAppVars.admin = false;
+  if (process.env.FORCE_ADMIN=="true") {
+    global.myAppVars.admin = true;
+
+  }
+  else {
+    global.myAppVars.admin = false;
+  }
 
   res.render('index', {
     title: 'Volunteer Portal Home',
