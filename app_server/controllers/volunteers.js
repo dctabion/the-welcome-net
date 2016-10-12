@@ -244,6 +244,50 @@ module.exports.editVolunteer = function(req, res) {
 
 
 
+      // // create arrays for user settings for checklists
+      // var howOftenSelection = "";
+      // var checked;
+      // for (var i=0; i < global.myAppConfig.howOftens.length; i++) {
+      //   checked = "";
+      //   // found a match.  set checked to true and break.
+      //   if (volunteer.howOften == global.myAppConfig.howOftens[i]._id) {
+      //     checked = "checked";
+      //     // console.log("matched an language");
+      //     break;
+      //   }
+      //   // console.log("checked: ", checked);
+      //   howOftenSelection = global.myAppConfig.howOftens[i]._id;
+      // }
+      // console.log("howOftenSelection: ",howOftenSelection);
+
+
+
+      // create arrays for user settings for checklists
+      var timesOfDaySelections = [];
+      var checked;
+      for (var i=0; i < global.myAppConfig.timesOfDay.length; i++) {
+        checked = "";
+        for (var j=0; j< volunteer.timesOfDay.length; j++) {
+          // found a match.  set checked to true and break.
+          if (volunteer.timesOfDay[j] == global.myAppConfig.timesOfDay[i]._id) {
+            checked = "checked";
+            // console.log("matched an language");
+            break;
+          }
+        }
+        // console.log("checked: ", checked);
+        timesOfDaySelections.push(checked);
+      }
+      console.log("timesOfDaySelections: ",timesOfDaySelections);
+
+
+
+
+
+
+
+
+
 
       res.render('volunteerEdit', {
         title: 'VOLUNTEER EDIT',
@@ -256,7 +300,8 @@ module.exports.editVolunteer = function(req, res) {
         admin: global.myAppVars.admin,
         volunteer: volunteer,
         opportunitySelections: opportunitySelections,
-        languageSelections: languageSelections
+        languageSelections: languageSelections,
+        timesOfDaySelections: timesOfDaySelections
       }); // end res.render()
     }); // end request()
 

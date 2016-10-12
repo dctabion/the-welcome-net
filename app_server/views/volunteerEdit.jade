@@ -90,10 +90,14 @@ block content
             // HOW OFTEN
             .form-group      
               label(for="how_often") Approximately how often can you volunteer?
-              select(class="form-control", name="how_often" )
+              select(class="form-control", name="how_often")
                 option(value="") Choose One
                 each howOften, key in howOftens
-                  option(value="#{howOften._id}") #{howOften.displayText}
+                  if volunteer.howOften != howOften._id
+                    option(value="#{howOften._id}") #{howOften.displayText}
+                  else
+                    option(value="#{howOften._id}", selected="selected") #{howOften.displayText}
+
                 
             // TIMES OF DAY
             .form-group
@@ -102,8 +106,12 @@ block content
               div.check_boxes
                 each timeOfDay, index in timesOfDay
                   div
-                    input(type="checkbox", id="time_of_day_#{timeOfDay._id}", name="time_of_day_#{timeOfDay._id}")
-                    label.font-weight-normal(for="time_of_day_#{timeOfDay._id}") #{timeOfDay.displayText}
+                    if (timesOfDaySelections[index] == "checked") 
+                      input(type="checkbox", id="#{timeOfDay._id}", name="#{timeOfDay._id}", checked)
+                      label.font-weight-normal(for="#{timeOfDay._id}") #{timeOfDay.displayText}
+                    else  
+                      input(type="checkbox", id="#{timeOfDay._id}", name="#{timeOfDay._id}")
+                      label.font-weight-normal(for="#{timeOfDay._id}") #{timeOfDay.displayText}
               
             // RELIABLE CAR & CAN DRIVE?
             .form-group  
@@ -111,9 +119,15 @@ block content
                 strong Do you have a reliable vehicle and are able to drive?
               div.radio_buttons
                 label.font-weight-normal(for="reliable_transportation") Yes
-                input(type="radio", name="reliable_transportation", value="Yes" )
-                label.font-weight-normal(for="reliable_transportation") No      
-                input(type="radio", name="reliable_transportation", value="No" )
+                if (volunteer.reliableTransportation)
+                  input(type="radio", name="reliable_transportation", value="Yes", checked)
+                  label.font-weight-normal(for="reliable_transportation") No      
+                  input(type="radio", name="reliable_transportation", value="No" )
+                else
+                  input(type="radio", name="reliable_transportation", value="Yes")
+                  label.font-weight-normal(for="reliable_transportation") No      
+                  input(type="radio", name="reliable_transportation", value="No", checked)
+              
             
             // FAMILY PARTICIPATION
             .form-group
@@ -121,17 +135,40 @@ block content
                 strong I am interested in opportunities that my family/children can participate in:
               div.radio_buttons
                 label.font-weight-normal(for="family_participation") Yes
-                input(type="radio", name="family_participation", value="Yes" )
-                label.font-weight-normal(for="family_paticipation") No      
-                input(type="radio", name="family_participation", value="No" )
-
+                if (volunteer.familyParticipation)
+                  input(type="radio", name="family_participation", value="Yes", checked)
+                  label.font-weight-normal(for="family_paticipation") No      
+                  input(type="radio", name="family_participation", value="No" )
+                else
+                  input(type="radio", name="family_participation", value="Yes" )
+                  label.font-weight-normal(for="family_paticipation") No      
+                  input(type="radio", name="family_participation", value="No", checked)
+                  
             // AFFILATION
             .form-group
               label(for="affiliation") Church or Organizational Affiliation
               select(class="form-control", name="affiliation" )  
                 option(value="") Choose One
                 each affiliation, key in affiliations
-                  option(value="#{affiliation._id}") #{affiliation.displayText}
+                  if volunteer.affiliation == affiliation._id
+                    option(value="#{affiliation._id}" selected="selected") #{affiliation.displayText}
+                  else
+                    option(value="#{affiliation._id}") #{affiliation.displayText}
+
+            //- .form-group      
+            //-   label(for="how_often") Approximately how often can you volunteer?
+            //-   select(class="form-control", name="how_often")
+            //-     option(value="") Choose One
+            //-     each howOften, key in howOftens
+            //-       if volunteer.howOften != howOften._id
+            //-         option(value="#{howOften._id}") #{howOften.displayText}
+            //-       else
+            //-         option(value="#{howOften._id}", selected="selected") #{howOften.displayText}
+
+                                      
+  
+  
+                  
                   
             // HEAR ABOUT US
             .form-group
@@ -139,7 +176,11 @@ block content
               select(class="form-control", name="hear_about" )
                 option(value="") Choose One
                 each hearAbout, key in hearAbouts
-                  option(value="#{hearAbout._id}") #{hearAbout.displayText}
+                  if volunteer.hearAboutUs == hearAbout._id
+                    option(value="#{hearAbout._id}" selected="selected") #{hearAbout.displayText}
+                  else
+                    option(value="#{hearAbout._id}") #{hearAbout.displayText}
+
             
             // SUBMIT      
             //- button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
