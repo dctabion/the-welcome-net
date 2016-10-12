@@ -5,6 +5,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 mongoose.connect(dbURI);
+console.log(dbURI);
 
 /* --- Handle Mongoose connection events --- */
 
