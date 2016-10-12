@@ -129,7 +129,13 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('Hear About: ' + req.body.hear_about);
   volunteer.hearAboutUs = req.body.hear_about;
 
-  volunteer.admin = false;
+
+  if (process.env.FORCE_ADMIN == "true") {
+    volunter.admin = true;
+  }
+  else {
+    volunteer.admin = false;
+  }
   volunteer.donorStatus = 0;
 
   console.log('Normalized & packaged volunteer before calling add volunteer API:');
