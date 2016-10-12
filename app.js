@@ -114,6 +114,11 @@ request(
 
 // --------- INTIALIZE OTHER GLOBALS ------------- //
 global.myAppVars = {};
-global.myAppVars.admin == false;
+if (process.env.FORCE_ADMIN == "true") {
+  global.myAppVars.admin == true;
+}
+else {
+  global.myAppVars.admin == false;
+}
 
 module.exports = app;
