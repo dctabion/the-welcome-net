@@ -3,7 +3,7 @@ var apiOptions = {
   server: "http://localhost:3000"
 };
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = "https://morning-scrubland-42645.herokuapp.com";
+  apiOptions.server = process.env.APP_URL;
 }
 
 
@@ -437,6 +437,9 @@ module.exports.getVolunteerList = function(req, res) {
     });
 };
 
+
+
 module.exports.getPrincess = function(req, res) {
+  console.log("---app_server: getPrincess()");
   res.render('z-princess');
 };

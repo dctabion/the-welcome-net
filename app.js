@@ -75,7 +75,7 @@ var apiOptions = {
   server: "http://localhost:3000"
 };
 if (process.env.NODE_ENV === 'production') {
-  apiOptions.server = "https://morning-scrubland-42645.herokuapp.com";
+  apiOptions.server = process.env.APP_URL;
 }
 
 var requestOptions, path;
