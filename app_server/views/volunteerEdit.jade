@@ -63,11 +63,11 @@ block content
                 each opportunity, index in opportunityCategories
                   div
                     if (opportunitySelections[index] == "checked")
-                      input(type="checkbox", id="#{opportunity._id}", name="#{opportunity._id}" checked)
-                      label.font-weight-normal(for="#{opportunity._id}") #{opportunity.displayText}
+                      input(type="checkbox", id="opportunity_#{opportunity._id}", name="opportunity_#{opportunity._id}" checked)
+                      label.font-weight-normal(for="opportunity_#{opportunity._id}") #{opportunity.displayText}
                     else
-                      input(type="checkbox", id="#{opportunity._id}", name="#{opportunity._id}")
-                      label.font-weight-normal(for="#{opportunity._id}") #{opportunity.displayText}
+                      input(type="checkbox", id="opportunity_#{opportunity._id}", name="opportunity_#{opportunity._id}")
+                      label.font-weight-normal(for="opportunity_#{opportunity._id}") #{opportunity.displayText}
             
             // LANGUAGES SPOKEN  
             .form-group
@@ -77,11 +77,11 @@ block content
                 each language, index in languages
                   div
                     if (languageSelections[index] == "checked")
-                      input(type="checkbox", id="#{language._id}", name="#{language._id}" checked)
-                      label.font-weight-normal(for="#{language._id}") #{language.displayText}
+                      input(type="checkbox", id="language_#{language._id}", name="language_#{language._id}" checked)
+                      label.font-weight-normal(for="language_#{language._id}") #{language.displayText}
                     else
-                      input(type="checkbox", id="#{language._id}", name="#{language._id}")
-                      label.font-weight-normal(for="#{language._id}") #{language.displayText}  
+                      input(type="checkbox", id="language_#{language._id}", name="language_#{language._id}")
+                      label.font-weight-normal(for="language_#{language._id}") #{language.displayText}  
                       
               // OTHER
               label(for="language_other" class="font-weight-normal") Other
@@ -107,11 +107,11 @@ block content
                 each timeOfDay, index in timesOfDay
                   div
                     if (timesOfDaySelections[index] == "checked") 
-                      input(type="checkbox", id="#{timeOfDay._id}", name="#{timeOfDay._id}", checked)
-                      label.font-weight-normal(for="#{timeOfDay._id}") #{timeOfDay.displayText}
+                      input(type="checkbox", id="time_of_day_#{timeOfDay._id}", name="time_of_day_#{timeOfDay._id}", checked)
+                      label.font-weight-normal(for="time_of_day_#{timeOfDay._id}") #{timeOfDay.displayText}
                     else  
-                      input(type="checkbox", id="#{timeOfDay._id}", name="#{timeOfDay._id}")
-                      label.font-weight-normal(for="#{timeOfDay._id}") #{timeOfDay.displayText}
+                      input(type="checkbox", id="time_of_day_#{timeOfDay._id}", name="time_of_day_#{timeOfDay._id}")
+                      label.font-weight-normal(for="time_of_day_#{timeOfDay._id}") #{timeOfDay.displayText}
               
             // RELIABLE CAR & CAN DRIVE?
             .form-group  
