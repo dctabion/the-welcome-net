@@ -8,7 +8,7 @@ block content
             h3.panel-title.title
               strong=title
         .panel-body
-          form(class="", role="form", data-toggle="validator", action='/volunteers/new', method='post ')
+          form(class="", role="form", data-toggle="validator", action='/volunteers/edit/#{volunteer._id}', method='post')
             
             // FIRST NAME
             .form-group
@@ -165,10 +165,7 @@ block content
             //-       else
             //-         option(value="#{howOften._id}", selected="selected") #{howOften.displayText}
 
-                                      
-  
-  
-                  
+        
                   
             // HEAR ABOUT US
             .form-group
@@ -183,6 +180,6 @@ block content
 
             
             // SUBMIT      
-            //- button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
+            button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
   .container <br>
   .container <br>

@@ -220,9 +220,6 @@ module.exports.editVolunteer = function(req, res) {
       }
       console.log("opportunitySelections: ",opportunitySelections);
 
-
-
-
       // create arrays for user settings for checklists
       var languageSelections = [];
       var checked;
@@ -240,28 +237,6 @@ module.exports.editVolunteer = function(req, res) {
         languageSelections.push(checked);
       }
       console.log("languageSelections: ",languageSelections);
-
-
-
-
-
-      // // create arrays for user settings for checklists
-      // var howOftenSelection = "";
-      // var checked;
-      // for (var i=0; i < global.myAppConfig.howOftens.length; i++) {
-      //   checked = "";
-      //   // found a match.  set checked to true and break.
-      //   if (volunteer.howOften == global.myAppConfig.howOftens[i]._id) {
-      //     checked = "checked";
-      //     // console.log("matched an language");
-      //     break;
-      //   }
-      //   // console.log("checked: ", checked);
-      //   howOftenSelection = global.myAppConfig.howOftens[i]._id;
-      // }
-      // console.log("howOftenSelection: ",howOftenSelection);
-
-
 
       // create arrays for user settings for checklists
       var timesOfDaySelections = [];
@@ -281,15 +256,6 @@ module.exports.editVolunteer = function(req, res) {
       }
       console.log("timesOfDaySelections: ",timesOfDaySelections);
 
-
-
-
-
-
-
-
-
-
       res.render('volunteerEdit', {
         title: 'VOLUNTEER EDIT',
         affiliations: global.myAppConfig.affiliations,
@@ -305,8 +271,6 @@ module.exports.editVolunteer = function(req, res) {
         timesOfDaySelections: timesOfDaySelections
       }); // end res.render()
     }); // end request()
-
-
 };
 
 module.exports.getVolunteerList = function(req, res) {
@@ -438,6 +402,10 @@ module.exports.getVolunteerList = function(req, res) {
     });
 };
 
+module.exports.doEditVolunteer = function(req, res) {
+  console.log("---app_server: doEditVolunteer()");
+  res.send('Dood');
+};
 
 
 module.exports.getPrincess = function(req, res) {
