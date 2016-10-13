@@ -178,7 +178,12 @@ block content
                   else
                     option(value="#{hearAbout._id}") #{hearAbout.displayText}
 
+            .form-group
+              input(type="hidden", name="admin", value="#{volunteer.admin}")
             
+            .form-group
+              input(type="hidden", name="donor_status", value="#{volunteer.donorStatus}")
+              
             // SUBMIT      
             button.btn.btn-default.submit(type="submit" class="btn btn-default") Submit    
   .container <br>
