@@ -279,6 +279,7 @@ module.exports.editVolunteer = function(req, res) {
 
       res.render('volunteerEdit', {
         title: 'VOLUNTEER EDIT',
+        // Globals for form configuration
         affiliations: global.myAppConfig.affiliations,
         hearAbouts: global.myAppConfig.hearAbouts,
         languages: global.myAppConfig.languages,
@@ -286,7 +287,9 @@ module.exports.editVolunteer = function(req, res) {
         timesOfDay: global.myAppConfig.timesOfDay,
         opportunityCategories: global.myAppConfig.opportunityCategories,
         admin: global.myAppVars.admin,
+        // Individual volunteer data
         volunteer: volunteer,
+        // Constructed objects representing volunteer options selected
         opportunitySelections: opportunitySelections,
         languageSelections: languageSelections,
         timesOfDaySelections: timesOfDaySelections
@@ -428,7 +431,44 @@ module.exports.doEditVolunteer = function(req, res) {
 
   var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
 
-  res.send('Dood, I feel lazy. Updated not yet implemented');
+  // Make request to volunteer API to store data
+  var requestOptions, path;
+  path = '/api/volunteers/' + req.body.volunteer_id;
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "PUT",
+    json: volunteer,
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, body) {
+      console.log('---callback: Receive response from API call to POST new volunteer');
+      // console.log('body: ', body);
+
+      // Reconfigure app if new config returned
+      if (body.newConfig) {
+        console.log('got a new config.  Reconfiguring app');
+        global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
+        global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
+        global.myAppConfig.howOftens = body.newConfig.howOftens;
+        global.myAppConfig.languages = body.newConfig.languages;
+        global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
+        global.myAppConfig.affiliations = body.newConfig.affiliations;
+        // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+      }
+
+      res.render('edit_confirmation', {
+        title: "Edit Confirmation",
+        dood: body.dood
+      });
+
+    });
+
+  // res.send('Dood, I feel lazy. Updated not yet implemented');
 };
 
 
