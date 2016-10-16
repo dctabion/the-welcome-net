@@ -6,29 +6,8 @@ if (process.env.NODE_ENV === 'production') {
   apiOptions.server = process.env.APP_URL;
 }
 
-
-module.exports.addVolunteer = function(req, res) {
-  console.log('---app_server: addVolunteer()');
-  // console.log('global.myAppConfig: ', global.myAppConfig);
-  // global.myAppVars.admin = false;
-
-  res.render('volunteerRegister', {
-    title: 'VOLUNTEER REGISTRATION',
-    affiliations: global.myAppConfig.affiliations,
-    hearAbouts: global.myAppConfig.hearAbouts,
-    languages: global.myAppConfig.languages,
-    howOftens: global.myAppConfig.howOftens,
-    timesOfDay: global.myAppConfig.timesOfDay,
-    opportunityCategories: global.myAppConfig.opportunityCategories,
-    admin: global.myAppVars.admin
-  });
-};
-
-module.exports.doAddVolunteer = function(req, res) {
-  console.log('---app_server: doAddVolunteer()');
-  console.log('req.body: ', req.body);
-  console.log('======================');
-
+// Helper Functions for this module
+function validateNormalizeAndPackageVolunteerForApi(req) {
   // ------- Validate data TODO --------- //
   // ------- Normalize data TODO --------- //
   // ------ Extract data from POST request and repackage to send to API ------ //
@@ -146,12 +125,39 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('typeof(req.body.donorStatus): ',typeof(req.body.donor_status));
   volunteer.donorStatus = parseInt(req.body.donor_status);
 
-  console.log('Normalized & packaged volunteer before calling add volunteer API:');
+  console.log('Normalized & packaged volunteer before sending to API:');
   console.log(volunteer);
   console.log('typeof(volunteer.admin): ', typeof(volunteer.admin));
   console.log('typeof(volunteer.donorStatus): ', typeof(volunteer.donorStatus));
   console.log('======================');
 
+  return volunteer;
+}
+
+module.exports.addVolunteer = function(req, res) {
+  console.log('---app_server: addVolunteer()');
+  // console.log('global.myAppConfig: ', global.myAppConfig);
+  // global.myAppVars.admin = false;
+
+  res.render('volunteerRegister', {
+    title: 'VOLUNTEER REGISTRATION',
+    affiliations: global.myAppConfig.affiliations,
+    hearAbouts: global.myAppConfig.hearAbouts,
+    languages: global.myAppConfig.languages,
+    howOftens: global.myAppConfig.howOftens,
+    timesOfDay: global.myAppConfig.timesOfDay,
+    opportunityCategories: global.myAppConfig.opportunityCategories,
+    admin: global.myAppVars.admin
+  });
+};
+
+module.exports.doAddVolunteer = function(req, res) {
+  console.log('---app_server: doAddVolunteer()');
+  console.log('req.body: ', req.body);
+  console.log('======================');
+
+  // Marker
+  var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
 
   // Make request to volunteer API to store data
   var requestOptions, path;
@@ -420,128 +426,7 @@ module.exports.getVolunteerList = function(req, res) {
 module.exports.doEditVolunteer = function(req, res) {
   console.log("---app_server: doEditVolunteer()");
 
-  // ------- Validate data TODO --------- //
-  // ------- Normalize data TODO --------- //
-  // ------ Extract data from POST request and repackage to send to API ------ //
-  var volunteer = {};
-  var var_name = "";
-  console.log('First Name: ' + req.body.first_name);
-  volunteer.firstName = req.body.first_name;
-
-  console.log('Last Name: ' + req.body.last_name);
-  volunteer.lastName = req.body.last_name;
-
-  console.log('Cellphone Number: ' + req.body.cell_number);
-  volunteer.cellNumber = req.body.cell_number;
-
-  console.log('Home Phone Number: ' + req.body.home_number);
-  volunteer.homeNumber = req.body.home_number;
-
-  console.log('Email: ' + req.body.email);
-  volunteer.email = req.body.email;
-
-  console.log('Subscribe to Email List: ' + req.body.subscribe);
-  if (req.body.subscribe == "Yes") {
-    volunteer.subscribe = true;
-  }
-  else if (req.body.subscribe == "No") {
-    volunteer.subscribe = false;
-  }
-  else {
-    console.log("************** ERROR with req.body.email_list...not Yes or No!! ********");
-    volunteer.subscribe = false;
-  }
-
-  // "undefined" = not checked; "on" - checked
-  volunteer.opportunityCategories = [];
-  console.log('Opportunity Categories of Interest:');
-  for (var i=0; i < global.myAppConfig.opportunityCategories.length; i++) {
-    var_name = "req.body.opportunity_" + global.myAppConfig.opportunityCategories[i]._id;
-    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.opportunityCategories[i].displayText + "  " + eval(var_name));
-    if (eval(var_name) == "on") {
-      volunteer.opportunityCategories.push(global.myAppConfig.opportunityCategories[i]._id);
-    }
-  }
-
-  // "undefined" = not checked; "on" - checked
-  volunteer.languages = [];
-  console.log('Languages Spoken:');
-  for (var i=0; i < global.myAppConfig.languages.length; i++) {
-    var_name = "req.body.language_" + global.myAppConfig.languages[i]._id;
-    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.languages[i].displayText + "  " + eval(var_name));
-    if (eval(var_name) == "on") {
-      volunteer.languages.push(global.myAppConfig.languages[i]._id);
-    }
-  }
-
-  console.log('Language Other: ' + req.body.language_other);
-  volunteer.languageOther = req.body.language_other;
-
-  console.log('How often: ' + req.body.how_often);
-  volunteer.howOften = req.body.how_often;
-
-  volunteer.timesOfDay = [];
-  console.log('Times of day: ');
-  for (var i=0; i < global.myAppConfig.timesOfDay.length; i++) {
-    var_name = "req.body.time_of_day_" + global.myAppConfig.timesOfDay[i]._id;
-    console.log("var_name: " + var_name + "  displayText: " + global.myAppConfig.timesOfDay[i].displayText + "  " + eval(var_name));
-    if (eval(var_name) == "on") {
-      volunteer.timesOfDay.push(global.myAppConfig.timesOfDay[i]._id);
-    }
-  }
-
-  console.log('Reliable vehicle and able to drive: ' + req.body.reliable_transportation);
-  if (req.body.reliable_transportation == "Yes") {
-    volunteer.reliableTransportation = true;
-  }
-  else if (req.body.reliable_transportation == "No") {
-    volunteer.reliableTransportation = false;
-  }
-  else {
-    console.log("************** ERROR with req.body.reliable_transportation...not Yes or No!! ********");
-    volunteer.reliableTransportation = false;
-  }
-
-  console.log('Family participation: ' + req.body.family_participation);
-  if (req.body.family_participation == "Yes") {
-    volunteer.familyParticipation = true;
-  }
-  else if (req.body.family_participation == "No"){
-    volunteer.familyParticipation = false;
-  }
-  else {
-    console.log("************** ERROR with req.body.family_participation...not Yes or No!! ********");
-    volunteer.familyParticipation = false;
-  }
-
-  console.log('Affiliation: ' + req.body.affiliation);
-  volunteer.affiliation = req.body.affiliation;
-
-  console.log('Hear About: ' + req.body.hear_about);
-  volunteer.hearAboutUs = req.body.hear_about;
-
-  console.log('Admin: ' + req.body.admin);
-  console.log('typeof(req.body.admin): ',typeof(req.body.admin));
-  if (req.body.admin == "true") {
-    volunteer.admin = true;
-  }
-  else if(req.body.admin == "false") {
-    volunteer.admin = false;
-  }
-  else {
-    console.log('Error!!! req.body.admin was not "true" nor "false".  It is: ', req.body.admin);
-    volunteer.admin = false;
-  }
-
-  console.log('Donor Status: ', req.body.donor_status);
-  console.log('typeof(req.body.donorStatus): ',typeof(req.body.donor_status));
-  volunteer.donorStatus = parseInt(req.body.donor_status);
-
-  console.log('Normalized & packaged volunteer before calling add volunteer API:');
-  console.log(volunteer);
-  console.log('typeof(volunteer.admin): ', typeof(volunteer.admin));
-  console.log('typeof(volunteer.donorStatus): ', typeof(volunteer.donorStatus));
-  console.log('======================');
+  var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
 
   res.send('Dood, I feel lazy. Updated not yet implemented');
 };
