@@ -28,11 +28,10 @@ module.exports.readAppConfig = function(req, res) {
     else {
       console.log('Options config read successfully.');
       var config = config_array[0];
-      // console.log('config: ', config);
       sendJsonResponse(res, 200, config);
     }
   });
-}
+};
 
 // -- These functions handle adding new item to the configurable lists for registration -- //
 // --------------------------------------------------------------------------------------- //
@@ -89,7 +88,8 @@ module.exports.addNewLanguage = function(req, res) {
       }
     });
   }
-}
+};
+
 
 
 module.exports.addNewAffiliation = function(req, res) {
@@ -99,9 +99,9 @@ module.exports.addNewAffiliation = function(req, res) {
   configResponseObject = {};
 
   // No language in request body
-  if (!req.params.language) {
+  if (!req.params.affiliation) {
     sendJsonResponse(res, 404, {
-      "message": "request does not have a language to add in params"
+      "message": "request does not have an affiliation to add in params"
     });
   }
   // request has new language
@@ -118,11 +118,10 @@ module.exports.addNewAffiliation = function(req, res) {
       // add subdocument and save
       else {
         var config = config_array[0];
-        var newLanguage = { displayText: req.params.language };
-        // console.log('language object to store.  newLanguage: ', newLanguage);
+        var newAffiliation = { displayText: req.params.affiliation };
 
         // add config to parent doc & save to DB
-        config.languages.push(newLanguage);
+        config.affiliations.push(newAffiliation);
 
         // save config and send response object
         config.save(function(err, newConfig){
@@ -131,13 +130,13 @@ module.exports.addNewAffiliation = function(req, res) {
           }
           else {
             // console.log("newConfig: ", newConfig);
-            // console.log("newConfig.languages: ", newConfig.languages);
-            // console.log("new Language: ", newConfig.languages[newConfig.languages.length - 1]);
+            // console.log("newConfig.affiliations: ", newConfig.affiliations);
+            // console.log("new Affiliation: ", newConfig.affiliations[newConfig.affiliations.length - 1]);
 
             // package response object
             var configResponseObject = {};
             configResponseObject.newConfig = newConfig;
-            configResponseObject.newLanguage = newConfig.languages[newConfig.languages.length - 1]._id;
+            configResponseObject.newAffiliation = newConfig.affiliations[newConfig.affiliations.length - 1]._id;
             console.log("in options-API: configResponseObject.newLanguage: ", configResponseObject.newLanguage);
             sendJsonResponse(res, 200, configResponseObject);
           }
@@ -145,4 +144,4 @@ module.exports.addNewAffiliation = function(req, res) {
       }
     });
   }
-}
+};
