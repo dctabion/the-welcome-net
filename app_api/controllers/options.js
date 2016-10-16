@@ -145,3 +145,59 @@ module.exports.addNewAffiliation = function(req, res) {
     });
   }
 };
+
+
+
+module.exports.addNewOpportunity = function(req, res) {
+  console.log('---app_api: addNewOpportunity()');
+  console.log('req.params: ', req.params);
+
+  configResponseObject = {};
+
+  // No language in request body
+  if (!req.params.opportunity) {
+    sendJsonResponse(res, 404, {
+      "message": "request does not have an opportunity to add in params"
+    });
+  }
+  // request has new language
+  else {
+    ConfigOptions.find(function(err, config_array){
+      // DB error
+      if (err) {
+        sendJsonResponse(res, 400, err);
+      }
+      else if (!config_array) {
+        sendJsonResponse(res, 400, { "message" : "No config found!"});
+      }
+      // No DB err
+      // add subdocument and save
+      else {
+        var config = config_array[0];
+        var newOpportunity = { displayText: req.params.opportunity };
+
+        // add config to parent doc & save to DB
+        config.opportunityCategories.push(newOpportunity);
+
+        // save config and send response object
+        config.save(function(err, newConfig){
+          if (err) {
+            sendJsonResponse(res, 500, err);
+          }
+          else {
+            // console.log("newConfig: ", newConfig);
+            // console.log("newConfig.opportunityCategories: ", newConfig.opportunityCategories);
+            // console.log("new Opportunity: ", newConfig.opportunityCategories[newConfig.opportunityCategories.length - 1]);
+
+            // package response object
+            var configResponseObject = {};
+            configResponseObject.newConfig = newConfig;
+            configResponseObject.newOpportunity = newConfig.opportunityCategories[newConfig.opportunityCategories.length - 1]._id;
+            console.log("in options-API: configResponseObject.newOpportunity: ", configResponseObject.newOpportunity);
+            sendJsonResponse(res, 200, configResponseObject);
+          }
+        });
+      }
+    });
+  }
+};

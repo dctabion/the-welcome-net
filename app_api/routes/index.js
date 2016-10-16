@@ -11,6 +11,8 @@ router.put('/volunteers/:volunteerId', ctrVolunteers.volunteersEditOne);
 router.get('/config', ctrOptions.readAppConfig);
 router.post('/config/language/new/:language', ctrOptions.addNewLanguage);
 router.post('/config/affiliation/new/:affiliation', ctrOptions.addNewAffiliation);
+router.post('/config/opportunity/new/:opportunity', ctrOptions.addNewOpportunity);
+
 // router.post('/config/affiliation/new/:affiliation', ctrOptions.doodicus);
 
 module.exports = router;
