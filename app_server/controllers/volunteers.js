@@ -171,7 +171,7 @@ module.exports.doAddVolunteer = function(req, res) {
       console.log('---callback: Receive response from API call to POST new volunteer');
       // console.log('body: ', body);
 
-      // Reconfigure app if new config available
+      // Reconfigure app if new config returned
       if (body.newConfig) {
         console.log('got a new config.  Reconfiguring app');
         global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
