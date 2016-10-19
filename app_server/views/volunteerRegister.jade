@@ -65,12 +65,15 @@ block content
               div.check_boxes
                 each language, index in languages
                   div
-                  input(type="checkbox", id="language_#{language._id}", name="language_#{language._id}")
-                  label.font-weight-normal(for="language_#{language._id}") #{language.displayText}
-                  
+                    input(type="checkbox", id="language_#{language._id}", name="language_#{language._id}")
+                    label.font-weight-normal(for="language_#{language._id}") #{language.displayText}
+                div    
+                  input(type="checkbox", id="language_other", name="language_other")
+                  label.font-weight-normal(for="language_other") Other
               // OTHER
-              label(for="language_other" class="font-weight-normal") Other
-              input.other-checkbox(type="text", id="language_other", name="language_other")
+              div(id="other-language-container")
+                label(for="language_other" class="font-weight-normal") Please specify
+                input.other-checkbox(type="text", id="language_other", name="language_other")
             
             // HOW OFTEN
             .form-group      
@@ -122,7 +125,7 @@ block content
               // OTHER
               div(id="other-affiliation-container")
                 //- p Please Specify
-                label(for="affiliation_other" class="font-weight-normal") Please Specify
+                label(for="affiliation_other" class="font-weight-normal") Please specify
                 input.other-dropdown(type="text", id="affiliation_other", name="affiliation_other")
                   
             // HEAR ABOUT US
@@ -136,7 +139,7 @@ block content
                   
               // OTHER
               div(id="other-hear-about-container")
-                label(for="hear_about_other" class="font-weight-normal") Please Specify  
+                label(for="hear_about_other" class="font-weight-normal") Please specify  
                 input.other-dropdown(type="text", id="hear_about_other", name="hear_about_other")      
                   
         
