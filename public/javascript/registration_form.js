@@ -1,6 +1,6 @@
-$('#language_other').change(function() {
+$('#language_other_selection').change(function() {
   // if ($('#language_other').checked) {
-  if ($('#language_other').is(':checked')) {
+  if ($('#language_other_selection').is(':checked')) {
     console.log('show');
     $('#other-language-container').show();
   }
