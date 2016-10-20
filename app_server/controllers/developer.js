@@ -9,6 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /* GET home page */
 module.exports.doReconfig = function(req, res, next) {
+  console.log('---app_server: doReconfig()');
   console.log('Reconfiguring Application!')
 
   var requestOptions, path;
@@ -42,7 +43,38 @@ module.exports.doReconfig = function(req, res, next) {
     }
   );
 
-  res.render('developer_reconfig', { title: 'Reconfiguring App' });
+  res.render('developer_confirmation', { title: 'Reconfigured the application' });
 
 
+};
+
+module.exports.doDumpConfig = function(req, res) {
+  console.log('---app_server: doDumpConfig()');
+  console.log('global.myAppConfig: ', global.myAppConfig);
+  res.render('developer_confirmation', { title: 'Configuration Dumped'})
+};
+
+module.exports.doDumpVolunteers = function(req, res) {
+  console.log('---app_server: doDumpVolunteers()');
+
+  var requestOptions, path;
+  path = '/api/volunteers';
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {},
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, volunteers) {
+      // TODO add error catching
+      console.log('---callback: app_server received response from API call');
+      console.log('volunteers: ', volunteers);
+      res.render('developer_confirmation', { title: 'Volunteers Dumped'})
+    }
+  );
 };
