@@ -179,7 +179,7 @@ module.exports.doAddVolunteer = function(req, res) {
 
       // Reconfigure app if new config returned
       if (body.newConfig) {
-        console.log('got a new config.  Reconfiguring app');
+        console.log('got a new config. Reconfiguring app');
         global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
         global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
         global.myAppConfig.howOftens = body.newConfig.howOftens;
@@ -446,7 +446,7 @@ module.exports.doEditVolunteer = function(req, res) {
   request(
     requestOptions,
     function(err, response, body) {
-      console.log('---callback: Receive response from API call to POST new volunteer');
+      console.log('---callback: Receive response from API call to PUT new volunteer');
       // console.log('body: ', body);
 
       // Reconfigure app if new config returned

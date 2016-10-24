@@ -159,8 +159,10 @@ module.exports.volunteersList = function(req, res) {
 module.exports.volunteersEditOne = function(req, res) {
   console.log('---app_api: volunteersEditOne()');
   // TODO
-  var volunteer = {
-    dood: "dood"
-  };
+  // var volunteer = {
+  //   dood: "dood"
+  // };
+
+  
   sendJsonResponse(res, 200, volunteer);
 };
