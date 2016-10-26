@@ -39,8 +39,6 @@ module.exports.addNewLanguage = function(req, res) {
   console.log('---app_api: addNewLanguage()');
   console.log('req.params: ', req.params);
 
-  configResponseObject = {};
-
   // No language in request body
   if (!req.params.language) {
     sendJsonResponse(res, 404, {
@@ -57,7 +55,7 @@ module.exports.addNewLanguage = function(req, res) {
       else if (!config_array) {
         sendJsonResponse(res, 400, { "message" : "No config found!"});
       }
-      // No DB err
+      // No DB err.  Found config_array
       // add subdocument and save
       else {
         var config = config_array[0];
@@ -72,17 +70,13 @@ module.exports.addNewLanguage = function(req, res) {
           if (err) {
             sendJsonResponse(res, 500, err);
           }
+          // successfully saved new config to DB
           else {
-            // console.log("newConfig: ", newConfig);
-            // console.log("newConfig.languages: ", newConfig.languages);
-            // console.log("new Language: ", newConfig.languages[newConfig.languages.length - 1]);
-
             // package response object
-            var configResponseObject = {};
-            configResponseObject.newConfig = newConfig;
-            configResponseObject.newLanguage = newConfig.languages[newConfig.languages.length - 1]._id;
-            console.log("in options-API: configResponseObject.newLanguage: ", configResponseObject.newLanguage);
-            sendJsonResponse(res, 200, configResponseObject);
+            var newLanguage;
+            newLanguage = newConfig.languages[newConfig.languages.length - 1];
+            console.log("in options-API: newLanguage: ", newLanguage);
+            sendJsonResponse(res, 200, newLanguage);
           }
         });
       }
@@ -95,8 +89,6 @@ module.exports.addNewLanguage = function(req, res) {
 module.exports.addNewAffiliation = function(req, res) {
   console.log('---app_api: addNewAffiliation()');
   console.log('req.params: ', req.params);
-
-  configResponseObject = {};
 
   // No language in request body
   if (!req.params.affiliation) {
@@ -114,7 +106,7 @@ module.exports.addNewAffiliation = function(req, res) {
       else if (!config_array) {
         sendJsonResponse(res, 400, { "message" : "No config found!"});
       }
-      // No DB err
+      // No DB err.  Found config_array
       // add subdocument and save
       else {
         var config = config_array[0];
@@ -128,17 +120,13 @@ module.exports.addNewAffiliation = function(req, res) {
           if (err) {
             sendJsonResponse(res, 500, err);
           }
+          // successfully saved new config to DB
           else {
-            // console.log("newConfig: ", newConfig);
-            // console.log("newConfig.affiliations: ", newConfig.affiliations);
-            // console.log("new Affiliation: ", newConfig.affiliations[newConfig.affiliations.length - 1]);
-
             // package response object
-            var configResponseObject = {};
-            configResponseObject.newConfig = newConfig;
-            configResponseObject.newAffiliation = newConfig.affiliations[newConfig.affiliations.length - 1]._id;
-            console.log("in options-API: configResponseObject.newLanguage: ", configResponseObject.newLanguage);
-            sendJsonResponse(res, 200, configResponseObject);
+            var newAffiliation;
+            newAffiliation = newConfig.affiliations[newConfig.affiliation.length - 1];
+            console.log("in options-API: newAffiliation: ", newAffiliation);
+            sendJsonResponse(res, 200, newAffiliation);
           }
         });
       }
@@ -152,10 +140,8 @@ module.exports.addNewOpportunity = function(req, res) {
   console.log('---app_api: addNewOpportunity()');
   console.log('req.params: ', req.params);
 
-  configResponseObject = {};
-
   // No language in request body
-  if (!req.params.opportunity) {
+  if (!req.params.opportunity_category) {
     sendJsonResponse(res, 404, {
       "message": "request does not have an opportunity to add in params"
     });
@@ -170,31 +156,27 @@ module.exports.addNewOpportunity = function(req, res) {
       else if (!config_array) {
         sendJsonResponse(res, 400, { "message" : "No config found!"});
       }
-      // No DB err
+      // No DB err.  Found config_array
       // add subdocument and save
       else {
         var config = config_array[0];
-        var newOpportunity = { displayText: req.params.opportunity };
+        var newOpportunityCategory = { displayText: req.params.opportunity_category };
 
         // add config to parent doc & save to DB
-        config.opportunityCategories.push(newOpportunity);
+        config.opportunityCategories.push(newOpportunityCategory);
 
         // save config and send response object
         config.save(function(err, newConfig){
           if (err) {
             sendJsonResponse(res, 500, err);
           }
+          // successfully saved new config to DB
           else {
-            // console.log("newConfig: ", newConfig);
-            // console.log("newConfig.opportunityCategories: ", newConfig.opportunityCategories);
-            // console.log("new Opportunity: ", newConfig.opportunityCategories[newConfig.opportunityCategories.length - 1]);
-
             // package response object
-            var configResponseObject = {};
-            configResponseObject.newConfig = newConfig;
-            configResponseObject.newOpportunity = newConfig.opportunityCategories[newConfig.opportunityCategories.length - 1]._id;
-            console.log("in options-API: configResponseObject.newOpportunity: ", configResponseObject.newOpportunity);
-            sendJsonResponse(res, 200, configResponseObject);
+            var newOpportunityCategory;
+            newOpportunityCategory = newConfig.opportunityCategories[newConfig.opportunityCategories.length - 1];
+            console.log("in options-API: newOpportunityCategory: ", newOpportunityCategory);
+            sendJsonResponse(res, 200, newOpportunityCategory);
           }
         });
       }
