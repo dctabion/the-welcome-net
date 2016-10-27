@@ -251,46 +251,75 @@ module.exports.doAddVolunteer = function(req, res) {
 
     var volunteer = validateNormalizeAndPackageVolunteerForApi(req, results);
 
-    // Make request to volunteer API to store data
-    var requestOptions, path;
-    path = '/api/volunteers';
-    requestOptions = {
-      url: apiOptions.server + path,
-      method: "POST",
-      json: volunteer,
-      qs: {
-        // query string
-      }
+    var addVolunteerRequest = function(callback) {
+      // Make request to volunteer API to store data
+      var requestOptions, path;
+      path = '/api/volunteers';
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "POST",
+        json: volunteer,
+        qs: {
+          // query string
+        }
+      };
+
+      request(
+        requestOptions,
+        function(err, response, volunteer) {
+          console.log('---callback: Receive response from API call to POST new volunteer');
+          callback(null, volunteer);
+        }
+      );
     };
 
-    request(
-      requestOptions,
-      function(err, response, volunteer) {
-        console.log('---callback: Receive response from API call to POST new volunteer');
+    var reconfigureAppRequest = function(callback) {
+      // Make request to volunteer API to store data
+      var requestOptions, path;
+      path = '/api/config';
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {},
+        qs: {
+          // query string
+        }
+      };
 
+      request(
+        requestOptions,
+        function(err, response, newConfig) {
+          console.log('---callback: Receive response from API call to GET new config');
+          console.log('Reconfiguring app');
+          global.myAppConfig.opportunityCategories = newConfig.opportunityCategories;
+          global.myAppConfig.timesOfDay = newConfig.timesOfDay;
+          global.myAppConfig.howOftens = newConfig.howOftens;
+          global.myAppConfig.languages = newConfig.languages;
+          global.myAppConfig.hearAbouts = newConfig.hearAbouts;
+          global.myAppConfig.affiliations = newConfig.affiliations;
+          
+          callback(null, newConfig);
+        }
+      );
+    };
+
+    async.parallel([
+      addVolunteerRequest,
+      reconfigureAppRequest,
+      ],
+      function(err, results) {
+        console.log('volunteer added & app reconfigured!');
         res.render('register_confirmation', {
           title: "Registration Confirmation",
-          first_name: volunteer.firstName,
-          last_name: volunteer.lastName
+          first_name: results[0].firstName,
+          last_name: results[0].lastName
         });
-      }); // close anon function() and request()
+      }
+    ); // close outer callback & outer async.parallel set
   });
-
-  console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
+    console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
 };
 
-
-// // Reconfigure app if new config returned
-// if (body.newConfig) {
-//   console.log('got a new config. Reconfiguring app');
-//   global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
-//   global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
-//   global.myAppConfig.howOftens = body.newConfig.howOftens;
-//   global.myAppConfig.languages = body.newConfig.languages;
-//   global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
-//   global.myAppConfig.affiliations = body.newConfig.affiliations;
-//   // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
-// }
 
 
 
