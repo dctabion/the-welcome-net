@@ -14,25 +14,14 @@ var sendJsonResponse = function(res, status, content) {
   res.json(content);
 }
 
+module.exports.volunteersCreate = function(req, res) {
+  console.log('---app_api: volunteersCreate()');
 
-// This utility function saves volunteer to database, packages & and sends response object for adding volunteer
-var savePackageAndSendResponseForAdd = function(res, volunteer, config) {
-  console.log('--savePackageAndSendResponseForAdd() helper');
-  // Package response object
-  var responseObject = {
-    volunteer: volunteer,
-    newConfig: null
-  };
-
-  if (config) {
-    responseObject.newConfig = config;
-  }
-
-  // Strip out "other" text fields that are not stored in DB
-  delete responseObject.languageOther;
-
-  // console.log('--before Volunteer.create(): packaged responseObject: ', responseObject);
-
+  //------- Create and fill volunteer object ------//
+  var volunteer = req.body;
+  console.log('volunteer = req.body:');
+  console.log(volunteer);
+  // savePackageAndSendResponseForAdd(res, volunteer, config);
   Volunteer.create(volunteer,
     function(err, volunteer) {
       if (err) {
@@ -40,73 +29,12 @@ var savePackageAndSendResponseForAdd = function(res, volunteer, config) {
         sendJsonResponse(res, 400, err);
       }
       else {
-        console.log('sending responseObject');
-        // console.log('sending responseObject: ', responseObject);
-        sendJsonResponse(res, 201, responseObject);
+        console.log('created new volunteer!');
+        sendJsonResponse(res, 201, volunteer);
       }
     }
   );
 };
-
-module.exports.volunteersCreate = function(req, res) {
-  console.log('---app_api: volunteersCreate()');
-
-  var variable_name = "";
-
-  //------- Create and fill volunteer object ------//
-  var volunteer = req.body;
-  console.log('volunteer = req.body:');
-  console.log(volunteer);
-
-  // Validate & Normalize volunteer object
-  // TODO
-
-
-
-  // Add new language to configuration if necessary
-  if (volunteer.languageOther) {
-    if(volunteer.languageOther.length > 0) {
-      // Add new language to config file
-      var requestOptions, path;
-      path = '/api/config/language/new/' + volunteer.languageOther;
-      requestOptions = {
-        url: apiOptions.server + path,
-        method: "POST",
-        json: {},
-        qs: {
-          // query string
-        }
-      };
-
-      request(
-        requestOptions,
-        function(err, response, configResponseObject) {
-          console.log('---callback: Receive response from API call to update config with new language');
-          // console.log('configResponseObject: ', configResponseObject);
-
-          // add err handling TODO
-
-          // Add language index to volunteer's list of languages spoken
-          console.log("In volunteer-API: configResponseObject.newLanguage", configResponseObject.newLanguage);
-          volunteer.languages.push(configResponseObject.newLanguage);
-
-          // ----- Create response object, store volunteer in DB, and send responseObject ---- //
-          savePackageAndSendResponseForAdd(res, volunteer, configResponseObject.newConfig);
-        }
-      );
-    }
-  }
-
-  // No new language added
-  else {
-    // ----- Create response object, store volunteer in DB, and send responseObject ---- //
-    console.log('no new language added.  package and send response for add');
-    // console.log('yoyo volunteer: ', volunteer);
-    // create a config object so it is not undefined when calling packageAndSendResponseForAdd()
-    var config = null;
-    savePackageAndSendResponseForAdd(res, volunteer, config);
-  }
-}
 
 module.exports.volunteersReadOne = function(req, res) {
   console.log('---app_api: volunteersReadOne()');
@@ -163,6 +91,6 @@ module.exports.volunteersEditOne = function(req, res) {
   //   dood: "dood"
   // };
 
-  
+
   sendJsonResponse(res, 200, volunteer);
 };

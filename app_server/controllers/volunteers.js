@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 // Helper Functions for this module
-function validateNormalizeAndPackageVolunteerForApi(req) {
+function validateNormalizeAndPackageVolunteerForApi(req, addedItems) {
   // ------- Validate data TODO --------- //
   // ------- Normalize data TODO --------- //
   // ------ Extract data from POST request and repackage to send to API ------ //
@@ -66,9 +66,6 @@ function validateNormalizeAndPackageVolunteerForApi(req) {
     }
   }
 
-  // console.log('Language Other: ' + req.body.language_other);
-  // volunteer.languageOther = req.body.language_other;
-
   console.log('How often: ' + req.body.how_often);
   volunteer.howOften = req.body.how_often;
 
@@ -109,15 +106,22 @@ function validateNormalizeAndPackageVolunteerForApi(req) {
   console.log('Affiliation: ' + req.body.affiliation);
   volunteer.affiliation = req.body.affiliation;
 
-  // console.log('Affiliation Other: ', req.body.affiliation_other);
-  // volunteer.affiliationOther = req.body.affiliation_other
-
   console.log('Hear About: ' + req.body.hear_about);
   volunteer.hearAboutUs = req.body.hear_about;
 
   // console.log('Hear About Other: ', req.body.hear_about_other);
   // volunteer.hearAboutUsOther = req.body.hear_about_other;
 
+  for (var i=0; i<addedItems.length; i++) {
+    if(addedItems[i].type == "language") {
+      volunteer.languages.push(addedItems[i].data._id);
+    }
+    else if((addedItems[i].type == "affiliation") && (req.body.affiliation == "other")) {
+      volunteer.affiliation = addedItems[i].data._id;
+    }
+  }
+
+  // Params not specified by user
   console.log('Admin: ' + req.body.admin);
   console.log('typeof(req.body.admin): ',typeof(req.body.admin));
   if (req.body.admin == "true") {
@@ -197,7 +201,7 @@ module.exports.doAddVolunteer = function(req, res) {
       requestOptions,
       function(err, response, newLanguage) {
         console.log('---callback: Receive response from API call to POST new language');
-        callback(err, {language: newLanguage});
+        callback(err, {type: "language", data: newLanguage});
       }
     );
   };
@@ -219,7 +223,7 @@ module.exports.doAddVolunteer = function(req, res) {
       requestOptions,
       function(err, response, newAffiliation) {
         console.log('---callback: Receive response from API call to POST new affiliation');
-        callback(err, {affiliation: newAffiliation});
+        callback(err, { type: "affiliation", data: newAffiliation});
       }
     );
   };
@@ -244,68 +248,52 @@ module.exports.doAddVolunteer = function(req, res) {
     // remove dummy result;
     results.shift()
     console.log("results:", results);
-    res.render('register_confirmation', {
-      title: "Registration Confirmation",
-      // first_name: language._id,
-      // last_name: language.displayText
-    });
+
+    var volunteer = validateNormalizeAndPackageVolunteerForApi(req, results);
+
+    // Make request to volunteer API to store data
+    var requestOptions, path;
+    path = '/api/volunteers';
+    requestOptions = {
+      url: apiOptions.server + path,
+      method: "POST",
+      json: volunteer,
+      qs: {
+        // query string
+      }
+    };
+
+    request(
+      requestOptions,
+      function(err, response, volunteer) {
+        console.log('---callback: Receive response from API call to POST new volunteer');
+
+        res.render('register_confirmation', {
+          title: "Registration Confirmation",
+          first_name: volunteer.firstName,
+          last_name: volunteer.lastName
+        });
+      }); // close anon function() and request()
   });
 
   console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
-
-  // if other language...
-  // API add language, push to volunteer languages array
-
-  // if other affiliation...
-  // API add affiliation, change affiliation from "other" to new id
-
-  // if other hear about...
-  // API add hearAbout, change hearAbout from "other" to new id
-
-
-
-
-
-
-  // var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
-  //
-  // // Make request to volunteer API to store data
-  // var requestOptions, path;
-  // path = '/api/volunteers';
-  // requestOptions = {
-  //   url: apiOptions.server + path,
-  //   method: "POST",
-  //   json: volunteer,
-  //   qs: {
-  //     // query string
-  //   }
-  // };
-  //
-  // request(
-  //   requestOptions,
-  //   function(err, response, body) {
-  //     console.log('---callback: Receive response from API call to POST new language');
-  //
-  //     // Reconfigure app if new config returned
-  //     if (body.newConfig) {
-  //       console.log('got a new config. Reconfiguring app');
-  //       global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
-  //       global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
-  //       global.myAppConfig.howOftens = body.newConfig.howOftens;
-  //       global.myAppConfig.languages = body.newConfig.languages;
-  //       global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
-  //       global.myAppConfig.affiliations = body.newConfig.affiliations;
-  //       // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
-  //     }
-  //
-  //     res.render('register_confirmation', {
-  //       title: "Registration Confirmation",
-  //       first_name: body.volunteer.firstName,
-  //       last_name: body.volunteer.lastName
-  //     });
-  //
-  //   });
 };
+
+
+// // Reconfigure app if new config returned
+// if (body.newConfig) {
+//   console.log('got a new config. Reconfiguring app');
+//   global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
+//   global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
+//   global.myAppConfig.howOftens = body.newConfig.howOftens;
+//   global.myAppConfig.languages = body.newConfig.languages;
+//   global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
+//   global.myAppConfig.affiliations = body.newConfig.affiliations;
+//   // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+// }
+
+
+
 
 module.exports.editVolunteer = function(req, res) {
   console.log('---app_server: editVolunteer()');
