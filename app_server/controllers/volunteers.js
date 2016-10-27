@@ -1,3 +1,5 @@
+var async = require('async');
+
 var request = require('request');
 var apiOptions = {
   server: "http://localhost:3000"
@@ -11,6 +13,8 @@ function validateNormalizeAndPackageVolunteerForApi(req) {
   // ------- Validate data TODO --------- //
   // ------- Normalize data TODO --------- //
   // ------ Extract data from POST request and repackage to send to API ------ //
+  console.log('validateNormalizeAndPackageVolunteerForApi()');
+  console.log('normalizing the data!');
   var volunteer = {};
   var var_name = "";
   console.log('First Name: ' + req.body.first_name);
@@ -62,8 +66,8 @@ function validateNormalizeAndPackageVolunteerForApi(req) {
     }
   }
 
-  console.log('Language Other: ' + req.body.language_other);
-  volunteer.languageOther = req.body.language_other;
+  // console.log('Language Other: ' + req.body.language_other);
+  // volunteer.languageOther = req.body.language_other;
 
   console.log('How often: ' + req.body.how_often);
   volunteer.howOften = req.body.how_often;
@@ -105,8 +109,14 @@ function validateNormalizeAndPackageVolunteerForApi(req) {
   console.log('Affiliation: ' + req.body.affiliation);
   volunteer.affiliation = req.body.affiliation;
 
+  // console.log('Affiliation Other: ', req.body.affiliation_other);
+  // volunteer.affiliationOther = req.body.affiliation_other
+
   console.log('Hear About: ' + req.body.hear_about);
   volunteer.hearAboutUs = req.body.hear_about;
+
+  // console.log('Hear About Other: ', req.body.hear_about_other);
+  // volunteer.hearAboutUsOther = req.body.hear_about_other;
 
   console.log('Admin: ' + req.body.admin);
   console.log('typeof(req.body.admin): ',typeof(req.body.admin));
@@ -156,46 +166,145 @@ module.exports.doAddVolunteer = function(req, res) {
   console.log('req.body: ', req.body);
   console.log('======================');
 
-  // Marker
-  var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
+  // Build array of async requests
+  var apiRequests = [];
 
-  // Make request to volunteer API to store data
-  var requestOptions, path;
-  path = '/api/volunteers';
-  requestOptions = {
-    url: apiOptions.server + path,
-    method: "POST",
-    json: volunteer,
-    qs: {
-      // query string
-    }
+  // load a dummy function so at least there is one async call and the results callback executes
+  var tmpFunction = function(callback) {
+    setTimeout(function(){
+      console.log('function one timeout done!');
+      callback(null, { dummy: "dummy"} );
+    }, 1)};
+
+  apiRequests.push(tmpFunction);
+
+  // -- Prepare functions that may be conditionally added -- //
+
+  // --- function to POST new language to API -- //
+  var newLanguageRequest = function(callback) {
+    var requestOptions, path;
+    path = '/api/config/languages/new/' + req.body.language_other;
+    requestOptions = {
+      url: apiOptions.server + path,
+      method: "POST",
+      json: {},
+      qs: {
+        // query string
+      }
+    };
+
+    request(
+      requestOptions,
+      function(err, response, newLanguage) {
+        console.log('---callback: Receive response from API call to POST new language');
+        callback(err, {language: newLanguage});
+      }
+    );
   };
 
-  request(
-    requestOptions,
-    function(err, response, body) {
-      console.log('---callback: Receive response from API call to POST new volunteer');
-      // console.log('body: ', body);
-
-      // Reconfigure app if new config returned
-      if (body.newConfig) {
-        console.log('got a new config. Reconfiguring app');
-        global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
-        global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
-        global.myAppConfig.howOftens = body.newConfig.howOftens;
-        global.myAppConfig.languages = body.newConfig.languages;
-        global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
-        global.myAppConfig.affiliations = body.newConfig.affiliations;
-        // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+  // --- function to POST new affilation to API -- //
+  var newAffiliationRequest = function(callback) {
+    var requestOptions, path;
+    path = '/api/config/affiliations/new/' + req.body.affiliation_other;
+    requestOptions = {
+      url: apiOptions.server + path,
+      method: "POST",
+      json: {},
+      qs: {
+        // query string
       }
+    };
 
-      res.render('register_confirmation', {
-        title: "Registration Confirmation",
-        first_name: body.volunteer.firstName,
-        last_name: body.volunteer.lastName
-      });
+    request(
+      requestOptions,
+      function(err, response, newAffiliation) {
+        console.log('---callback: Receive response from API call to POST new affiliation');
+        callback(err, {affiliation: newAffiliation});
+      }
+    );
+  };
 
+  // other language selected by registrant && the other language is not an empty string
+  if ((req.body.language_other_selection == "on") && (req.body.language_other.length > 0)) {
+    console.log('need to add a new language');
+    // add API request to add new language
+    apiRequests.push(newLanguageRequest);
+  }
+
+  // other affiliation selected by registrant && the other affiliation is not an empty string
+  if ((req.body.affiliation == "other") && (req.body.affiliation_other.length > 0)) {
+    console.log('need to add a new affiliation');
+    // add API request to add new language
+    apiRequests.push(newAffiliationRequest);
+  }
+
+  // execute async calls
+  async.parallel(apiRequests,
+    function(err, results) {
+    // remove dummy result;
+    results.shift()
+    console.log("results:", results);
+    res.render('register_confirmation', {
+      title: "Registration Confirmation",
+      // first_name: language._id,
+      // last_name: language.displayText
     });
+  });
+
+  console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
+
+  // if other language...
+  // API add language, push to volunteer languages array
+
+  // if other affiliation...
+  // API add affiliation, change affiliation from "other" to new id
+
+  // if other hear about...
+  // API add hearAbout, change hearAbout from "other" to new id
+
+
+
+
+
+
+  // var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
+  //
+  // // Make request to volunteer API to store data
+  // var requestOptions, path;
+  // path = '/api/volunteers';
+  // requestOptions = {
+  //   url: apiOptions.server + path,
+  //   method: "POST",
+  //   json: volunteer,
+  //   qs: {
+  //     // query string
+  //   }
+  // };
+  //
+  // request(
+  //   requestOptions,
+  //   function(err, response, body) {
+  //     console.log('---callback: Receive response from API call to POST new language');
+  //
+  //     // Reconfigure app if new config returned
+  //     if (body.newConfig) {
+  //       console.log('got a new config. Reconfiguring app');
+  //       global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
+  //       global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
+  //       global.myAppConfig.howOftens = body.newConfig.howOftens;
+  //       global.myAppConfig.languages = body.newConfig.languages;
+  //       global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
+  //       global.myAppConfig.affiliations = body.newConfig.affiliations;
+  //       // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+  //     }
+  //
+  //     res.render('register_confirmation', {
+  //       title: "Registration Confirmation",
+  //       first_name: body.volunteer.firstName,
+  //       last_name: body.volunteer.lastName
+  //     });
+  //
+  //   });
 };
 
 module.exports.editVolunteer = function(req, res) {

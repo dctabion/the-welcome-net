@@ -124,7 +124,7 @@ module.exports.addNewAffiliation = function(req, res) {
           else {
             // package response object
             var newAffiliation;
-            newAffiliation = newConfig.affiliations[newConfig.affiliation.length - 1];
+            newAffiliation = newConfig.affiliations[newConfig.affiliations.length - 1];
             console.log("in options-API: newAffiliation: ", newAffiliation);
             sendJsonResponse(res, 200, newAffiliation);
           }
@@ -133,8 +133,6 @@ module.exports.addNewAffiliation = function(req, res) {
     });
   }
 };
-
-
 
 module.exports.addNewOpportunity = function(req, res) {
   console.log('---app_api: addNewOpportunity()');
