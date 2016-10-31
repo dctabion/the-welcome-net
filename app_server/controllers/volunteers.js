@@ -245,7 +245,8 @@ module.exports.doAddVolunteer = function(req, res) {
   // execute async calls
   async.parallel(apiRequests,
     function(err, results) {
-    // remove dummy result;
+
+    // remove dummy function from queue;
     results.shift()
     console.log("results:", results);
 
@@ -297,7 +298,7 @@ module.exports.doAddVolunteer = function(req, res) {
           global.myAppConfig.languages = newConfig.languages;
           global.myAppConfig.hearAbouts = newConfig.hearAbouts;
           global.myAppConfig.affiliations = newConfig.affiliations;
-          
+
           callback(null, newConfig);
         }
       );
@@ -555,47 +556,157 @@ module.exports.getVolunteerList = function(req, res) {
 module.exports.doEditVolunteer = function(req, res) {
   console.log("---app_server: doEditVolunteer()");
 
-  var volunteer = validateNormalizeAndPackageVolunteerForApi(req);
+  // Build array of async requests
+  var apiRequests = [];
 
-  // Make request to volunteer API to store data
-  var requestOptions, path;
-  path = '/api/volunteers/' + req.body.volunteer_id;
-  requestOptions = {
-    url: apiOptions.server + path,
-    method: "PUT",
-    json: volunteer,
-    qs: {
-      // query string
-    }
+  // load a dummy function so at least there is one async call and the results callback executes
+  var tmpFunction = function(callback) {
+    setTimeout(function(){
+      console.log('function one timeout done!');
+      callback(null, { dummy: "dummy"} );
+    }, 1)};
+
+  apiRequests.push(tmpFunction);
+
+  // -- Prepare functions that may be conditionally added -- //
+
+  // --- function to POST new language to API -- //
+  var newLanguageRequest = function(callback) {
+    var requestOptions, path;
+    path = '/api/config/languages/new/' + req.body.language_other;
+    requestOptions = {
+      url: apiOptions.server + path,
+      method: "POST",
+      json: {},
+      qs: {
+        // query string
+      }
+    };
+
+    request(
+      requestOptions,
+      function(err, response, newLanguage) {
+        console.log('---callback: Receive response from API call to POST new language');
+        callback(err, {type: "language", data: newLanguage});
+      }
+    );
   };
 
-  request(
-    requestOptions,
-    function(err, response, body) {
-      console.log('---callback: Receive response from API call to PUT new volunteer');
-      // console.log('body: ', body);
-
-      // Reconfigure app if new config returned
-      if (body.newConfig) {
-        console.log('got a new config.  Reconfiguring app');
-        global.myAppConfig.opportunityCategories = body.newConfig.opportunityCategories;
-        global.myAppConfig.timesOfDay = body.newConfig.timesOfDay;
-        global.myAppConfig.howOftens = body.newConfig.howOftens;
-        global.myAppConfig.languages = body.newConfig.languages;
-        global.myAppConfig.hearAbouts = body.newConfig.hearAbouts;
-        global.myAppConfig.affiliations = body.newConfig.affiliations;
-        // console.log("global.myAppConfig.languages: ", global.myAppConfig.languages);
+  // --- function to POST new affilation to API -- //
+  var newAffiliationRequest = function(callback) {
+    var requestOptions, path;
+    path = '/api/config/affiliations/new/' + req.body.affiliation_other;
+    requestOptions = {
+      url: apiOptions.server + path,
+      method: "POST",
+      json: {},
+      qs: {
+        // query string
       }
+    };
 
-      res.render('edit_confirmation', {
-        title: "Edit Confirmation",
-        dood: body.dood
-      });
+    request(
+      requestOptions,
+      function(err, response, newAffiliation) {
+        console.log('---callback: Receive response from API call to POST new affiliation');
+        callback(err, { type: "affiliation", data: newAffiliation});
+      }
+    );
+  };
 
-    });
+  // other language selected by registrant && the other language is not an empty string
+  if ((req.body.language_other_selection == "on") && (req.body.language_other.length > 0)) {
+    console.log('need to add a new language');
+    // add API request to add new language
+    apiRequests.push(newLanguageRequest);
+  }
 
-  // res.send('Dood, I feel lazy. Updated not yet implemented');
+  // other affiliation selected by registrant && the other affiliation is not an empty string
+  if ((req.body.affiliation == "other") && (req.body.affiliation_other.length > 0)) {
+    console.log('need to add a new affiliation');
+    // add API request to add new language
+    apiRequests.push(newAffiliationRequest);
+  }
+
+  // execute async calls
+  async.parallel(apiRequests,
+    function(err, results) {
+
+    // remove dummy function from queue;
+    results.shift()
+    console.log("results:", results);
+
+    var volunteer = validateNormalizeAndPackageVolunteerForApi(req, results);
+
+    var addVolunteerRequest = function(callback) {
+      // Make request to volunteer API to store data
+      var requestOptions, path;
+      path = '/api/volunteers/' + req.body.volunteer_id;
+      console.log('path: ', path);
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "PUT",
+        json: volunteer,
+        qs: {
+          // query string
+        }
+      };
+
+      request(
+        requestOptions,
+        function(err, response, volunteer) {
+          console.log('---callback: Receive response from API call to POST new volunteer');
+          callback(null, volunteer);
+        }
+      );
+    };
+
+    var reconfigureAppRequest = function(callback) {
+      // Make request to volunteer API to store data
+      var requestOptions, path;
+      path = '/api/config';
+      requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: {},
+        qs: {
+          // query string
+        }
+      };
+
+      request(
+        requestOptions,
+        function(err, response, newConfig) {
+          console.log('---callback: Receive response from API call to GET new config');
+          console.log('Reconfiguring app');
+          global.myAppConfig.opportunityCategories = newConfig.opportunityCategories;
+          global.myAppConfig.timesOfDay = newConfig.timesOfDay;
+          global.myAppConfig.howOftens = newConfig.howOftens;
+          global.myAppConfig.languages = newConfig.languages;
+          global.myAppConfig.hearAbouts = newConfig.hearAbouts;
+          global.myAppConfig.affiliations = newConfig.affiliations;
+
+          callback(null, newConfig);
+        }
+      );
+    };
+
+    async.parallel([
+      addVolunteerRequest,
+      reconfigureAppRequest,
+      ],
+      function(err, results) {
+        console.log('volunteer added & app reconfigured!');
+        res.render('edit_confirmation', {
+          title: "Edit Confirmation",
+          dood: "dood"
+        });
+      }
+    ); // close outer callback & outer async.parallel set
+  });
+    console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
 };
+
 
 
 module.exports.getPrincess = function(req, res) {

@@ -86,11 +86,40 @@ module.exports.volunteersList = function(req, res) {
 
 module.exports.volunteersEditOne = function(req, res) {
   console.log('---app_api: volunteersEditOne()');
-  // TODO
-  // var volunteer = {
-  //   dood: "dood"
-  // };
 
+  var volunteerNew = req.body;
+  console.log('volunteerNew = req.body:');
+  console.log(volunteerNew);
+  console.log('req.params.volunteerId:', req.params.volunteerId);
+  // savePackageAndSendResponseForAdd(res, volunteer, config);
+  Volunteer.findById(req.params.volunteerId).exec(
+    function(err, volunteerOld) {
+      console.log("volunteerOld:", volunteerOld);
+      volunteerOld.firstName = volunteerNew.firstName;
+      volunteerOld.lastName = volunteerNew.lastName;
+      volunteerOld.cellNumber = volunteerNew.cellNumber;
+      volunteerOld.homeNumber = volunteerNew.homeNumber;
+      volunteerOld.email = volunteerNew.email;
+      volunteerOld.subscribe = volunteerNew.subscribe;
+      volunteerOld.opportunityCategories = volunteerNew.opportunityCategories;
+      volunteerOld.languages = volunteerNew.languages;
+      volunteerOld.howOften = volunteerNew.howOften;
+      volunteerOld.timesOfDay = volunteerNew.timesOfDay;
+      volunteerOld.reliableTransportation = volunteerNew.reliableTransportation;
+      volunteerOld.familyParticipation = volunteerNew.familyParticipation;
+      volunteerOld.affiliation = volunteerNew.affiliation;
+      volunteerOld.hearAboutUs = volunteerNew.hearAboutUs;
+      volunteerOld.admin = volunteerNew.admin;
+      volunteerOld.donorStatus = volunteerNew.donorStatus;
 
-  sendJsonResponse(res, 200, volunteer);
+      volunteerOld.save(function(err, volunteer){
+        if (err) {
+          sendJsonResponse(res, 404, err);
+        }
+        else {
+          sendJsonResponse(res, 200, volunteer);
+        }
+      });
+    }
+  );
 };

@@ -83,9 +83,13 @@ block content
                       input(type="checkbox", id="language_#{language._id}", name="language_#{language._id}")
                       label.font-weight-normal(for="language_#{language._id}") #{language.displayText}  
                       
+                div    
+                  input(type="checkbox", id="language_other_selection", name="language_other_selection")
+                  label.font-weight-normal(for="language_other_selection") Other
               // OTHER
-              label(for="language_other" class="font-weight-normal") Other
-              input(type="text", id="language_other", name="language_other")
+              div(id="other-language-container")
+                label(for="language_other" class="font-weight-normal") Other
+                input.other-checkbox(type="text", id="language_other", name="language_other")
             
             // HOW OFTEN
             .form-group      
@@ -155,6 +159,16 @@ block content
                   else
                     option(value="#{affiliation._id}") #{affiliation.displayText}
 
+
+                  option(value="#{affiliation._id}") #{affiliation.displayText}
+                option(value="other") Other
+
+              // OTHER
+              div(id="other-affiliation-container")
+                //- p Please Specify
+                label(for="affiliation_other" class="font-weight-normal") Please specify
+                input.other-dropdown(type="text", id="affiliation_other", name="affiliation_other")
+                    
             //- .form-group      
             //-   label(for="how_often") Approximately how often can you volunteer?
             //-   select(class="form-control", name="how_often")
@@ -177,6 +191,13 @@ block content
                     option(value="#{hearAbout._id}" selected="selected") #{hearAbout.displayText}
                   else
                     option(value="#{hearAbout._id}") #{hearAbout.displayText}
+                option(value="other") Other
+                  
+              // OTHER
+              div(id="other-hear-about-container")
+                label(for="hear_about_other" class="font-weight-normal") Please specify  
+                input.other-dropdown(type="text", id="hear_about_other", name="hear_about_other")      
+                      
 
             .form-group
               input(type="hidden", name="admin", value="#{volunteer.admin}")
