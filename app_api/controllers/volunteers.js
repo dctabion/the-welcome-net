@@ -38,7 +38,7 @@ module.exports.volunteersCreate = function(req, res) {
 
 module.exports.volunteersReadOne = function(req, res) {
   console.log('---app_api: volunteersReadOne()');
-
+  
   Volunteer.findById(req.params.volunteerId).exec(function(err, volunteer){
     // Volunteers not found.  NULL
     if (!volunteer) {
