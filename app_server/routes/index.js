@@ -13,7 +13,7 @@ router.get('/volunteers/new', ctrlVolunteers.addVolunteer);
 router.post('/volunteers/new', ctrlVolunteers.doAddVolunteer);
 router.get('/volunteers/edit/:id', ctrlVolunteers.editVolunteer);
 router.post('/volunteers/edit/:id', ctrlVolunteers.doEditVolunteer);
-router.get('/volunteers/:id');
+router.get('/volunteers/:id', ctrlVolunteers.viewVolunteer);
 
 /* ADMIN ROUTES */
 router.get('/admin/', ctrlAdmin.index);

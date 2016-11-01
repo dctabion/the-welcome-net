@@ -707,7 +707,31 @@ module.exports.doEditVolunteer = function(req, res) {
     console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
 };
 
+module.exports.viewVolunteer = function(req, res) {
+  var requestOptions, path;
+  path = '/api/volunteers/' + req.params.id;
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "GET",
+    json: {},
+    qs: {
+      // query string
+    }
+  };
 
+  request(
+    requestOptions,
+    function(err, response, volunteer) {
+      console.log('---callback: Receive response from API call');
+
+      res.render('volunteerView', {
+        title: 'VIEW VOLUNTEER',
+        config: global.myAppConfig,
+        volunteer: volunteer,
+        admin: true  // TODO
+      });
+    });
+};
 
 module.exports.getPrincess = function(req, res) {
   console.log("---app_server: getPrincess()");

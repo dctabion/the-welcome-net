@@ -27,8 +27,9 @@ block content
               a(href="/volunteers/#{volunteer._id}")
                 span.fa.fa-eye.margin-fa
               a(href="/volunteers/edit/#{volunteer._id}")
-                span.fa.fa-edit.margin-fa(aria-hidden='true')  
-              a(href="/volunteers/delete/#{volunteer._id}")
+                span.fa.fa-edit.margin-fa(aria-hidden='true')
+              //- a(href="/volunteers/delete/#{volunteer._id}")
+              a(href="")  
                 span.fa.fa-remove(aria-hidden='true')
             td #{volunteer.firstName}
             td #{volunteer.lastName}

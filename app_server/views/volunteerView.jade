@@ -1,0 +1,84 @@
+extends layout
+block content
+
+  h1(class='bg-primary title')=title
+  h3 #{volunteer.firstName} #{volunteer.lastName}
+  br
+  
+  p Cell Number: #{volunteer.cellNumber}
+  p Home Number: #{volunteer.homeNumber}
+  p Email: #{volunteer.email}
+  br
+  
+  p Newsletter subscriber: #{volunteer.subscribe}
+  br
+  
+  p Interested in:
+  each selection in volunteer.opportunityCategories
+    each opportunity in config.opportunityCategories
+      if (selection == opportunity._id)
+        p &nbsp &nbsp #{opportunity.displayText}
+  br
+  
+  p Languages:
+  each selection in volunteer.languages
+    each language in config.languages
+      if (selection == language._id)
+        p &nbsp &nbsp #{language.displayText} 
+  br 
+  
+  p How Often:
+  each howOften in config.howOftens
+    if (volunteer.howOften == howOften._id)
+      p &nbsp &nbsp #{howOften.displayText} 
+  br    
+    
+  p Times of Day:
+  each selection in volunteer.timesOfDay
+    each timeOfDay in config.timesOfDay
+      if (selection == timeOfDay._id)
+        p &nbsp &nbsp #{timeOfDay.displayText}
+  br
+  
+  p Reliable Transportation: #{volunteer.reliableTransportation}
+  br
+  
+  p Family Participation: #{volunteer.familyParticipation}
+  br
+  
+  each affiliation in config.affiliations
+    if (volunteer.affiliation == affiliation._id)
+      p Affilation: #{affiliation.displayText}
+  br
+  
+  each hear_about_us in config.hearAbouts  
+    //- p #{hearAboutUs._id}
+    //- p #{hearAboutUs.displayText}
+    if (volunteer.hearAboutUs == hear_about_us._id)
+      p How the heard about us: #{hear_about_us.displayText}
+  br
+  
+  p Donor Status: #{volunteer.donorStatus}
+  p (0 - no. 1 - yes. 2 - contacted)
+
+  
+  br
+  br
+  
+  
+  //- firstName: String,
+  //- lastName: String,
+  //- cellNumber: String,
+  //- homeNumber: String,
+  //- email: String,
+  //- subscribe: Boolean,
+  //- opportunityCategories: [String],
+  //- languages: [String],
+  //- howOften: String,
+  //- timesOfDay: [String],
+  //- reliableTransportation: Boolean,
+  //- familyParticipation: Boolean,
+  //- affiliation: String,
+  //- hearAboutUs: String,
+  //- admin: Boolean,
+  //- donorStatus: Number
