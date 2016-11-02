@@ -14,6 +14,7 @@ router.post('/volunteers/new', ctrlVolunteers.doAddVolunteer);
 router.get('/volunteers/edit/:id', ctrlVolunteers.editVolunteer);
 router.post('/volunteers/edit/:id', ctrlVolunteers.doEditVolunteer);
 router.get('/volunteers/:id', ctrlVolunteers.viewVolunteer);
+router.get('/volunteers/delete/:id', ctrlVolunteers.deleteVolunteer);
 
 /* ADMIN ROUTES */
 router.get('/admin/', ctrlAdmin.index);

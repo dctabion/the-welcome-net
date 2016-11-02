@@ -38,7 +38,7 @@ module.exports.volunteersCreate = function(req, res) {
 
 module.exports.volunteersReadOne = function(req, res) {
   console.log('---app_api: volunteersReadOne()');
-  
+
   Volunteer.findById(req.params.volunteerId).exec(function(err, volunteer){
     // Volunteers not found.  NULL
     if (!volunteer) {
@@ -122,4 +122,29 @@ module.exports.volunteersEditOne = function(req, res) {
       });
     }
   );
+};
+
+module.exports.volunteersDeleteOne = function(req, res) {
+  console.log('---app_api: volunteersDeleteOne()');
+  volunteerId = req.params.volunteerId;
+  if (volunteerId) {
+    Volunteer
+      .findByIdAndRemove(volunteerId)
+      .exec(
+        function(err, location) {
+          if (err) {
+            sendJsonResponse(res, 404, err);
+            return;
+          }
+          else {
+            sendJsonResponse(res, 204, null);
+          }
+        }
+      );
+  }
+  else {
+    sendJsonResponse(res, 404, {
+      "message": "No volunteerId"
+    });
+  }
 };

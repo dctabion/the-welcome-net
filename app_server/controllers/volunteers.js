@@ -733,6 +733,28 @@ module.exports.viewVolunteer = function(req, res) {
     });
 };
 
+module.exports.deleteVolunteer = function(req, res) {
+  console.log("---app_server: deleteVolunteer()");
+  var requestOptions, path;
+  path = '/api/volunteers/' + req.params.id;
+  requestOptions = {
+    url: apiOptions.server + path,
+    method: "DELETE",
+    json: {},
+    qs: {
+      // query string
+    }
+  };
+
+  request(
+    requestOptions,
+    function(err, response, volunteer) {
+      console.log('---callback: Receive response from API call');
+      res.redirect('/volunteers/');
+    });
+};
+
+
 module.exports.getPrincess = function(req, res) {
   console.log("---app_server: getPrincess()");
   res.render('z-princess');

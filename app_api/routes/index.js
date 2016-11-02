@@ -7,6 +7,7 @@ router.post('/volunteers', ctrlVolunteers.volunteersCreate);
 router.get('/volunteers', ctrlVolunteers.volunteersList);
 router.get('/volunteers/:volunteerId', ctrlVolunteers.volunteersReadOne);
 router.put('/volunteers/:volunteerId', ctrlVolunteers.volunteersEditOne);
+router.delete('/volunteers/:volunteerId', ctrlVolunteers.volunteersDeleteOne);
 
 router.get('/config', ctrlOptions.readAppConfig);
 router.post('/config/languages/new/:language', ctrlOptions.addNewLanguage);
