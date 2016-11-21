@@ -696,15 +696,17 @@ module.exports.doEditVolunteer = function(req, res) {
       reconfigureAppRequest,
       ],
       function(err, results) {
-        console.log('volunteer added & app reconfigured!');
-        res.render('edit_confirmation', {
-          title: "Edit Confirmation",
-          dood: "dood"
-        });
-      }
-    ); // close outer callback & outer async.parallel set
+        console.log('volunteer edited & app reconfigured!');
+        res.render('volunteerView', {
+          title: 'VIEW VOLUNTEER',
+          status: 'Edit Completed!',
+          config: global.myAppConfig,
+          volunteer: volunteer,
+          admin: true  // TODO
+      })
+    }); // close outer callback & outer async.parallel set
   });
-    console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
+  console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
 };
 
 module.exports.viewVolunteer = function(req, res) {

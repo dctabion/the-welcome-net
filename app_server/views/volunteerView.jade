@@ -1,9 +1,11 @@
 extends layout
 block content
-
+  
   h1(class='bg-primary title')=title
+  h2 #{status}
   h3 #{volunteer.firstName} #{volunteer.lastName}
   br
+  
   
   p Cell Number: #{volunteer.cellNumber}
   p Home Number: #{volunteer.homeNumber}
