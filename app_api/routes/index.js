@@ -13,7 +13,7 @@ router.get('/config', ctrlOptions.readAppConfig);
 router.post('/config/languages/new/:language', ctrlOptions.addNewLanguage);
 router.post('/config/affiliations/new/:affiliation', ctrlOptions.addNewAffiliation);
 router.post('/config/opportunity_categories/new/:opportunity_category', ctrlOptions.addNewOpportunity);
-
+router.delete('/config/:fieldType/:fieldId', ctrlOptions.deleteConfigField);
 // router.post('/config/affiliation/new/:affiliation', ctrOptions.doodicus);
 
 module.exports = router;
