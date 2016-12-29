@@ -334,7 +334,7 @@ module.exports.doAddVolunteer = function(req, res) {
 
         var mailOptions = {
           from: global.myAppVars.TWN_EMAIL_BOT,
-          to: global.myAppVars.TWN_EMAIL_ADMIN,
+          to: global.myAppVars.TWN_EMAIL_ADMIN + ", " + global.myAppVars.TWN_EMAIL_DEVELOPER,
           subject: 'New Volunteer!',
           text: results[0].firstName + ' ' + results[0].lastName + ' has registered!\n' + global.myAppVars.server + '/volunteers/' + results[0]._id
         }
@@ -799,7 +799,7 @@ module.exports.sendmail = function(req, res) {
 
   var mailOptions = {
     from: global.myAppVars.TWN_EMAIL_BOT,
-    to: global.myAppVars.TWN_EMAIL_ADMIN,
+    to: global.myAppVars.TWN_EMAIL_DEVELOPER,
     subject: 'Yoyo, Dood McGee',
     text: 'Hello World!',
 
