@@ -336,7 +336,7 @@ module.exports.doAddVolunteer = function(req, res) {
           from: global.myAppVars.TWN_EMAIL_BOT,
           to: global.myAppVars.TWN_EMAIL_ADMIN,
           subject: 'New Volunteer!',
-          text: results[0].firstName + ' ' + results[0].lastName + ' has registered!\n' + 'http://localhost:3000/volunteers/' + results[0]._id
+          text: results[0].firstName + ' ' + results[0].lastName + ' has registered!\n' + global.myAppVars.server + 'volunteers/' + results[0]._id
         }
         // send mail with defined transport object
         transporter.sendMail(mailOptions, function(error, info){

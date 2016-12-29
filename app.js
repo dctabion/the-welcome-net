@@ -16,6 +16,13 @@ else {
   console.log('Starting in Volunteer Mode');
 }
 
+if (process.env.NODE_ENV === 'production') {
+  global.myAppVars.server = process.env.APP_URL;
+}
+else {
+  global.myAppVars.server = "http://localhost:3000/";
+}
+
 // Set auto email configuration
 global.myAppVars.TWN_GOOGLE_CLIENT_ID = process.env.TWN_GOOGLE_CLIENT_ID;
 global.myAppVars.TWN_GOOGLE_CLIENT_SECRET = process.env.TWN_GOOGLE_CLIENT_SECRET;
