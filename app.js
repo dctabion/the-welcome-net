@@ -20,7 +20,7 @@ if (process.env.NODE_ENV === 'production') {
   global.myAppVars.server = process.env.APP_URL;
 }
 else {
-  global.myAppVars.server = "http://localhost:3000/";
+  global.myAppVars.server = "http://localhost:3000";
 }
 
 // Set auto email configuration
