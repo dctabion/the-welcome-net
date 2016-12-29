@@ -24,6 +24,7 @@ router.get('/admin/', ctrlAdmin.index);
 router.get('/developer/reconfigure', ctrlDeveloper.doReconfig);
 router.get('/developer/dump/config', ctrlDeveloper.doDumpConfig);
 router.get('/developer/dump/volunteers', ctrlDeveloper.doDumpVolunteers);
+router.get('/developer/sendmail', ctrlVolunteers.sendmail);
 
 
 /* Easter Egg */

@@ -5,6 +5,31 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// --------- INTIALIZE SOME GLOBALS ------------- //
+global.myAppVars = {};
+if (process.env.FORCE_ADMIN == "true") {
+  global.myAppVars.admin == true;
+  console.log('Forcing Adming Mode!');
+}
+else {
+  global.myAppVars.admin == false;
+  console.log('Starting in Volunteer Mode');
+}
+
+// Set auto email configuration
+global.myAppVars.TWN_GOOGLE_CLIENT_ID = process.env.TWN_GOOGLE_CLIENT_ID;
+global.myAppVars.TWN_GOOGLE_CLIENT_SECRET = process.env.TWN_GOOGLE_CLIENT_SECRET;
+global.myAppVars.TWN_GOOGLE_REFRESH_TOKEN = process.env.TWN_GOOGLE_REFRESH_TOKEN;
+global.myAppVars.TWN_GOOGLE_ACCESS_TOKEN = process.env.TWN_GOOGLE_ACCESS_TOKEN;
+global.myAppVars.TWN_EMAIL_ADMIN = process.env.TWN_EMAIL_ADMIN;
+global.myAppVars.TWN_EMAIL_BOT = process.env.TWN_EMAIL_BOT;
+global.myAppVars.TWN_EMAIL_BOT_USERNAME = global.myAppVars.TWN_EMAIL_BOT.substring(0, global.myAppVars.TWN_EMAIL_BOT.lastIndexOf("@"));
+// console.log("global.myAppVars.TWN_EMAIL_BOT_USERNAME: ", global.myAppVars.TWN_EMAIL_BOT_USERNAME);
+// console.log("global.myAppVars: ", global.myAppVars);
+
+// -------- END INTIALIZE SOME GLOBALS ------------- //
+
+
 require('./app_api/models/db');
 
 var routes = require('./app_server/routes/index');
@@ -112,15 +137,7 @@ request(
 
 
 
-// --------- INTIALIZE OTHER GLOBALS ------------- //
-global.myAppVars = {};
-if (process.env.FORCE_ADMIN == "true") {
-  global.myAppVars.admin == true;
-  console.log('Forcing Adming Mode!');
-}
-else {
-  global.myAppVars.admin == false;
-  console.log('Starting in Volunteer Mode');
-}
+
+
 
 module.exports = app;

@@ -1,5 +1,7 @@
+// Async modul
 var async = require('async');
 
+// Request Module configuration
 var request = require('request');
 var apiOptions = {
   server: "http://localhost:3000"
@@ -7,6 +9,25 @@ var apiOptions = {
 if (process.env.NODE_ENV === 'production') {
   apiOptions.server = process.env.APP_URL;
 }
+
+// Nodemailer configuration
+const nodemailer = require('nodemailer');
+const xoauth2 = require('xoauth2');
+
+// login
+var transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    xoauth2: xoauth2.createXOAuth2Generator({
+      user: global.myAppVars.TWN_EMAIL_BOT_USERNAME,
+      clientId: global.myAppVars.TWN_GOOGLE_CLIENT_ID,
+      clientSecret: global.myAppVars.TWN_GOOGLE_CLIENT_SECRET,
+      refreshToken: global.myAppVars.TWN_GOOGLE_REFRESH_TOKEN,
+      accessToken: global.myAppVars.TWN_GOOGLE_ACCESS_TOKEN
+    })
+  }
+});
+
 
 // Helper Functions for this module
 function validateNormalizeAndPackageVolunteerForApi(req, addedItems) {
@@ -310,6 +331,22 @@ module.exports.doAddVolunteer = function(req, res) {
       ],
       function(err, results) {
         console.log('volunteer added & app reconfigured!');
+
+        var mailOptions = {
+          from: global.myAppVars.TWN_EMAIL_BOT,
+          to: global.myAppVars.TWN_EMAIL_ADMIN,
+          subject: 'New Volunteer!',
+          text: results[0].firstName + ' ' + results[0].lastName + ' has registered!\n' + 'http://localhost:3000/volunteers/' + results[0]._id
+        }
+        // send mail with defined transport object
+        transporter.sendMail(mailOptions, function(error, info){
+          if(error){
+            return console.log(error);
+          }
+          console.log('Email sent: ' + info.response);
+        });
+
+
         res.render('register_confirmation', {
           title: "Registration Confirmation",
           first_name: results[0].firstName,
@@ -318,7 +355,7 @@ module.exports.doAddVolunteer = function(req, res) {
       }
     ); // close outer callback & outer async.parallel set
   });
-    console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
+  console.log('after async calls, the code keeps going! The magic of asyncronous function calls!');
 };
 
 
@@ -754,6 +791,28 @@ module.exports.deleteVolunteer = function(req, res) {
       console.log('---callback: Receive response from API call');
       res.redirect('/volunteers/');
     });
+};
+
+
+module.exports.sendmail = function(req, res) {
+  console.log("---app_server: sendmail()");
+
+  var mailOptions = {
+    from: global.myAppVars.TWN_EMAIL_BOT,
+    to: global.myAppVars.TWN_EMAIL_ADMIN,
+    subject: 'Yoyo, Dood McGee',
+    text: 'Hello World!',
+
+  }
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, function(error, info){
+    if(error){
+      return console.log(error);
+    }
+    console.log('Message sent: ' + info.response);
+  });
+
+  res.redirect('/volunteers/');
 };
 
 
