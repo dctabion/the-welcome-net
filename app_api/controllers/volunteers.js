@@ -128,8 +128,25 @@ module.exports.volunteersDeleteOne = function(req, res) {
   console.log('---app_api: volunteersDeleteOne()');
   volunteerId = req.params.volunteerId;
   if (volunteerId) {
+
+    /* Disable delete and just find */
+
+    // Volunteer
+    //   .findByIdAndRemove(volunteerId)
+    //   .exec(
+    //     function(err, location) {
+    //       if (err) {
+    //         sendJsonResponse(res, 404, err);
+    //         return;
+    //       }
+    //       else {
+    //         sendJsonResponse(res, 204, null);
+    //       }
+    //     }
+    //   );
+
     Volunteer
-      .findByIdAndRemove(volunteerId)
+      .findById(volunteerId)
       .exec(
         function(err, location) {
           if (err) {
@@ -137,6 +154,7 @@ module.exports.volunteersDeleteOne = function(req, res) {
             return;
           }
           else {
+            console.log('found but not deleted')
             sendJsonResponse(res, 204, null);
           }
         }
