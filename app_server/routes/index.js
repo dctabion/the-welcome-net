@@ -5,8 +5,7 @@ var ctrlVolunteers = require('../controllers/volunteers');
 var ctrlAdmin = require('../controllers/admin');
 var ctrlDeveloper = require('../controllers/developer');
 /* GET home page. */
-// router.get('/', ctrlMain.index );
-router.get('/', ctrlVolunteers.addVolunteer);  // make registration page the home page
+router.get('/', ctrlMain.index );
 
 /* VOLUNTEER ROUTES */
 router.get('/volunteers/', ctrlVolunteers.getVolunteerList);
