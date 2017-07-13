@@ -16,7 +16,6 @@ module.exports.index = function(req, res, next) {
   //   admin: global.myAppVars.admin
   // });
 
-
   res.render('volunteerRegister', {
     title: 'VOLUNTEER REGISTRATION',
     affiliations: global.myAppConfig.affiliations,
