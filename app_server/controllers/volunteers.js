@@ -171,7 +171,7 @@ function validateNormalizeAndPackageVolunteerForApi(req, addedItems) {
 
 module.exports.addVolunteer = function(req, res) {
   console.log('---app_server: addVolunteer()');
-  // console.log('global.myAppConfig: ', global.myAppConfig);
+  console.log('global.myAppConfig: ', global.myAppConfig);
   // global.myAppVars.admin = false;
 
   res.render('volunteerRegister', {
