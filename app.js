@@ -123,10 +123,17 @@ requestOptions = {
   }
 };
 
+console.log('requestOptions.url: ', requestOptions.url);
+
 request(
   requestOptions,
   function(err, response, config) {
+
     console.log('---callback: app_server received response from API call');
+    if (err) {
+      console.log('err:', err);
+    }
+
     // console.log('config: ', config);
     // console.log('Before storing: global.my_app_config: ', global.my_app_config);
 

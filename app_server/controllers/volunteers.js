@@ -514,6 +514,8 @@ module.exports.getVolunteerList = function(req, res) {
       // Once it fails a filter/query, stop filtering and return FALSE
       // If it matches a filter/query, set keep_volunteer to TRUE and continue filtering
       function filterVolunteers(volunteer) {
+        console.log('volunteer: ' + volunteer.firstName + " " + volunteer.lastName);
+
         // By default, remove subscriber from list.  Tests will change to true
         var keep_volunteer = false;
 
@@ -539,13 +541,14 @@ module.exports.getVolunteerList = function(req, res) {
           for (var i=0; i < volunteer.opportunityCategories.length; i++) {
             // if it matches, keep this volunteer in the list
             if (volunteer.opportunityCategories[i] == req.query.opportunity) {
-              console.log('keeping!');
+              console.log('keeping for opportunity: ', req.query.opportunity);
               keep_volunteer = true;
             }
           }
 
           // no match! Remove volunteer from list
           if (keep_volunteer == false) {
+            console.log('throwing out: didnt match opportunity ', req.query.opportunity);
             return false;
           }
         }
@@ -556,13 +559,14 @@ module.exports.getVolunteerList = function(req, res) {
           for (var i=0; i < volunteer.languages.length; i++) {
             // if it matches, keep this volunteer in the list
             if (volunteer.languages[i] == req.query.language) {
-              console.log('keeping!');
+              console.log('keeping for language: ', req.query.language);
               keep_volunteer = true;
             }
           }
 
           // no match! Remove volunteer from list
           if (keep_volunteer == false) {
+            console.log('throwing out: didnt match language ', req.query.language);
             return false;
           }
         }
@@ -570,9 +574,11 @@ module.exports.getVolunteerList = function(req, res) {
         // Hear Abouts
         if ( (req.query.hear_about != undefined) && (req.query.hear_about != "") ) {
           if (volunteer.hearAboutUs == req.query.hear_about) {
+            console.log('keeping for hear_about: ', req.query.hear_about)
             keep_volunteer = true;
           }
           // no match! Remove volunteer from list
+          console.log('throwing out: didnt match anything hear_about: ', req.query.hear_about);
           if (keep_volunteer == false) {
            return false;
           }
@@ -581,10 +587,12 @@ module.exports.getVolunteerList = function(req, res) {
         // Affiliation
         if ( (req.query.affiliation != undefined) && (req.query.affiliation != "") ) {
           if (volunteer.affiliation == req.query.affiliation) {
+            console.log('keeping for affiliation: ', req.query.affiliation);
             keep_volunteer = true;
           }
           // no match! Remove volunteer from list
           if (keep_volunteer == false) {
+            console.log('throwing out: didnt match anything affiliation: ', req.query.affiliation);
            return false;
           }
         }
@@ -596,6 +604,7 @@ module.exports.getVolunteerList = function(req, res) {
         }
 
         // queries but didn't return yet
+        console.log('done filtering.  keep_volunteer: ', keep_volunteer);
         return keep_volunteer;
       }
 
