@@ -8,7 +8,7 @@ var ctrlDeveloper = require('../controllers/developer');
 router.get('/', ctrlMain.index );
 
 /* VOLUNTEER ROUTES */
-router.get('/volunteers/', ctrlVolunteers.getVolunteerList);
+router.get('/volunteers-hidden/', ctrlVolunteers.getVolunteerList);
 router.get('/volunteers/new', ctrlVolunteers.addVolunteer);
 router.post('/volunteers/new', ctrlVolunteers.doAddVolunteer);
 router.get('/volunteers/edit/:id', ctrlVolunteers.editVolunteer);
